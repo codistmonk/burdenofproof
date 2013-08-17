@@ -1,0 +1,37 @@
+<CoordinateSystem> { Z-Up }
+
+<Texture> cement {
+	"Cement/Cement.jpg"
+	<Scalar> wrap { REPEAT }
+	<Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+	<Transform> {
+		<Scale> { 1000 1000 }
+	}
+}
+
+<VertexPool> terrain {
+	<Vertex> 1 {
+		-1 -1 0
+		<UV> { 0 0 }
+	}
+	<Vertex> 2 {
+		1 -1 0
+		<UV> { 1 0 }
+	}
+	<Vertex> 3 {
+		1 1 0
+		<UV> { 1 1 }
+	}
+	<Vertex> 4 {
+		-1 1 0
+		<UV> { 0 1 }
+	}
+}
+
+<Group> terrain {
+	<Polygon> {
+		<TRef> { cement }
+		<Normal> { 0 0 1 }
+		<VertexRef> { 1 2 3 4 <Ref> { terrain } }
+	}
+}
