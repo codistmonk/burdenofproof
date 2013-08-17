@@ -1,6 +1,9 @@
+from panda3d.core import *
+
+loadPrcFileData("", "prefer-parasite-buffer #f")
+
 from direct.showbase.ShowBase import ShowBase
 from direct.directnotify.DirectNotify import DirectNotify
-from panda3d.core import Mat4
 
 class MyApp(ShowBase):
 
@@ -13,9 +16,28 @@ class MyApp(ShowBase):
 		self.setCameraPos(0, 0, 2)
 
 	def loadModels(self):
+		self.setupLights()
 		self.loadSky()
 		self.loadTerrain()
 		self.loadBuildings()
+
+	def setupLights(self):
+		sunLight = DirectionalLight('sunLight')
+		sunLight.setColor(Vec4(1, 1, 1, 1))
+#		sunLight.showFrustum()
+		sunLight.getLens().setFilmSize(128, 64)
+		sunLight.getLens().setNearFar(20,2000)
+		sunLight.setShadowCaster(True, 256, 256)
+		self.sunLight = self.render.attachNewNode(sunLight)
+		self.sunLight.setPos(60, 30, 50)
+		self.sunLight.lookAt(0, 0, 0)
+		self.render.setLight(self.sunLight)
+		self.render.setShaderAuto()
+
+		ambientLight = AmbientLight('ambientLight')
+		ambientLight.setColor(Vec4(0.1, 0.1, 0.1, 1))
+		self.ambientLight = self.render.attachNewNode(ambientLight)
+		self.render.setLight(self.ambientLight)
 
 	def loadSky(self):
 		self.sky = self.loader.loadModel("models/sky")
@@ -24,10 +46,12 @@ class MyApp(ShowBase):
 		self.sky.setBin("background", 0)
 		self.sky.setDepthWrite(False)
 		self.sky.setCompass()
+		self.sky.setLightOff()
 
 	def loadTerrain(self):
 		self.terrain = self.loader.loadModel("models/terrain")
 		self.terrain.reparentTo(self.render)
+		self.teapot = self.loader.loadModel('teapot')
 
 	def loadBuildings(self):
 		# Load building prototypes
