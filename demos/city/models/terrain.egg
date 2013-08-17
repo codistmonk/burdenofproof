@@ -5,7 +5,7 @@
 	<Scalar> wrap { REPEAT }
 	<Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
 	<Transform> {
-		<Scale> { 1000 1000 }
+		<Scale> { 1000 }
 	}
 }
 
@@ -35,6 +35,6 @@
 		<VertexRef> { 1 2 3 4 <Ref> { terrain } }
 	}
 	<Transform> {
-		<Scale> { 1000 1000 1 }
+		<Scale> { 1000 }
 	}
 }

@@ -129,7 +129,7 @@
 	}
 }
 
-<Group> sky {
+<Instance> sky {
 	<Polygon> {
 		<TRef> { negx }
 		<Normal> { 1 0 0 }
