@@ -30,9 +30,48 @@ class MyApp(ShowBase):
 		self.terrain.reparentTo(self.render)
 
 	def loadBuildings(self):
-		buildingPadPrototype = self.loader.loadModel("models/building_pad")
-		buildingPadInstance = render.attachNewNode("Building-Pad-Instance")
-		buildingPadPrototype.instanceTo(buildingPadInstance)
+		# Load building prototypes
+		self.buildingPadPrototype = self.loader.loadModel("models/building_pad")
+		self.policeBuildingPrototype = self.loader.loadModel("models/police_building")
+		self.tribunalPrototype = self.loader.loadModel("models/tribunal")
+		self.officeBuildingPrototype = self.loader.loadModel("models/office_building")
+		self.housePrototype = self.loader.loadModel("models/house")
+
+		self.buildCity()
+
+	def buildCity(self):
+		# Define city blueprint
+		city = [
+			"PSOSHS",
+			"TSOSHH",
+			"SSSSSS",
+			"OOSOSH",
+			"SSSSSH",
+			"HHHSHH"
+		]
+		blockSize = 10
+		cityWESize = len(city[0]) * blockSize
+		cityNSSize = len(city) * blockSize
+
+		# Create buildings from city blueprint
+		for rowIndex, row in enumerate(city):
+			for columnIndex, buildingType in enumerate(row):
+				# Get building data from city blueprint
+				buildingInstanceName, buildingPrototype = self.buildingInstanceNameAndPrototypeFromType(buildingType)
+
+				if (not (buildingInstanceName is None or buildingPrototype is None)):
+					# Compute building position
+					buildingX, buildingY, buildingZ = columnIndex * blockSize - cityWESize / 2, cityNSSize / 2 - (rowIndex + 1) * blockSize, 0
+
+					# Create building pad
+					buildingPadInstance = render.attachNewNode("Building-Pad-Instance")
+					buildingPadInstance.setPos(buildingX, buildingY, buildingZ)
+					self.buildingPadPrototype.instanceTo(buildingPadInstance)
+
+					# Create building
+					buildingInstance = render.attachNewNode(buildingInstanceName)
+					buildingInstance.setPos(buildingX, buildingY, buildingZ)
+					buildingPrototype.instanceTo(buildingInstance)
 
 	def setCameraPos(self, x, y, z):
 		base.disableMouse()
@@ -41,6 +80,15 @@ class MyApp(ShowBase):
 		mat.invertInPlace()
 		base.mouseInterfaceNode.setMat(mat)
 		base.enableMouse()
+
+	def buildingInstanceNameAndPrototypeFromType(self, buildingType):
+		return {
+			'S' : ( None, None ),
+			'P' : ( "Police-Building-Instance", self.policeBuildingPrototype ),
+			'T' : ( "Tribunal-Instance", self.tribunalPrototype ),
+			'O' : ( "Office-Building-Instance", self.officeBuildingPrototype ),
+			'H' : ( "House-Instance", self.housePrototype ),
+		}.get(buildingType, ( None, None ))
 
 app = MyApp()
 app.run()
