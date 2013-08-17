@@ -28,10 +28,13 @@
 	}
 }
 
-<Group> terrain {
+<Instance> terrain {
 	<Polygon> {
 		<TRef> { cement }
 		<Normal> { 0 0 1 }
 		<VertexRef> { 1 2 3 4 <Ref> { terrain } }
+	}
+	<Transform> {
+		<Scale> { 1000 1000 1 }
 	}
 }
