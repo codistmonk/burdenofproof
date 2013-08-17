@@ -1,5 +1,3 @@
-import threading
-
 from direct.showbase.ShowBase import ShowBase
 from direct.directnotify.DirectNotify import DirectNotify
 
