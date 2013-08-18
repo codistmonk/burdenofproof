@@ -149,26 +149,26 @@ class MyApp(ShowBase):
 	
 	def controlCamera(self, task):
 		# figure out how much the mouse has moved (in pixels)
-		md = base.win.getPointer(0)
+		md = self.win.getPointer(0)
 		x = md.getX()
 		y = md.getY()
-		windowCenterX = base.win.getXSize() / 2
-		windowCenterY = base.win.getYSize() / 2
+		windowCenterX = self.win.getXSize() / 2
+		windowCenterY = self.win.getYSize() / 2
 
-		if base.win.movePointer(0, windowCenterX, windowCenterY):
+		if self.win.movePointer(0, windowCenterX, windowCenterY):
 			self.heading = self.heading - (x - windowCenterX) * 0.2
 			self.pitch = clamp(self.pitch - (y - windowCenterY) * 0.2, -45, 45)
 
 		self.camera.setHpr(self.heading, self.pitch, 0)
 
-		dir = self.camera.getMat().getRow3(1)
 		elapsed = task.time - self.last
 
 		if (self.last == 0):
 			elapsed = 0
 
 		if (self.mousebtn[0]):
-			self.camera.setPos(self.camera.getPos() + dir * elapsed*30)
+			direction = self.camera.getMat().getRow3(1)
+			self.camera.setPos(self.camera.getPos() + direction * elapsed*30)
 
 		clampX(self.camera, -59, 59)
 		clampY(self.camera, -59, 59)
