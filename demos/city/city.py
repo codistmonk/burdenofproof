@@ -2,6 +2,19 @@ import sys
 from panda3d.core import *
 from direct.showbase.ShowBase import ShowBase
 from direct.directnotify.DirectNotify import DirectNotify
+from direct.task import Task
+
+def clamp(value, minValue, maxValue):
+	return min(max(minValue, value), maxValue)
+
+def clampX(target, minX, maxX):
+	target.setX(clamp(target.getX(), minX, maxX))
+
+def clampY(target, minY, maxY):
+	target.setY(clamp(target.getY(), minY, maxY))
+
+def clampZ(target, minZ, maxZ):
+	target.setZ(clamp(target.getZ(), minZ, maxZ))
 
 class MyApp(ShowBase):
 
@@ -10,12 +23,34 @@ class MyApp(ShowBase):
 
 		self.debug = DirectNotify().newCategory("Debug")
 
-		self.setupKeyboard()
 		self.setupModels()
-		self.setCameraPos(0, 0, 2)
+		self.setupKeyboardControl()
+		self.camera.setPos(0, 0, 2)
+		self.setupMouseControl()
 
-	def setupKeyboard(self):
+	def setupKeyboardControl(self):
 		self.accept('escape', sys.exit)
+
+	def setupMouseControl(self):
+		base.disableMouse()
+
+		# Set the current viewing target
+		self.heading = 180
+		self.pitch = 0
+		self.mousex = 0
+		self.mousey = 0
+		self.last = 0
+		self.mousebtn = [0,0,0]
+
+		self.accept("mouse1", self.setMouseBtn, [0, 1])
+		self.accept("mouse1-up", self.setMouseBtn, [0, 0])
+		self.accept("mouse2", self.setMouseBtn, [1, 1])
+		self.accept("mouse2-up", self.setMouseBtn, [1, 0])
+		self.accept("mouse3", self.setMouseBtn, [2, 1])
+		self.accept("mouse3-up", self.setMouseBtn, [2, 0])
+
+		# Start the camera control task
+		self.taskMgr.add(self.controlCamera, "camera-task")
 
 	def setupModels(self):
 		self.setupLights()
@@ -25,7 +60,7 @@ class MyApp(ShowBase):
 
 	def setupLights(self):
 		self.sunLight = self.render.attachNewNode(DirectionalLight('sunLight'))
-		self.sunLight.setColor(Vec4(1, 1, 1, 1))
+		self.sunLight.setColor(Vec4(0.8, 0.8, 0.8, 1))
 		self.sunLight.node().getLens().setFilmSize(128, 64)
 		self.sunLight.node().getLens().setNearFar(20,2000)
 		self.sunLight.setPos(60, 30, 50)
@@ -39,7 +74,7 @@ class MyApp(ShowBase):
 			self.debug.warning("Shadows deactivated")
 
 		self.ambientLight = self.render.attachNewNode(AmbientLight('ambientLight'))
-		self.ambientLight.node().setColor(Vec4(0.1, 0.1, 0.1, 1))
+		self.ambientLight.node().setColor(Vec4(0.2, 0.2, 0.2, 1))
 		self.render.setLight(self.ambientLight)
 
 	def loadSky(self):
@@ -69,7 +104,7 @@ class MyApp(ShowBase):
 	def buildCity(self):
 		# Define city blueprint
 		city = [
-			"PSOSHS",
+			"PSOSH_",
 			"TSOSHH",
 			"SSSSSS",
 			"OOSOSH",
@@ -100,13 +135,8 @@ class MyApp(ShowBase):
 					buildingInstance.setPos(buildingX, buildingY, buildingZ)
 					buildingPrototype.instanceTo(buildingInstance)
 
-	def setCameraPos(self, x, y, z):
-		base.disableMouse()
-		self.camera.setPos(x, y, z)
-		mat = Mat4(self.camera.getMat())
-		mat.invertInPlace()
-		base.mouseInterfaceNode.setMat(mat)
-		base.enableMouse()
+	def setMouseBtn(self, btn, value):
+		self.mousebtn[btn] = value
 
 	def buildingInstanceNameAndPrototypeFromType(self, buildingType):
 		return {
@@ -116,6 +146,38 @@ class MyApp(ShowBase):
 			'O' : ( "Office-Building-Instance", self.officeBuildingPrototype ),
 			'H' : ( "House-Instance", self.housePrototype ),
 		}.get(buildingType, ( None, None ))
+	
+	def controlCamera(self, task):
+		# figure out how much the mouse has moved (in pixels)
+		md = base.win.getPointer(0)
+		x = md.getX()
+		y = md.getY()
+		windowCenterX = base.win.getXSize() / 2
+		windowCenterY = base.win.getYSize() / 2
+
+		if base.win.movePointer(0, windowCenterX, windowCenterY):
+			self.heading = self.heading - (x - windowCenterX) * 0.2
+			self.pitch = clamp(self.pitch - (y - windowCenterY) * 0.2, -45, 45)
+
+		self.camera.setHpr(self.heading, self.pitch, 0)
+
+		dir = self.camera.getMat().getRow3(1)
+		elapsed = task.time - self.last
+
+		if (self.last == 0):
+			elapsed = 0
+
+		if (self.mousebtn[0]):
+			self.camera.setPos(self.camera.getPos() + dir * elapsed*30)
+
+		clampX(self.camera, -59, 59)
+		clampY(self.camera, -59, 59)
+		self.camera.setZ(2)
+
+		self.last = task.time
+
+		return Task.cont
+
 
 app = MyApp()
 app.run()
