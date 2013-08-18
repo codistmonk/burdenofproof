@@ -2,6 +2,7 @@ import sys
 from panda3d.core import *
 from direct.showbase.ShowBase import ShowBase
 from direct.directnotify.DirectNotify import DirectNotify
+from direct.interval.IntervalGlobal import Sequence
 from direct.task import Task
 
 def clamp(value, minValue, maxValue):
@@ -46,10 +47,9 @@ class MyApp(ShowBase):
 		self.accept("mouse1-up", self.setMouseBtn, [0, 0])
 		self.accept("mouse2", self.setMouseBtn, [1, 1])
 		self.accept("mouse2-up", self.setMouseBtn, [1, 0])
-		self.accept("mouse3", self.setMouseBtn, [2, 1])
-		self.accept("mouse3-up", self.setMouseBtn, [2, 0])
+		self.accept("mouse3", self.togglePhone)
 
-		# Start the camera control task
+		# Start the control tasks
 		self.taskMgr.add(self.controlCamera, "camera-task")
 
 	def setupModels(self):
@@ -57,6 +57,18 @@ class MyApp(ShowBase):
 		self.loadSky()
 		self.loadTerrain()
 		self.loadBuildings()
+		self.loadPhone()
+
+	def loadPhone(self):
+		self.phone = self.loader.loadModel("models/phone")
+		self.phone.reparentTo(self.camera)
+		self.phone.setTwoSided(True)
+		self.phone.setLightOff()
+		self.phone.setDepthWrite(False)
+		self.phone.setDepthTest(False)
+		self.phoneHiddenPosition = Vec3(0.75, 5, -3.15)
+		self.phoneVisiblePosition = Vec3(0.75, 5, -1.25)
+		self.phone.setPos(self.phoneHiddenPosition)
 
 	def setupLights(self):
 		self.sunLight = self.render.attachNewNode(DirectionalLight('sunLight'))
@@ -147,6 +159,12 @@ class MyApp(ShowBase):
 			'H' : ( "House-Instance", self.housePrototype ),
 		}.get(buildingType, ( None, None ))
 	
+	def togglePhone(self):
+		if (self.phone.getPos() == self.phoneHiddenPosition):
+			Sequence(self.phone.posInterval(0.25, self.phoneVisiblePosition, startPos = self.phoneHiddenPosition)).start()
+		elif (self.phone.getPos() == self.phoneVisiblePosition):
+			Sequence(self.phone.posInterval(0.25, self.phoneHiddenPosition, startPos = self.phoneVisiblePosition)).start()
+
 	def controlCamera(self, task):
 		# figure out how much the mouse has moved (in pixels)
 		md = self.win.getPointer(0)
