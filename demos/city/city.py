@@ -2,7 +2,7 @@ import sys
 from panda3d.core import *
 from direct.showbase.ShowBase import ShowBase
 from direct.directnotify.DirectNotify import DirectNotify
-from direct.interval.IntervalGlobal import Sequence
+from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
 def clamp(value, minValue, maxValue):
@@ -61,14 +61,28 @@ class MyApp(ShowBase):
 
 	def loadPhone(self):
 		self.phone = self.loader.loadModel("models/phone")
-		self.phone.reparentTo(self.camera)
+		self.phone.setScale(0.5)
+		self.phone.reparentTo(self.camera2d)
 		self.phone.setTwoSided(True)
 		self.phone.setLightOff()
 		self.phone.setDepthWrite(False)
 		self.phone.setDepthTest(False)
-		self.phoneHiddenPosition = Vec3(0.75, 5, -3.15)
-		self.phoneVisiblePosition = Vec3(0.75, 5, -1.25)
+		self.phoneHiddenPosition = Vec3(0.5, 0, -1.9)
+		self.phoneVisiblePosition = Vec3(0.5, 0, -1)
 		self.phone.setPos(self.phoneHiddenPosition)
+
+		self.phoneDisplayRegion = self.win.makeDisplayRegion(0.764, 0.986, 0.07, 0.446)
+		self.phoneDisplayRegion.setClearDepthActive(True)
+		self.phoneDisplayRegion.setSort(self.cam2d.node().getDisplayRegion(0).getSort() + 1)
+		self.phoneDisplayRegion.setActive(False)
+		self.phoneCamera = NodePath(Camera('phoneCamera'))
+		self.phoneCamera.node().setLens(OrthographicLens())
+		self.phoneCamera.node().getLens().setFilmSize(self.phoneDisplayRegion.getPixelWidth() / 10, self.phoneDisplayRegion.getPixelHeight() / 10)
+		self.phoneDisplayRegion.setCamera(self.phoneCamera)
+		self.phoneCamera.reparentTo(self.render)
+		self.phoneCamera.setPos(self.camera.getPos())
+		self.phoneCamera.setZ(50)
+		self.phoneCamera.lookAt(self.camera.getPos())
 
 	def setupLights(self):
 		self.sunLight = self.render.attachNewNode(DirectionalLight('sunLight'))
@@ -161,9 +175,9 @@ class MyApp(ShowBase):
 	
 	def togglePhone(self):
 		if (self.phone.getPos() == self.phoneHiddenPosition):
-			Sequence(self.phone.posInterval(0.25, self.phoneVisiblePosition, startPos = self.phoneHiddenPosition)).start()
+			Sequence(self.phone.posInterval(0.25, self.phoneVisiblePosition, startPos = self.phoneHiddenPosition), Func(self.phoneDisplayRegion.setActive, True)).start()
 		elif (self.phone.getPos() == self.phoneVisiblePosition):
-			Sequence(self.phone.posInterval(0.25, self.phoneHiddenPosition, startPos = self.phoneVisiblePosition)).start()
+			Sequence(Func(self.phoneDisplayRegion.setActive, False), self.phone.posInterval(0.25, self.phoneHiddenPosition, startPos = self.phoneVisiblePosition)).start()
 
 	def controlCamera(self, task):
 		# figure out how much the mouse has moved (in pixels)
@@ -191,6 +205,8 @@ class MyApp(ShowBase):
 		clampX(self.camera, -59, 59)
 		clampY(self.camera, -59, 59)
 		self.camera.setZ(2)
+		self.phoneCamera.setX(self.camera.getX())
+		self.phoneCamera.setY(self.camera.getY())
 
 		self.last = task.time
 
