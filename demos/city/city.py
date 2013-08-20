@@ -62,18 +62,31 @@ class MyApp(ShowBase):
 		self.setupPhone()
 
 	def setupPhone(self):
+		windowWidth = 1.0 * self.win.getXSize()
+		windowHeight = 1.0 * self.win.getYSize()
+		phoneWidth = 256.0
+		phoneHeight = 512.0
+		phoneTopBorder = 48.0
+		phoneLeft = windowWidth - phoneWidth
+		phoneHiddenBottom = 0.0 - phoneHeight + phoneTopBorder
+		phoneVisibleBottom = 0.0
+		phoneDisplayLeft = phoneLeft + 15.0
+		phoneDisplayRight = phoneLeft + 241.0
+		phoneDisplayBottom = phoneVisibleBottom + 73.0
+		phoneDisplayTop = phoneVisibleBottom + 459.0
+
 		self.phone = self.loader.loadModel("models/phone")
-		self.phone.setScale(0.5)
+		self.phone.setScale(2.0 * phoneWidth / windowWidth, 1.0, 2.0 * phoneHeight / windowHeight)
 		self.phone.reparentTo(self.camera2d)
-		self.phone.setTwoSided(True)
 		self.phone.setLightOff()
 		self.phone.setDepthWrite(False)
 		self.phone.setDepthTest(False)
-		self.phoneHiddenPosition = Vec3(0.5, 0, -1.9)
-		self.phoneVisiblePosition = Vec3(0.5, 0, -1)
+		self.phoneHiddenPosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneHiddenBottom / windowHeight - 1.0)
+		self.phoneVisiblePosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneVisibleBottom / windowHeight - 1.0)
 		self.phone.setPos(self.phoneHiddenPosition)
 
-		self.phoneDisplayRegion = self.win.makeDisplayRegion(0.764, 0.986, 0.07, 0.446)
+		self.phoneDisplayRegion = self.win.makeDisplayRegion(phoneDisplayLeft / windowWidth, phoneDisplayRight / windowWidth,
+			phoneDisplayBottom / windowHeight, phoneDisplayTop / windowHeight)
 		self.phoneDisplayRegion.setClearDepthActive(True)
 		self.phoneDisplayRegion.setSort(self.cam2d.node().getDisplayRegion(0).getSort() + 1)
 		self.phoneDisplayRegion.setActive(False)
@@ -97,7 +110,7 @@ class MyApp(ShowBase):
 
 	def incrementMinimapZoom(self, zoomVariation):
 		if (zoomVariation == 0 or self.isPhoneVisible()):
-			self.minimapZoom = clamp(self.minimapZoom + zoomVariation, -3, 4)
+			self.minimapZoom = clamp(self.minimapZoom + zoomVariation, -2, 4)
 			s = 2 ** self.minimapZoom
 			self.orientationTriangle.setScale(5.0 / s)
 			self.phoneCamera.node().getLens().setFilmSize(self.phoneDisplayRegion.getPixelWidth() / s, self.phoneDisplayRegion.getPixelHeight() / s)
