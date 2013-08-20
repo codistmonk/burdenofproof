@@ -34,8 +34,10 @@ class MyApp(ShowBase):
 
 	def setupMouseControl(self):
 		base.disableMouse()
+		props = WindowProperties()
+		props.setCursorHidden(True)
+		base.win.requestProperties(props)
 
-		# Set the current viewing target
 		self.heading = 180
 		self.pitch = 0
 		self.mousex = 0
@@ -45,11 +47,11 @@ class MyApp(ShowBase):
 
 		self.accept("mouse1", self.setMouseBtn, [0, 1])
 		self.accept("mouse1-up", self.setMouseBtn, [0, 0])
-		self.accept("mouse2", self.setMouseBtn, [1, 1])
-		self.accept("mouse2-up", self.setMouseBtn, [1, 0])
+		self.accept("mouse3", self.togglePhone)
+		self.accept("wheel_up", self.incrementMinimapZoom, [1])
+		self.accept("wheel_down", self.incrementMinimapZoom, [-1])
 		self.accept("mouse3", self.togglePhone)
 
-		# Start the control tasks
 		self.taskMgr.add(self.controlCamera, "cameraTask")
 
 	def setupModels(self):
@@ -77,7 +79,6 @@ class MyApp(ShowBase):
 		self.phoneDisplayRegion.setActive(False)
 		self.phoneCamera = NodePath(Camera("phoneCamera"))
 		self.phoneCamera.node().setLens(OrthographicLens())
-		self.phoneCamera.node().getLens().setFilmSize(self.phoneDisplayRegion.getPixelWidth() / 10, self.phoneDisplayRegion.getPixelHeight() / 10)
 		self.phoneCamera.node().getLens().setNearFar(1, 100)
 		self.phoneDisplayRegion.setCamera(self.phoneCamera)
 		self.phoneCamera.reparentTo(self.render)
@@ -90,6 +91,16 @@ class MyApp(ShowBase):
 		self.orientationTriangle.setPos(0, 0, 45)
 		self.orientationTriangle.setHpr(0, -90, 0)
 		self.orientationTriangle.setLightOff()
+
+		self.minimapZoom = 3
+		self.incrementMinimapZoom(0)
+
+	def incrementMinimapZoom(self, zoomVariation):
+		if (zoomVariation == 0 or self.isPhoneVisible()):
+			self.minimapZoom = clamp(self.minimapZoom + zoomVariation, -3, 4)
+			s = 2 ** self.minimapZoom
+			self.orientationTriangle.setScale(5.0 / s)
+			self.phoneCamera.node().getLens().setFilmSize(self.phoneDisplayRegion.getPixelWidth() / s, self.phoneDisplayRegion.getPixelHeight() / s)
 
 	def setupLights(self):
 		self.sunLight = self.render.attachNewNode(DirectionalLight("sunLight"))
@@ -180,11 +191,14 @@ class MyApp(ShowBase):
 			'H' : ( "houseInstance", self.housePrototype ),
 		}.get(buildingType, ( None, None ))
 	
+	def isPhoneVisible(self):
+		return self.phone.getPos() == self.phoneVisiblePosition
+
 	def togglePhone(self):
-		if (self.phone.getPos() == self.phoneHiddenPosition):
-			Sequence(self.phone.posInterval(0.25, self.phoneVisiblePosition, startPos = self.phoneHiddenPosition), Func(self.phoneDisplayRegion.setActive, True)).start()
-		elif (self.phone.getPos() == self.phoneVisiblePosition):
-			Sequence(Func(self.phoneDisplayRegion.setActive, False), self.phone.posInterval(0.25, self.phoneHiddenPosition, startPos = self.phoneVisiblePosition)).start()
+		if (self.isPhoneVisible()):
+			Sequence(Func(self.phoneDisplayRegion.setActive, False), self.phone.posInterval(0.25, self.phoneHiddenPosition)).start()
+		else:
+			Sequence(self.phone.posInterval(0.25, self.phoneVisiblePosition), Func(self.phoneDisplayRegion.setActive, True)).start()
 
 	def controlCamera(self, task):
 		# figure out how much the mouse has moved (in pixels)
