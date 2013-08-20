@@ -30,7 +30,7 @@ class MyApp(ShowBase):
 		self.setupMouseControl()
 
 	def setupKeyboardControl(self):
-		self.accept('escape', sys.exit)
+		self.accept("escape", sys.exit)
 
 	def setupMouseControl(self):
 		base.disableMouse()
@@ -50,16 +50,16 @@ class MyApp(ShowBase):
 		self.accept("mouse3", self.togglePhone)
 
 		# Start the control tasks
-		self.taskMgr.add(self.controlCamera, "camera-task")
+		self.taskMgr.add(self.controlCamera, "cameraTask")
 
 	def setupModels(self):
 		self.setupLights()
 		self.loadSky()
 		self.loadTerrain()
-		self.loadBuildings()
-		self.loadPhone()
+		self.setupBuildings()
+		self.setupPhone()
 
-	def loadPhone(self):
+	def setupPhone(self):
 		self.phone = self.loader.loadModel("models/phone")
 		self.phone.setScale(0.5)
 		self.phone.reparentTo(self.camera2d)
@@ -75,17 +75,24 @@ class MyApp(ShowBase):
 		self.phoneDisplayRegion.setClearDepthActive(True)
 		self.phoneDisplayRegion.setSort(self.cam2d.node().getDisplayRegion(0).getSort() + 1)
 		self.phoneDisplayRegion.setActive(False)
-		self.phoneCamera = NodePath(Camera('phoneCamera'))
+		self.phoneCamera = NodePath(Camera("phoneCamera"))
 		self.phoneCamera.node().setLens(OrthographicLens())
 		self.phoneCamera.node().getLens().setFilmSize(self.phoneDisplayRegion.getPixelWidth() / 10, self.phoneDisplayRegion.getPixelHeight() / 10)
+		self.phoneCamera.node().getLens().setNearFar(1, 100)
 		self.phoneDisplayRegion.setCamera(self.phoneCamera)
 		self.phoneCamera.reparentTo(self.render)
 		self.phoneCamera.setPos(self.camera.getPos())
 		self.phoneCamera.setZ(50)
 		self.phoneCamera.lookAt(self.camera.getPos())
 
+		self.orientationTriangle = self.loader.loadModel("models/orientation_triangle")
+		self.orientationTriangle.reparentTo(self.render)
+		self.orientationTriangle.setPos(0, 0, 45)
+		self.orientationTriangle.setHpr(0, -90, 0)
+		self.orientationTriangle.setLightOff()
+
 	def setupLights(self):
-		self.sunLight = self.render.attachNewNode(DirectionalLight('sunLight'))
+		self.sunLight = self.render.attachNewNode(DirectionalLight("sunLight"))
 		self.sunLight.setColor(Vec4(0.8, 0.8, 0.8, 1))
 		self.sunLight.node().getLens().setFilmSize(128, 64)
 		self.sunLight.node().getLens().setNearFar(20,2000)
@@ -99,7 +106,7 @@ class MyApp(ShowBase):
 		else:
 			self.debug.warning("Shadows deactivated")
 
-		self.ambientLight = self.render.attachNewNode(AmbientLight('ambientLight'))
+		self.ambientLight = self.render.attachNewNode(AmbientLight("ambientLight"))
 		self.ambientLight.node().setColor(Vec4(0.2, 0.2, 0.2, 1))
 		self.render.setLight(self.ambientLight)
 
@@ -115,9 +122,9 @@ class MyApp(ShowBase):
 	def loadTerrain(self):
 		self.terrain = self.loader.loadModel("models/terrain")
 		self.terrain.reparentTo(self.render)
-		self.teapot = self.loader.loadModel('teapot')
+		self.teapot = self.loader.loadModel("teapot")
 
-	def loadBuildings(self):
+	def setupBuildings(self):
 		# Load building prototypes
 		self.buildingPadPrototype = self.loader.loadModel("models/building_pad")
 		self.policeBuildingPrototype = self.loader.loadModel("models/police_building")
@@ -152,7 +159,7 @@ class MyApp(ShowBase):
 					buildingX, buildingY, buildingZ = columnIndex * blockSize - cityWESize / 2, cityNSSize / 2 - (rowIndex + 1) * blockSize, 0
 
 					# Create building pad
-					buildingPadInstance = render.attachNewNode("Building-Pad-Instance")
+					buildingPadInstance = render.attachNewNode("buildingPadInstance")
 					buildingPadInstance.setPos(buildingX, buildingY, buildingZ)
 					self.buildingPadPrototype.instanceTo(buildingPadInstance)
 
@@ -167,10 +174,10 @@ class MyApp(ShowBase):
 	def buildingInstanceNameAndPrototypeFromType(self, buildingType):
 		return {
 			'S' : ( None, None ),
-			'P' : ( "Police-Building-Instance", self.policeBuildingPrototype ),
-			'T' : ( "Tribunal-Instance", self.tribunalPrototype ),
-			'O' : ( "Office-Building-Instance", self.officeBuildingPrototype ),
-			'H' : ( "House-Instance", self.housePrototype ),
+			'P' : ( "policeBuildingInstance", self.policeBuildingPrototype ),
+			'T' : ( "tribunalInstance", self.tribunalPrototype ),
+			'O' : ( "officeBuildingInstance", self.officeBuildingPrototype ),
+			'H' : ( "houseInstance", self.housePrototype ),
 		}.get(buildingType, ( None, None ))
 	
 	def togglePhone(self):
@@ -205,8 +212,13 @@ class MyApp(ShowBase):
 		clampX(self.camera, -59, 59)
 		clampY(self.camera, -59, 59)
 		self.camera.setZ(2)
+
 		self.phoneCamera.setX(self.camera.getX())
 		self.phoneCamera.setY(self.camera.getY())
+
+		self.orientationTriangle.setX(self.camera.getX())
+		self.orientationTriangle.setY(self.camera.getY())
+		self.orientationTriangle.setHpr(self.heading, -90, 0)
 
 		self.last = task.time
 
