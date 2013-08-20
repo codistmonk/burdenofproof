@@ -1,0 +1,29 @@
+<CoordinateSystem> { Y-Up }
+
+<Texture> orientation_triangle_color {
+	"red.png"
+	<Scalar> wrap { CLAMP }
+}
+
+<VertexPool> orientation_triangle {
+	<Vertex> 1 {
+		-1 -1 0
+		<UV> { 0 0 }
+	}
+	<Vertex> 2 {
+		1 -1 0
+		<UV> { 1 0 }
+	}
+	<Vertex> 3 {
+		0 2 0
+		<UV> { 0.5 1 }
+	}
+}
+
+<Instance> orientation_triangle {
+	<Polygon> {
+		<TRef> { orientation_triangle_color }
+		<Normal> { 0 0 1 }
+		<VertexRef> { 1 2 3 <Ref> { orientation_triangle } }
+	}
+}
