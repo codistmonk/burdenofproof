@@ -2,6 +2,7 @@ import sys
 from panda3d.core import *
 from direct.showbase.ShowBase import ShowBase
 from direct.directnotify.DirectNotify import DirectNotify
+from direct.filter.CommonFilters import CommonFilters
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
@@ -28,6 +29,8 @@ class MyApp(ShowBase):
 		self.setupKeyboardControl()
 		self.camera.setPos(0, 0, 2)
 		self.setupMouseControl()
+		self.filters = CommonFilters(self.win, self.cam)
+		self.filters.setBloom()
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
@@ -87,6 +90,8 @@ class MyApp(ShowBase):
 
 		self.phoneDisplayRegion = self.win.makeDisplayRegion(phoneDisplayLeft / windowWidth, phoneDisplayRight / windowWidth,
 			phoneDisplayBottom / windowHeight, phoneDisplayTop / windowHeight)
+		self.phoneDisplayRegion.setClearColor(Vec4(1, 1, 1, 1))
+		self.phoneDisplayRegion.setClearColorActive(True)
 		self.phoneDisplayRegion.setClearDepthActive(True)
 		self.phoneDisplayRegion.setSort(self.cam2d.node().getDisplayRegion(0).getSort() + 1)
 		self.phoneDisplayRegion.setActive(False)
@@ -94,13 +99,13 @@ class MyApp(ShowBase):
 		self.phoneCamera.node().setLens(OrthographicLens())
 		self.phoneCamera.node().getLens().setNearFar(1, 100)
 		self.phoneDisplayRegion.setCamera(self.phoneCamera)
-		self.phoneCamera.reparentTo(self.render)
+		self.phoneCamera.reparentTo(self.minimap)
 		self.phoneCamera.setPos(self.camera.getPos())
 		self.phoneCamera.setZ(50)
 		self.phoneCamera.lookAt(self.camera.getPos())
 
 		self.orientationTriangle = self.loader.loadModel("models/orientation_triangle")
-		self.orientationTriangle.reparentTo(self.render)
+		self.orientationTriangle.reparentTo(self.minimap)
 		self.orientationTriangle.setPos(0, 0, 45)
 		self.orientationTriangle.setHpr(0, -90, 0)
 		self.orientationTriangle.setLightOff()
@@ -171,6 +176,18 @@ class MyApp(ShowBase):
 		blockSize = 10
 		cityWESize = len(city[0]) * blockSize
 		cityNSSize = len(city) * blockSize
+		self.minimap = NodePath("minimap")
+		buildingOutline = LineSegs("building")
+
+		buildingSize = 8
+		buildingPadding = 1
+		buildingOutline.setColor(0, 0, 0, 1)
+		buildingOutline.moveTo(buildingPadding, buildingPadding, 0)
+		buildingOutline.drawTo(buildingPadding + buildingSize, buildingPadding, 0)
+		buildingOutline.drawTo(buildingPadding + buildingSize, buildingPadding + buildingSize, 0)
+		buildingOutline.drawTo(buildingPadding, buildingPadding + buildingSize, 0)
+		buildingOutline.drawTo(buildingPadding, buildingPadding, 0)
+		buildingOutlinePrototype = NodePath(buildingOutline.create())
 
 		# Create buildings from city blueprint
 		for rowIndex, row in enumerate(city):
@@ -183,14 +200,19 @@ class MyApp(ShowBase):
 					buildingX, buildingY, buildingZ = columnIndex * blockSize - cityWESize / 2, cityNSSize / 2 - (rowIndex + 1) * blockSize, 0
 
 					# Create building pad
-					buildingPadInstance = render.attachNewNode("buildingPadInstance")
+					buildingPadInstance = self.render.attachNewNode("buildingPadInstance")
 					buildingPadInstance.setPos(buildingX, buildingY, buildingZ)
 					self.buildingPadPrototype.instanceTo(buildingPadInstance)
 
 					# Create building
-					buildingInstance = render.attachNewNode(buildingInstanceName)
+					buildingInstance = self.render.attachNewNode(buildingInstanceName)
 					buildingInstance.setPos(buildingX, buildingY, buildingZ)
 					buildingPrototype.instanceTo(buildingInstance)
+
+					# Create building outline in minimap
+					buildingOutlineInstance = self.minimap.attachNewNode("buildingOutline")
+					buildingOutlineInstance.setPos(buildingX, buildingY, buildingZ)
+					buildingOutlinePrototype.instanceTo(buildingOutlineInstance)
 
 	def setMouseBtn(self, btn, value):
 		self.mousebtn[btn] = value
