@@ -3,6 +3,7 @@ from panda3d.core import *
 from direct.showbase.ShowBase import ShowBase
 from direct.directnotify.DirectNotify import DirectNotify
 from direct.filter.CommonFilters import CommonFilters
+from direct.fsm.FSM import FSM
 from direct.interval.IntervalGlobal import *
 from direct.task import Task
 
@@ -18,6 +19,51 @@ def clampY(target, minY, maxY):
 def clampZ(target, minZ, maxZ):
 	target.setZ(clamp(target.getZ(), minZ, maxZ))
 
+class PhoneState(FSM):
+
+	def __init__(self, app):
+		FSM.__init__(self, "PhoneState")
+		self.app = app
+		self.mouseVisible = True
+		self.previousState = "Off"
+
+	def enterHidden(self):
+		self.setMouseVisible(False)
+		Sequence(Func(self.app.phoneDisplayRegion.setActive, False), self.app.phone.posInterval(0.25, self.app.phoneHiddenPosition)).start()
+
+	def exitHidden(self):
+		self.previousState = self.oldState
+
+	def enterVisible(self):
+		self.setMouseVisible(False)
+		Sequence(self.app.phone.posInterval(0.25, self.app.phoneVisiblePosition), Func(self.app.phoneDisplayRegion.setActive, True)).start()
+
+	def exitVisible(self):
+		self.previousState = self.oldState
+
+	def enterCenter(self):
+		Sequence(Func(self.app.phoneDisplayRegion.setActive, False), self.app.phone.posInterval(0.25, self.app.phoneCenterPosition), Func(self.setMouseVisible, True)).start()
+
+	def exitCenter(self):
+		self.setMouseVisible(False)
+		self.previousState = self.oldState
+
+	def getPreviousState(self):
+		return self.previousState
+
+	def setMouseVisible(self, mouseVisible):
+		if (self.mouseVisible != mouseVisible):
+			self.mouseVisible = mouseVisible
+
+			props = WindowProperties()
+			props.setCursorHidden(not mouseVisible)
+			self.app.win.requestProperties(props)
+
+			if (not mouseVisible):
+				windowCenterX = self.app.win.getXSize() / 2
+				windowCenterY = self.app.win.getYSize() / 2
+				self.app.win.movePointer(0, windowCenterX, windowCenterY)
+
 class MyApp(ShowBase):
 
 	def __init__(self):
@@ -31,15 +77,17 @@ class MyApp(ShowBase):
 		self.setupMouseControl()
 		self.filters = CommonFilters(self.win, self.cam)
 		self.filters.setBloom()
+		self.phoneState = PhoneState(self)
+		self.phoneState.request("Hidden")
+
+	def test(self):
+		self.debug.warning("64")
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
 
 	def setupMouseControl(self):
-		base.disableMouse()
-		props = WindowProperties()
-		props.setCursorHidden(True)
-		base.win.requestProperties(props)
+		self.disableMouse()
 
 		self.heading = 180
 		self.pitch = 0
@@ -50,10 +98,10 @@ class MyApp(ShowBase):
 
 		self.accept("mouse1", self.setMouseBtn, [0, 1])
 		self.accept("mouse1-up", self.setMouseBtn, [0, 0])
-		self.accept("mouse3", self.togglePhone)
+		self.accept("mouse2", self.togglePhoneCenter)
+		self.accept("mouse3", self.togglePhoneVisible)
 		self.accept("wheel_up", self.incrementMinimapZoom, [1])
 		self.accept("wheel_down", self.incrementMinimapZoom, [-1])
-		self.accept("mouse3", self.togglePhone)
 
 		self.taskMgr.add(self.controlCamera, "cameraTask")
 
@@ -77,6 +125,8 @@ class MyApp(ShowBase):
 		phoneDisplayRight = phoneLeft + 241.0
 		phoneDisplayBottom = phoneVisibleBottom + 73.0
 		phoneDisplayTop = phoneVisibleBottom + 459.0
+		phoneCenterLeft = phoneLeft / 2.0
+		phoneCenterBottom = (windowHeight - phoneHeight) / 2.0
 
 		self.phone = self.loader.loadModel("models/phone")
 		self.phone.setScale(2.0 * phoneWidth / windowWidth, 1.0, 2.0 * phoneHeight / windowHeight)
@@ -86,6 +136,7 @@ class MyApp(ShowBase):
 		self.phone.setDepthTest(False)
 		self.phoneHiddenPosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneHiddenBottom / windowHeight - 1.0)
 		self.phoneVisiblePosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneVisibleBottom / windowHeight - 1.0)
+		self.phoneCenterPosition = Vec3(2.0 * phoneCenterLeft / windowWidth - 1.0, 0, 2.0 * phoneCenterBottom / windowHeight - 1.0)
 		self.phone.setPos(self.phoneHiddenPosition)
 
 		self.phoneDisplayRegion = self.win.makeDisplayRegion(phoneDisplayLeft / windowWidth, phoneDisplayRight / windowWidth,
@@ -232,13 +283,22 @@ class MyApp(ShowBase):
 	def isPhoneVisible(self):
 		return self.phone.getPos() == self.phoneVisiblePosition
 
-	def togglePhone(self):
-		if (self.isPhoneVisible()):
-			Sequence(Func(self.phoneDisplayRegion.setActive, False), self.phone.posInterval(0.25, self.phoneHiddenPosition)).start()
+	def togglePhoneCenter(self):
+		if (self.phoneState.state != "Center"):
+			self.phoneState.demand("Center")
 		else:
-			Sequence(self.phone.posInterval(0.25, self.phoneVisiblePosition), Func(self.phoneDisplayRegion.setActive, True)).start()
+			self.phoneState.demand(self.phoneState.getPreviousState())
+
+	def togglePhoneVisible(self):
+		if (self.phoneState.state == "Visible"):
+			self.phoneState.demand("Hidden")
+		elif (self.phoneState.state == "Hidden"):
+			self.phoneState.demand("Visible")
 
 	def controlCamera(self, task):
+		if (self.phoneState.state == "Center"):
+			return Task.cont
+
 		# figure out how much the mouse has moved (in pixels)
 		md = self.win.getPointer(0)
 		x = md.getX()
