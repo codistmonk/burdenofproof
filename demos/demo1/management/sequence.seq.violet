@@ -9,7 +9,7 @@
        <double>40.0</double> 
        <double>0.0</double> 
        <double>80.0</double> 
-       <double>866.0</double> 
+       <double>930.0</double> 
       </void> 
      </object> 
     </void> 
@@ -18,7 +18,7 @@
       <double>40.0</double> 
       <double>0.0</double> 
       <double>80.0</double> 
-      <double>866.0</double> 
+      <double>930.0</double> 
      </void> 
     </void> 
     <void property="name"> 
@@ -43,7 +43,7 @@ player</string>
        <double>520.0</double> 
        <double>0.0</double> 
        <double>80.0</double> 
-       <double>866.0</double> 
+       <double>930.0</double> 
       </void> 
      </object> 
     </void> 
@@ -52,7 +52,7 @@ player</string>
       <double>520.0</double> 
       <double>0.0</double> 
       <double>80.0</double> 
-      <double>866.0</double> 
+      <double>930.0</double> 
      </void> 
     </void> 
     <void property="name"> 
@@ -91,7 +91,7 @@ player</string>
            <double>290.0</double> 
            <double>0.0</double> 
            <double>80.0</double> 
-           <double>866.0</double> 
+           <double>930.0</double> 
           </void> 
          </object> 
         </void> 
@@ -100,7 +100,7 @@ player</string>
           <double>290.0</double> 
           <double>0.0</double> 
           <double>80.0</double> 
-          <double>866.0</double> 
+          <double>930.0</double> 
          </void> 
         </void> 
         <void property="name"> 
@@ -183,7 +183,7 @@ player</string>
        <double>400.0</double> 
        <double>0.0</double> 
        <double>80.0</double> 
-       <double>866.0</double> 
+       <double>930.0</double> 
       </void> 
      </object> 
     </void> 
@@ -192,7 +192,7 @@ player</string>
       <double>400.0</double> 
       <double>0.0</double> 
       <double>80.0</double> 
-      <double>866.0</double> 
+      <double>930.0</double> 
      </void> 
     </void> 
     <void property="name"> 
@@ -209,7 +209,7 @@ player</string>
        <object class="java.awt.geom.Rectangle2D$Double"> 
         <void method="setRect"> 
          <double>552.0</double> 
-         <double>330.0</double> 
+         <double>394.0</double> 
          <double>16.0</double> 
          <double>30.0</double> 
         </void> 
@@ -218,7 +218,7 @@ player</string>
       <void property="bounds"> 
        <void method="setRect"> 
         <double>552.0</double> 
-        <double>330.0</double> 
+        <double>394.0</double> 
         <double>16.0</double> 
         <double>30.0</double> 
        </void> 
@@ -266,7 +266,7 @@ player</string>
            <double>570.0</double> 
            <double>0.0</double> 
            <double>120.0</double> 
-           <double>866.0</double> 
+           <double>930.0</double> 
           </void> 
          </object> 
         </void> 
@@ -275,7 +275,7 @@ player</string>
           <double>570.0</double> 
           <double>0.0</double> 
           <double>120.0</double> 
-          <double>866.0</double> 
+          <double>930.0</double> 
          </void> 
         </void> 
         <void property="name"> 
@@ -325,7 +325,7 @@ player</string>
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
        <double>432.0</double> 
-       <double>400.0</double> 
+       <double>464.0</double> 
        <double>16.0</double> 
        <double>30.0</double> 
       </void> 
@@ -334,7 +334,7 @@ player</string>
     <void property="bounds"> 
      <void method="setRect"> 
       <double>432.0</double> 
-      <double>400.0</double> 
+      <double>464.0</double> 
       <double>16.0</double> 
       <double>30.0</double> 
      </void> 
@@ -351,7 +351,7 @@ player</string>
        <object class="java.awt.geom.Rectangle2D$Double"> 
         <void method="setRect"> 
          <double>322.0</double> 
-         <double>377.0</double> 
+         <double>441.0</double> 
          <double>16.0</double> 
          <double>73.0</double> 
         </void> 
@@ -360,7 +360,7 @@ player</string>
       <void property="bounds"> 
        <void method="setRect"> 
         <double>322.0</double> 
-        <double>377.0</double> 
+        <double>441.0</double> 
         <double>16.0</double> 
         <double>73.0</double> 
        </void> 
@@ -374,7 +374,7 @@ player</string>
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>432.0</double> 
-     <double>400.0</double> 
+     <double>464.0</double> 
     </void> 
    </object> 
   </void> 
@@ -383,7 +383,7 @@ player</string>
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>322.0</double> 
-     <double>377.0</double> 
+     <double>441.0</double> 
     </void> 
    </object> 
   </void> 
@@ -410,7 +410,7 @@ player</string>
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>552.0</double> 
-     <double>330.0</double> 
+     <double>394.0</double> 
     </void> 
    </object> 
   </void> 
@@ -422,7 +422,7 @@ player</string>
        <double>810.0</double> 
        <double>0.0</double> 
        <double>80.0</double> 
-       <double>866.0</double> 
+       <double>930.0</double> 
       </void> 
      </object> 
     </void> 
@@ -431,7 +431,7 @@ player</string>
       <double>810.0</double> 
       <double>0.0</double> 
       <double>80.0</double> 
-      <double>866.0</double> 
+      <double>930.0</double> 
      </void> 
     </void> 
     <void property="name"> 
@@ -448,7 +448,7 @@ player</string>
        <object class="java.awt.geom.Rectangle2D$Double"> 
         <void method="setRect"> 
          <double>552.0</double> 
-         <double>290.0</double> 
+         <double>354.0</double> 
          <double>16.0</double> 
          <double>30.0</double> 
         </void> 
@@ -457,7 +457,7 @@ player</string>
       <void property="bounds"> 
        <void method="setRect"> 
         <double>552.0</double> 
-        <double>290.0</double> 
+        <double>354.0</double> 
         <double>16.0</double> 
         <double>30.0</double> 
        </void> 
@@ -480,7 +480,7 @@ player</string>
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>552.0</double> 
-     <double>290.0</double> 
+     <double>354.0</double> 
     </void> 
    </object> 
   </void> 
@@ -492,7 +492,7 @@ player</string>
        <object class="java.awt.geom.Rectangle2D$Double"> 
         <void method="setRect"> 
          <double>552.0</double> 
-         <double>485.0</double> 
+         <double>549.0</double> 
          <double>16.0</double> 
          <double>30.0</double> 
         </void> 
@@ -501,7 +501,7 @@ player</string>
       <void property="bounds"> 
        <void method="setRect"> 
         <double>552.0</double> 
-        <double>485.0</double> 
+        <double>549.0</double> 
         <double>16.0</double> 
         <double>30.0</double> 
        </void> 
@@ -518,7 +518,7 @@ player</string>
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
        <double>322.0</double> 
-       <double>462.0</double> 
+       <double>526.0</double> 
        <double>16.0</double> 
        <double>73.0</double> 
       </void> 
@@ -527,7 +527,7 @@ player</string>
     <void property="bounds"> 
      <void method="setRect"> 
       <double>322.0</double> 
-      <double>462.0</double> 
+      <double>526.0</double> 
       <double>16.0</double> 
       <double>73.0</double> 
      </void> 
@@ -539,7 +539,7 @@ player</string>
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>322.0</double> 
-     <double>462.0</double> 
+     <double>526.0</double> 
     </void> 
    </object> 
   </void> 
@@ -548,7 +548,7 @@ player</string>
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>552.0</double> 
-     <double>485.0</double> 
+     <double>549.0</double> 
     </void> 
    </object> 
   </void> 
@@ -562,7 +562,7 @@ player</string>
          <object class="java.awt.geom.Rectangle2D$Double"> 
           <void method="setRect"> 
            <double>842.0</double> 
-           <double>606.0</double> 
+           <double>670.0</double> 
            <double>16.0</double> 
            <double>30.0</double> 
           </void> 
@@ -571,7 +571,7 @@ player</string>
         <void property="bounds"> 
          <void method="setRect"> 
           <double>842.0</double> 
-          <double>606.0</double> 
+          <double>670.0</double> 
           <double>16.0</double> 
           <double>30.0</double> 
          </void> 
@@ -588,7 +588,7 @@ player</string>
        <object class="java.awt.geom.Rectangle2D$Double"> 
         <void method="setRect"> 
          <double>552.0</double> 
-         <double>583.0</double> 
+         <double>647.0</double> 
          <double>16.0</double> 
          <double>73.0</double> 
         </void> 
@@ -597,7 +597,7 @@ player</string>
       <void property="bounds"> 
        <void method="setRect"> 
         <double>552.0</double> 
-        <double>583.0</double> 
+        <double>647.0</double> 
         <double>16.0</double> 
         <double>73.0</double> 
        </void> 
@@ -614,7 +614,7 @@ player</string>
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
        <double>322.0</double> 
-       <double>560.0</double> 
+       <double>624.0</double> 
        <double>16.0</double> 
        <double>116.0</double> 
       </void> 
@@ -623,7 +623,7 @@ player</string>
     <void property="bounds"> 
      <void method="setRect"> 
       <double>322.0</double> 
-      <double>560.0</double> 
+      <double>624.0</double> 
       <double>16.0</double> 
       <double>116.0</double> 
      </void> 
@@ -635,7 +635,7 @@ player</string>
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>322.0</double> 
-     <double>560.0</double> 
+     <double>624.0</double> 
     </void> 
    </object> 
   </void> 
@@ -644,7 +644,7 @@ player</string>
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>552.0</double> 
-     <double>583.0</double> 
+     <double>647.0</double> 
     </void> 
    </object> 
   </void> 
@@ -654,7 +654,7 @@ player</string>
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
        <double>130.0</double> 
-       <double>630.0</double> 
+       <double>690.0</double> 
        <double>80.0</double> 
        <double>40.0</double> 
       </void> 
@@ -663,7 +663,7 @@ player</string>
     <void property="bounds"> 
      <void method="setRect"> 
       <double>130.0</double> 
-      <double>630.0</double> 
+      <double>690.0</double> 
       <double>80.0</double> 
       <double>40.0</double> 
      </void> 
@@ -679,7 +679,7 @@ loop
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>130.0</double> 
-     <double>630.0</double> 
+     <double>690.0</double> 
     </void> 
    </object> 
   </void> 
@@ -717,7 +717,7 @@ loop
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
        <double>130.0</double> 
-       <double>370.0</double> 
+       <double>430.0</double> 
        <double>80.0</double> 
        <double>40.0</double> 
       </void> 
@@ -726,7 +726,7 @@ loop
     <void property="bounds"> 
      <void method="setRect"> 
       <double>130.0</double> 
-      <double>370.0</double> 
+      <double>430.0</double> 
       <double>80.0</double> 
       <double>40.0</double> 
      </void> 
@@ -740,63 +740,7 @@ loop
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>130.0</double> 
-     <double>370.0</double> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addNode"> 
-   <object id="PointNode1" class="com.horstmann.violet.PointNode"> 
-    <void property="bounds"> 
-     <object class="java.awt.geom.Rectangle2D$Double"> 
-      <void method="setRect"> 
-       <double>326.0</double> 
-       <double>410.0</double> 
-       <double>0.0</double> 
-       <double>0.0</double> 
-      </void> 
-     </object> 
-    </void> 
-    <void property="bounds"> 
-     <void method="setRect"> 
-      <double>326.0</double> 
-      <double>410.0</double> 
-      <double>0.0</double> 
-      <double>0.0</double> 
-     </void> 
-    </void> 
-   </object> 
-   <object class="java.awt.geom.Point2D$Double"> 
-    <void method="setLocation"> 
-     <double>326.0</double> 
-     <double>410.0</double> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addNode"> 
-   <object id="PointNode2" class="com.horstmann.violet.PointNode"> 
-    <void property="bounds"> 
-     <object class="java.awt.geom.Rectangle2D$Double"> 
-      <void method="setRect"> 
-       <double>326.0</double> 
-       <double>497.0</double> 
-       <double>0.0</double> 
-       <double>0.0</double> 
-      </void> 
-     </object> 
-    </void> 
-    <void property="bounds"> 
-     <void method="setRect"> 
-      <double>326.0</double> 
-      <double>497.0</double> 
-      <double>0.0</double> 
-      <double>0.0</double> 
-     </void> 
-    </void> 
-   </object> 
-   <object class="java.awt.geom.Point2D$Double"> 
-    <void method="setLocation"> 
-     <double>326.0</double> 
-     <double>497.0</double> 
+     <double>430.0</double> 
     </void> 
    </object> 
   </void> 
@@ -808,7 +752,7 @@ loop
        <object class="java.awt.geom.Rectangle2D$Double"> 
         <void method="setRect"> 
          <double>842.0</double> 
-         <double>706.0</double> 
+         <double>770.0</double> 
          <double>16.0</double> 
          <double>30.0</double> 
         </void> 
@@ -817,7 +761,7 @@ loop
       <void property="bounds"> 
        <void method="setRect"> 
         <double>842.0</double> 
-        <double>706.0</double> 
+        <double>770.0</double> 
         <double>16.0</double> 
         <double>30.0</double> 
        </void> 
@@ -834,7 +778,7 @@ loop
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
        <double>322.0</double> 
-       <double>683.0</double> 
+       <double>747.0</double> 
        <double>16.0</double> 
        <double>73.0</double> 
       </void> 
@@ -843,7 +787,7 @@ loop
     <void property="bounds"> 
      <void method="setRect"> 
       <double>322.0</double> 
-      <double>683.0</double> 
+      <double>747.0</double> 
       <double>16.0</double> 
       <double>73.0</double> 
      </void> 
@@ -855,7 +799,7 @@ loop
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>322.0</double> 
-     <double>683.0</double> 
+     <double>747.0</double> 
     </void> 
    </object> 
   </void> 
@@ -864,7 +808,7 @@ loop
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>842.0</double> 
-     <double>706.0</double> 
+     <double>770.0</double> 
     </void> 
    </object> 
   </void> 
@@ -873,7 +817,7 @@ loop
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>842.0</double> 
-     <double>606.0</double> 
+     <double>670.0</double> 
     </void> 
    </object> 
   </void> 
@@ -906,7 +850,7 @@ loop
    </object> 
   </void> 
   <void method="addNode"> 
-   <object id="PointNode3" class="com.horstmann.violet.PointNode"> 
+   <object id="PointNode1" class="com.horstmann.violet.PointNode"> 
     <void property="bounds"> 
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
@@ -934,7 +878,7 @@ loop
    </object> 
   </void> 
   <void method="addNode"> 
-   <object id="PointNode4" class="com.horstmann.violet.PointNode"> 
+   <object id="PointNode2" class="com.horstmann.violet.PointNode"> 
     <void property="bounds"> 
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
@@ -969,7 +913,7 @@ loop
        <object class="java.awt.geom.Rectangle2D$Double"> 
         <void method="setRect"> 
          <double>322.0</double> 
-         <double>796.0</double> 
+         <double>860.0</double> 
          <double>16.0</double> 
          <double>30.0</double> 
         </void> 
@@ -978,7 +922,7 @@ loop
       <void property="bounds"> 
        <void method="setRect"> 
         <double>322.0</double> 
-        <double>796.0</double> 
+        <double>860.0</double> 
         <double>16.0</double> 
         <double>30.0</double> 
        </void> 
@@ -995,7 +939,7 @@ loop
      <object class="java.awt.geom.Rectangle2D$Double"> 
       <void method="setRect"> 
        <double>72.0</double> 
-       <double>773.0</double> 
+       <double>837.0</double> 
        <double>16.0</double> 
        <double>73.0</double> 
       </void> 
@@ -1004,7 +948,7 @@ loop
     <void property="bounds"> 
      <void method="setRect"> 
       <double>72.0</double> 
-      <double>773.0</double> 
+      <double>837.0</double> 
       <double>16.0</double> 
       <double>73.0</double> 
      </void> 
@@ -1016,7 +960,7 @@ loop
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>72.0</double> 
-     <double>773.0</double> 
+     <double>837.0</double> 
     </void> 
    </object> 
   </void> 
@@ -1025,7 +969,133 @@ loop
    <object class="java.awt.geom.Point2D$Double"> 
     <void method="setLocation"> 
      <double>322.0</double> 
-     <double>796.0</double> 
+     <double>860.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="LifelineNode6" class="com.horstmann.violet.ImplicitParameterNode"> 
+    <void property="bounds"> 
+     <object class="java.awt.geom.Rectangle2D$Double"> 
+      <void method="setRect"> 
+       <double>710.0</double> 
+       <double>0.0</double> 
+       <double>80.0</double> 
+       <double>930.0</double> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="bounds"> 
+     <void method="setRect"> 
+      <double>710.0</double> 
+      <double>0.0</double> 
+      <double>80.0</double> 
+      <double>930.0</double> 
+     </void> 
+    </void> 
+    <void property="name"> 
+     <void property="text"> 
+      <string>cityBlueprint</string> 
+     </void> 
+    </void> 
+    <void property="parent"> 
+     <object id="ActivationBarNode17" class="com.horstmann.violet.CallNode"> 
+      <void method="addChild"> 
+       <object idref="LifelineNode6"/> 
+      </void> 
+      <void property="bounds"> 
+       <object class="java.awt.geom.Rectangle2D$Double"> 
+        <void method="setRect"> 
+         <double>552.0</double> 
+         <double>288.0</double> 
+         <double>16.0</double> 
+         <double>30.0</double> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="bounds"> 
+       <void method="setRect"> 
+        <double>552.0</double> 
+        <double>288.0</double> 
+        <double>16.0</double> 
+        <double>30.0</double> 
+       </void> 
+      </void> 
+      <void property="implicitParameter"> 
+       <object idref="LifelineNode1"/> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>710.0</double> 
+     <double>0.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object idref="ActivationBarNode17"/> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>552.0</double> 
+     <double>288.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="PointNode3" class="com.horstmann.violet.PointNode"> 
+    <void property="bounds"> 
+     <object class="java.awt.geom.Rectangle2D$Double"> 
+      <void method="setRect"> 
+       <double>322.0</double> 
+       <double>563.0</double> 
+       <double>0.0</double> 
+       <double>0.0</double> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="bounds"> 
+     <void method="setRect"> 
+      <double>322.0</double> 
+      <double>563.0</double> 
+      <double>0.0</double> 
+      <double>0.0</double> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>322.0</double> 
+     <double>563.0</double> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addNode"> 
+   <object id="PointNode4" class="com.horstmann.violet.PointNode"> 
+    <void property="bounds"> 
+     <object class="java.awt.geom.Rectangle2D$Double"> 
+      <void method="setRect"> 
+       <double>324.0</double> 
+       <double>479.0</double> 
+       <double>0.0</double> 
+       <double>0.0</double> 
+      </void> 
+     </object> 
+    </void> 
+    <void property="bounds"> 
+     <void method="setRect"> 
+      <double>324.0</double> 
+      <double>479.0</double> 
+      <double>0.0</double> 
+      <double>0.0</double> 
+     </void> 
+    </void> 
+   </object> 
+   <object class="java.awt.geom.Point2D$Double"> 
+    <void method="setLocation"> 
+     <double>324.0</double> 
+     <double>479.0</double> 
     </void> 
    </object> 
   </void> 
@@ -1118,16 +1188,6 @@ loop
    <object idref="PointNode0"/> 
   </void> 
   <void method="connect"> 
-   <object class="com.horstmann.violet.NoteEdge"/> 
-   <object idref="NoteNode1"/> 
-   <object idref="PointNode1"/> 
-  </void> 
-  <void method="connect"> 
-   <object class="com.horstmann.violet.NoteEdge"/> 
-   <object idref="NoteNode1"/> 
-   <object idref="PointNode2"/> 
-  </void> 
-  <void method="connect"> 
    <object class="com.horstmann.violet.CallEdge"> 
     <void property="middleLabel"> 
      <string>for_each_character_get_position</string> 
@@ -1167,12 +1227,12 @@ loop
   <void method="connect"> 
    <object class="com.horstmann.violet.NoteEdge"/> 
    <object idref="NoteNode1"/> 
-   <object idref="PointNode3"/> 
+   <object idref="PointNode1"/> 
   </void> 
   <void method="connect"> 
    <object class="com.horstmann.violet.NoteEdge"/> 
    <object idref="NoteNode0"/> 
-   <object idref="PointNode4"/> 
+   <object idref="PointNode2"/> 
   </void> 
   <void method="connect"> 
    <object class="com.horstmann.violet.CallEdge"> 
@@ -1187,6 +1247,25 @@ loop
    <object class="com.horstmann.violet.ReturnEdge"/> 
    <object idref="ActivationBarNode16"/> 
    <object idref="ActivationBarNode15"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.CallEdge"> 
+    <void property="middleLabel"> 
+     <string>«create»</string> 
+    </void> 
+   </object> 
+   <object idref="ActivationBarNode17"/> 
+   <object idref="LifelineNode6"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.NoteEdge"/> 
+   <object idref="NoteNode1"/> 
+   <object idref="PointNode3"/> 
+  </void> 
+  <void method="connect"> 
+   <object class="com.horstmann.violet.NoteEdge"/> 
+   <object idref="NoteNode1"/> 
+   <object idref="PointNode4"/> 
   </void> 
  </object> 
 </java> 
