@@ -166,12 +166,15 @@ class MyApp(ShowBase):
 	def buildCity(self):
 		# Define city blueprint
 		city = [
-			"PSOSH_",
-			"TSOSHH",
-			"SSSSSS",
-			"OOSOSH",
-			"SSSSSH",
-			"HHHSHH"
+			"PSOSHS_",
+			"SSSSSSS",
+			"OSHHHHH",
+			"_SSSSSS",
+			"_SHHHHH",
+			"_SSSSSS",
+			"_SHHHHH",
+			"_SSSSSS",
+			"_SHHHHH"
 		]
 		blockSize = 10
 		cityWESize = len(city[0]) * blockSize

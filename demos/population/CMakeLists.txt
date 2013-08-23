@@ -12,6 +12,7 @@ set(CMAKE_BUILD_TYPE  Debug CACHE STRING "Build type : Release or Debug" FORCE)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Tell CMake to run moc when necessary:
 set(CMAKE_AUTOMOC ON)
+
 find_package(Qt5Widgets REQUIRED)
 include_directories(${Qt5Widgets_INCLUDES})
 # We need add -DQT_WIDGETS_LIB when using QtWidgets in Qt 5.
@@ -75,5 +76,5 @@ target_link_libraries(${PROJECT_NAME} Qt5::Widgets)
 
 install(TARGETS ${PROJECT_NAME} 
 	DESTINATION ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE}
-	PERMISSIONS OWNER_EXECUTE
+        PERMISSIONS OWNER_EXECUTE OWNER_WRITE
 	)
