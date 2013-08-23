@@ -276,9 +276,9 @@ Gender</string>
      <object class="java.awt.geom.Rectangle2D$Double">
       <void method="setRect">
        <double>350.0</double>
-       <double>330.0</double>
+       <double>320.0</double>
        <double>300.0</double>
-       <double>180.0</double>
+       <double>200.0</double>
       </void>
      </object>
     </void>
@@ -289,6 +289,7 @@ Gender</string>
 +getMiddleName() : PropertyChronology&lt;String&gt;
 +getLastName() : PropertyChronology&lt;String&gt;
 +getBirthday() : PropertyChronology&lt;long&gt;
++getDeathday() : PropertyChronology&lt;long&gt;
 +getGender() : PropertyChronology&lt;Gender&gt;
 +getPosition() : PropertyChronology&lt;Vec3&gt;
 +getMurderousInstinct() : PropertyChronology&lt;Real&gt;
@@ -313,12 +314,12 @@ Gender</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double6"/>
-      <double>330.0</double>
+      <double>320.0</double>
      </void>
     </void>
     <void method="setLocation">
      <double>350.0</double>
-     <double>330.0</double>
+     <double>320.0</double>
     </void>
    </object>
   </void>
@@ -512,8 +513,8 @@ CityCell</string>
       <void method="setRect">
        <double>30.0</double>
        <double>380.0</double>
-       <double>280.0</double>
-       <double>40.0</double>
+       <double>300.0</double>
+       <double>80.0</double>
       </void>
      </object>
     </void>
@@ -521,13 +522,16 @@ CityCell</string>
      <void method="setRect">
       <double>30.0</double>
       <double>380.0</double>
-      <double>280.0</double>
-      <double>40.0</double>
+      <double>300.0</double>
+      <double>80.0</double>
      </void>
     </void>
     <void property="text">
      <void property="text">
-      <string>Only getActualPersona().getCharacter() is not null</string>
+      <string>Only getActualPersona().getCharacter() is not null
+and can be used to retrieve properties in the routine
+persona when they are not explicitely defined in the
+actual persona</string>
      </void>
     </void>
    </object>
@@ -600,7 +604,7 @@ CityCell</string>
      <object class="java.awt.geom.Rectangle2D$Double">
       <void method="setRect">
        <double>353.0</double>
-       <double>390.0</double>
+       <double>384.0</double>
        <double>0.0</double>
        <double>0.0</double>
       </void>
@@ -609,7 +613,7 @@ CityCell</string>
     <void property="bounds">
      <void method="setRect">
       <double>353.0</double>
-      <double>390.0</double>
+      <double>384.0</double>
       <double>0.0</double>
       <double>0.0</double>
      </void>
@@ -627,12 +631,12 @@ CityCell</string>
      <string>y</string>
      <void method="set">
       <object idref="Point2D$Double13"/>
-      <double>390.0</double>
+      <double>384.0</double>
      </void>
     </void>
     <void method="setLocation">
      <double>353.0</double>
-     <double>390.0</double>
+     <double>384.0</double>
     </void>
    </object>
   </void>
