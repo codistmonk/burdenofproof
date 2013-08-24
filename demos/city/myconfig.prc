@@ -1,0 +1,1 @@
+use-advanced-visual-effects #t

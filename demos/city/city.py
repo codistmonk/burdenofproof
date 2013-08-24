@@ -94,7 +94,7 @@ class MyApp(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 
-		self.useAdvancedVisualEffects = True
+		self.useAdvancedVisualEffects = ConfigVariableBool("use-advanced-visual-effects", True)
 
 		self.debug = DirectNotify().newCategory("Debug")
 
@@ -388,5 +388,7 @@ class MyApp(ShowBase):
 		self.last = task.time
 
 		return Task.cont
+
+loadPrcFile("myconfig.prc")
 
 MyApp().run()
