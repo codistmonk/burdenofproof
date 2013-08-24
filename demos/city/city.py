@@ -36,7 +36,7 @@ class PhoneState(FSM):
 				LerpFunc(self.app.phoneDisplayRegion.setDimensions, duration=0.25,
 					fromData=self.app.phoneDisplayRegion.getDimensions(), toData=self.app.phoneDisplayRegionHiddenDimensions)
 			),
-			Func(self.app.filters.delBlurSharpen)
+			Func(self.app.setBlurSharpen, 1.0)
 		).start()
 
 	def exitHidden(self):
@@ -50,7 +50,7 @@ class PhoneState(FSM):
 				LerpFunc(self.app.phoneDisplayRegion.setDimensions, duration=0.25,
 					fromData=self.app.phoneDisplayRegion.getDimensions(), toData=self.app.phoneDisplayRegionVisibleDimensions)
 			),
-			Func(self.app.filters.delBlurSharpen),
+			Func(self.app.setBlurSharpen, 1.0),
 			Func(self.app.phoneDisplayRegion.setActive, True)
 		).start()
 
@@ -59,7 +59,7 @@ class PhoneState(FSM):
 
 	def enterCenter(self):
 		Sequence(
-			Func(self.app.filters.setBlurSharpen, amount=0.0),
+			Func(self.app.setBlurSharpen, 0.0),
 			Parallel(
 				self.app.phone.posInterval(0.25, self.app.phoneCenterPosition),
 				LerpFunc(self.app.phoneDisplayRegion.setDimensions, duration=0.25,
@@ -327,8 +327,14 @@ class MyApp(ShowBase):
 			'H' : ( "houseInstance", self.housePrototype ),
 		}.get(buildingType, ( None, None ))
 	
-	def isPhoneVisible(self):
-		return self.phone.getPos() == self.phoneVisiblePosition
+	def setBlurSharpen(self, amount):
+		if (not self.useAdvancedVisualEffects):
+			return
+
+		if (amount == 1.0):
+			self.filters.delBlurSharpen()
+		else:
+			self.filters.setBlurSharpen(amount=amount)
 
 	def togglePhoneCenter(self):
 		if (self.phoneState.state != "Center"):
