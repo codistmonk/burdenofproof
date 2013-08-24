@@ -31,7 +31,11 @@ class PhoneState(FSM):
 		Sequence(
 			Func(self.setMouseVisible, False),
 			Func(self.app.phoneDisplayRegion.setActive, False),
-			self.app.phone.posInterval(0.25, self.app.phoneHiddenPosition),
+			Parallel(
+				self.app.phone.posInterval(0.25, self.app.phoneHiddenPosition),
+				LerpFunc(self.app.phoneDisplayRegion.setDimensions, duration=0.25,
+					fromData=self.app.phoneDisplayRegion.getDimensions(), toData=self.app.phoneDisplayRegionHiddenDimensions)
+			),
 			Func(self.app.filters.delBlurSharpen)
 		).start()
 
@@ -41,7 +45,11 @@ class PhoneState(FSM):
 	def enterVisible(self):
 		Sequence(
 			Func(self.setMouseVisible, False),
-			self.app.phone.posInterval(0.25, self.app.phoneVisiblePosition),
+			Parallel(
+				self.app.phone.posInterval(0.25, self.app.phoneVisiblePosition),
+				LerpFunc(self.app.phoneDisplayRegion.setDimensions, duration=0.25,
+					fromData=self.app.phoneDisplayRegion.getDimensions(), toData=self.app.phoneDisplayRegionVisibleDimensions)
+			),
 			Func(self.app.filters.delBlurSharpen),
 			Func(self.app.phoneDisplayRegion.setActive, True)
 		).start()
@@ -52,8 +60,12 @@ class PhoneState(FSM):
 	def enterCenter(self):
 		Sequence(
 			Func(self.app.filters.setBlurSharpen, amount=0.0),
-			Func(self.app.phoneDisplayRegion.setActive, False),
-			self.app.phone.posInterval(0.25, self.app.phoneCenterPosition),
+			Parallel(
+				self.app.phone.posInterval(0.25, self.app.phoneCenterPosition),
+				LerpFunc(self.app.phoneDisplayRegion.setDimensions, duration=0.25,
+					fromData=self.app.phoneDisplayRegion.getDimensions(), toData=self.app.phoneDisplayRegionCenterDimensions)
+			),
+			Func(self.app.phoneDisplayRegion.setActive, True),
 			Func(self.setMouseVisible, True)
 		).start()
 
@@ -160,7 +172,7 @@ class MyApp(ShowBase):
 		self.updatePhoneGeometry(None)
 
 		self.accept("window-event", self.updatePhoneGeometry)
-		
+
 		self.minimapZoom = 3
 		self.incrementMinimapZoom(0)
 
@@ -170,30 +182,36 @@ class MyApp(ShowBase):
 		phoneWidth = 256.0
 		phoneHeight = 512.0
 		phoneTopBorder = 48.0
+		phoneDisplayRegionLeftOffset = 15.0
+		phoneDisplayRegionRightOffset = 241.0
+		phoneDisplayRegionBottomOffset = 73.0
+		phoneDisplayRegionTopOffset = 459.0
 		phoneLeft = windowWidth - phoneWidth
 		phoneHiddenBottom = 0.0 - phoneHeight + phoneTopBorder
 		phoneVisibleBottom = 0.0
-		phoneDisplayLeft = phoneLeft + 15.0
-		phoneDisplayRight = phoneLeft + 241.0
-		phoneDisplayBottom = phoneVisibleBottom + 73.0
-		phoneDisplayTop = phoneVisibleBottom + 459.0
 		phoneCenterLeft = phoneLeft / 2.0
 		phoneCenterBottom = (windowHeight - phoneHeight) / 2.0
 		self.phoneHiddenPosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneHiddenBottom / windowHeight - 1.0)
 		self.phoneVisiblePosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneVisibleBottom / windowHeight - 1.0)
 		self.phoneCenterPosition = Vec3(2.0 * phoneCenterLeft / windowWidth - 1.0, 0, 2.0 * phoneCenterBottom / windowHeight - 1.0)
+		self.phoneDisplayRegionHiddenDimensions = Vec4((phoneLeft + phoneDisplayRegionLeftOffset) / windowWidth, (phoneLeft + phoneDisplayRegionRightOffset) / windowWidth,
+			(phoneHiddenBottom + phoneDisplayRegionBottomOffset) / windowHeight, (phoneHiddenBottom + phoneDisplayRegionTopOffset) / windowHeight)
+		self.phoneDisplayRegionVisibleDimensions = Vec4((phoneLeft + phoneDisplayRegionLeftOffset) / windowWidth, (phoneLeft + phoneDisplayRegionRightOffset) / windowWidth,
+			(phoneVisibleBottom + phoneDisplayRegionBottomOffset) / windowHeight, (phoneVisibleBottom + phoneDisplayRegionTopOffset) / windowHeight)
+		self.phoneDisplayRegionCenterDimensions = Vec4((phoneCenterLeft + phoneDisplayRegionLeftOffset) / windowWidth, (phoneCenterLeft + phoneDisplayRegionRightOffset) / windowWidth,
+			(phoneCenterBottom + phoneDisplayRegionBottomOffset) / windowHeight, (phoneCenterBottom + phoneDisplayRegionTopOffset) / windowHeight)
 
 		self.phone.setScale(2.0 * phoneWidth / windowWidth, 1.0, 2.0 * phoneHeight / windowHeight)
 
 		if (self.phoneState.state == "Visible"):
 			self.phone.setPos(self.phoneVisiblePosition)
+			self.phoneDisplayRegion.setDimensions(self.phoneDisplayRegionVisibleDimensions)
 		elif (self.phoneState.state == "Center"):
 			self.phone.setPos(self.phoneCenterPosition)
+			self.phoneDisplayRegion.setDimensions(self.phoneDisplayRegionCenterDimensions)
 		else:
 			self.phone.setPos(self.phoneHiddenPosition)
-
-		self.phoneDisplayRegion.setDimensions(phoneDisplayLeft / windowWidth, phoneDisplayRight / windowWidth,
-			phoneDisplayBottom / windowHeight, phoneDisplayTop / windowHeight)
+			self.phoneDisplayRegion.setDimensions(self.phoneDisplayRegionHiddenDimensions)
 
 	def incrementMinimapZoom(self, zoomVariation):
 		if (zoomVariation == 0 or self.isPhoneVisible()):
