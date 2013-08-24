@@ -25,24 +25,37 @@ class PhoneState(FSM):
 		FSM.__init__(self, "PhoneState")
 		self.app = app
 		self.mouseVisible = True
-		self.previousState = "Off"
+		self.previousState = self.state
 
 	def enterHidden(self):
-		self.setMouseVisible(False)
-		Sequence(Func(self.app.phoneDisplayRegion.setActive, False), self.app.phone.posInterval(0.25, self.app.phoneHiddenPosition)).start()
+		Sequence(
+			Func(self.setMouseVisible, False),
+			Func(self.app.phoneDisplayRegion.setActive, False),
+			self.app.phone.posInterval(0.25, self.app.phoneHiddenPosition),
+			Func(self.app.filters.delBlurSharpen)
+		).start()
 
 	def exitHidden(self):
 		self.previousState = self.oldState
 
 	def enterVisible(self):
-		self.setMouseVisible(False)
-		Sequence(self.app.phone.posInterval(0.25, self.app.phoneVisiblePosition), Func(self.app.phoneDisplayRegion.setActive, True)).start()
+		Sequence(
+			Func(self.setMouseVisible, False),
+			self.app.phone.posInterval(0.25, self.app.phoneVisiblePosition),
+			Func(self.app.filters.delBlurSharpen),
+			Func(self.app.phoneDisplayRegion.setActive, True)
+		).start()
 
 	def exitVisible(self):
 		self.previousState = self.oldState
 
 	def enterCenter(self):
-		Sequence(Func(self.app.phoneDisplayRegion.setActive, False), self.app.phone.posInterval(0.25, self.app.phoneCenterPosition), Func(self.setMouseVisible, True)).start()
+		Sequence(
+			Func(self.app.filters.setBlurSharpen, amount=0.0),
+			Func(self.app.phoneDisplayRegion.setActive, False),
+			self.app.phone.posInterval(0.25, self.app.phoneCenterPosition),
+			Func(self.setMouseVisible, True)
+		).start()
 
 	def exitCenter(self):
 		self.setMouseVisible(False)
@@ -69,19 +82,22 @@ class MyApp(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 
+		self.useAdvancedVisualEffects = True
+
 		self.debug = DirectNotify().newCategory("Debug")
 
+		self.setupeFilters()
 		self.setupModels()
 		self.setupKeyboardControl()
 		self.camera.setPos(0, 0, 2)
 		self.setupMouseControl()
-		self.filters = CommonFilters(self.win, self.cam)
-		self.filters.setBloom()
 		self.phoneState = PhoneState(self)
 		self.phoneState.request("Hidden")
 
-	def test(self):
-		self.debug.warning("64")
+	def setupeFilters(self):
+		if (self.useAdvancedVisualEffects):
+			self.filters = CommonFilters(self.win, self.cam)
+			self.filters.setBloom()
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
@@ -180,11 +196,9 @@ class MyApp(ShowBase):
 		self.sunLight.lookAt(0, 0, 0)
 		self.render.setLight(self.sunLight)
 #		self.sunLight.node().showFrustum()
-		if (base.win.getGsg().getSupportsBasicShaders() != 0 and base.win.getGsg().getSupportsDepthTexture() != 0):
+		if (self.useAdvancedVisualEffects and base.win.getGsg().getSupportsBasicShaders() != 0 and base.win.getGsg().getSupportsDepthTexture() != 0):
 			self.sunLight.node().setShadowCaster(True, 256, 256)
 			self.render.setShaderAuto()
-		else:
-			self.debug.warning("Shadows deactivated")
 
 		self.ambientLight = self.render.attachNewNode(AmbientLight("ambientLight"))
 		self.ambientLight.node().setColor(Vec4(0.2, 0.2, 0.2, 1))
@@ -336,6 +350,4 @@ class MyApp(ShowBase):
 
 		return Task.cont
 
-
-app = MyApp()
-app.run()
+MyApp().run()
