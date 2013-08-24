@@ -86,12 +86,12 @@ class MyApp(ShowBase):
 
 		self.debug = DirectNotify().newCategory("Debug")
 
+		self.phoneState = PhoneState(self)
 		self.setupeFilters()
 		self.setupModels()
 		self.setupKeyboardControl()
 		self.camera.setPos(0, 0, 2)
 		self.setupMouseControl()
-		self.phoneState = PhoneState(self)
 		self.phoneState.request("Hidden")
 
 	def setupeFilters(self):
@@ -129,39 +129,19 @@ class MyApp(ShowBase):
 		self.setupPhone()
 
 	def setupPhone(self):
-		windowWidth = 1.0 * self.win.getXSize()
-		windowHeight = 1.0 * self.win.getYSize()
-		phoneWidth = 256.0
-		phoneHeight = 512.0
-		phoneTopBorder = 48.0
-		phoneLeft = windowWidth - phoneWidth
-		phoneHiddenBottom = 0.0 - phoneHeight + phoneTopBorder
-		phoneVisibleBottom = 0.0
-		phoneDisplayLeft = phoneLeft + 15.0
-		phoneDisplayRight = phoneLeft + 241.0
-		phoneDisplayBottom = phoneVisibleBottom + 73.0
-		phoneDisplayTop = phoneVisibleBottom + 459.0
-		phoneCenterLeft = phoneLeft / 2.0
-		phoneCenterBottom = (windowHeight - phoneHeight) / 2.0
-
 		self.phone = self.loader.loadModel("models/phone")
-		self.phone.setScale(2.0 * phoneWidth / windowWidth, 1.0, 2.0 * phoneHeight / windowHeight)
-		self.phone.reparentTo(self.camera2d)
+		self.phone.reparentTo(self.render2d)
 		self.phone.setLightOff()
 		self.phone.setDepthWrite(False)
 		self.phone.setDepthTest(False)
-		self.phoneHiddenPosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneHiddenBottom / windowHeight - 1.0)
-		self.phoneVisiblePosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneVisibleBottom / windowHeight - 1.0)
-		self.phoneCenterPosition = Vec3(2.0 * phoneCenterLeft / windowWidth - 1.0, 0, 2.0 * phoneCenterBottom / windowHeight - 1.0)
-		self.phone.setPos(self.phoneHiddenPosition)
 
-		self.phoneDisplayRegion = self.win.makeDisplayRegion(phoneDisplayLeft / windowWidth, phoneDisplayRight / windowWidth,
-			phoneDisplayBottom / windowHeight, phoneDisplayTop / windowHeight)
+		self.phoneDisplayRegion = self.win.makeDisplayRegion(0.0, 1.0, 0.0, 1.0)
 		self.phoneDisplayRegion.setClearColor(Vec4(1, 1, 1, 1))
 		self.phoneDisplayRegion.setClearColorActive(True)
 		self.phoneDisplayRegion.setClearDepthActive(True)
 		self.phoneDisplayRegion.setSort(self.cam2d.node().getDisplayRegion(0).getSort() + 1)
 		self.phoneDisplayRegion.setActive(False)
+
 		self.phoneCamera = NodePath(Camera("phoneCamera"))
 		self.phoneCamera.node().setLens(OrthographicLens())
 		self.phoneCamera.node().getLens().setNearFar(1, 100)
@@ -177,8 +157,43 @@ class MyApp(ShowBase):
 		self.orientationTriangle.setHpr(0, -90, 0)
 		self.orientationTriangle.setLightOff()
 
+		self.updatePhoneGeometry(None)
+
+		self.accept("window-event", self.updatePhoneGeometry)
+		
 		self.minimapZoom = 3
 		self.incrementMinimapZoom(0)
+
+	def updatePhoneGeometry(self, event):
+		windowWidth = 1.0 * self.win.getXSize()
+		windowHeight = 1.0 * self.win.getYSize()
+		phoneWidth = 256.0
+		phoneHeight = 512.0
+		phoneTopBorder = 48.0
+		phoneLeft = windowWidth - phoneWidth
+		phoneHiddenBottom = 0.0 - phoneHeight + phoneTopBorder
+		phoneVisibleBottom = 0.0
+		phoneDisplayLeft = phoneLeft + 15.0
+		phoneDisplayRight = phoneLeft + 241.0
+		phoneDisplayBottom = phoneVisibleBottom + 73.0
+		phoneDisplayTop = phoneVisibleBottom + 459.0
+		phoneCenterLeft = phoneLeft / 2.0
+		phoneCenterBottom = (windowHeight - phoneHeight) / 2.0
+		self.phoneHiddenPosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneHiddenBottom / windowHeight - 1.0)
+		self.phoneVisiblePosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneVisibleBottom / windowHeight - 1.0)
+		self.phoneCenterPosition = Vec3(2.0 * phoneCenterLeft / windowWidth - 1.0, 0, 2.0 * phoneCenterBottom / windowHeight - 1.0)
+
+		self.phone.setScale(2.0 * phoneWidth / windowWidth, 1.0, 2.0 * phoneHeight / windowHeight)
+
+		if (self.phoneState.state == "Visible"):
+			self.phone.setPos(self.phoneVisiblePosition)
+		elif (self.phoneState.state == "Center"):
+			self.phone.setPos(self.phoneCenterPosition)
+		else:
+			self.phone.setPos(self.phoneHiddenPosition)
+
+		self.phoneDisplayRegion.setDimensions(phoneDisplayLeft / windowWidth, phoneDisplayRight / windowWidth,
+			phoneDisplayBottom / windowHeight, phoneDisplayTop / windowHeight)
 
 	def incrementMinimapZoom(self, zoomVariation):
 		if (zoomVariation == 0 or self.isPhoneVisible()):
