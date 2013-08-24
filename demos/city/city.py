@@ -215,7 +215,7 @@ class MyApp(ShowBase):
 			self.phoneDisplayRegion.setDimensions(self.phoneDisplayRegionHiddenDimensions)
 
 	def incrementMinimapZoom(self, zoomVariation):
-		if (zoomVariation == 0 or self.isPhoneVisible()):
+		if (zoomVariation == 0 or self.phoneState.state == "Visible" or self.phoneState.state == "Center"):
 			self.minimapZoom = clamp(self.minimapZoom + zoomVariation, -2, 4)
 			s = 2 ** self.minimapZoom
 			self.orientationTriangle.setScale(5.0 / s)
