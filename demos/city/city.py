@@ -127,6 +127,7 @@ class MyApp(ShowBase):
 		self.accept("mouse1", self.setMouseBtn, [0, 1])
 		self.accept("mouse1-up", self.setMouseBtn, [0, 0])
 		self.accept("mouse2", self.togglePhoneCenter)
+		self.accept("tab", self.togglePhoneCenter)
 		self.accept("mouse3", self.togglePhoneVisible)
 		self.accept("wheel_up", self.incrementMinimapZoom, [1])
 		self.accept("wheel_down", self.incrementMinimapZoom, [-1])
