@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8)
 project (BurdenOfProof_demo1)
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-#set(CMAKE_CXX_FLAGS "-std=c++11")
+set(CMAKE_CXX_FLAGS "-std=c++11")
 endif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
 set(Boost_USE_STATIC_LIBS    OFF)
