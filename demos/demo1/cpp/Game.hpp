@@ -3,26 +3,28 @@
 
 #include <string>
 #include <iostream>
+#include <cstdint>
+
+namespace burdenofproof
+{
 
 class Game
 {
 
 private:
 
-	std::string text;
+	int64_t time;
 
 public:
 
-	void printText()
-	{
-		std::cout << this->text << std::endl;
-	}
+	Game();
 
-	void setText(std::string const & text)
-	{
-		this->text = text;
-	}
+	int64_t getTime() const;
 
-};
+	void update(int64_t const milliseconds);
+
+}; // class Game
+
+} // namespace burdenofproof
 
 #endif
