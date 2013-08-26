@@ -1,8 +1,6 @@
 cmake_minimum_required (VERSION 2.6)
 project (BurdenOfProof_demo1)
 
-set(CMAKE_OSX_ARCHITECTURES, i386)
-
 set(Boost_USE_STATIC_LIBS    OFF)
 set(Boost_USE_MULTITHREADED  ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
