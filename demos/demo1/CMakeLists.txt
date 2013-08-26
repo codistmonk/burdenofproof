@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 2.6)
+cmake_minimum_required (VERSION 2.8)
 project (BurdenOfProof_demo1)
 
 set(Boost_USE_STATIC_LIBS    OFF)
@@ -36,9 +36,13 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
 get_property(target_location TARGET bop PROPERTY LOCATION)
-install(FILES ${target_location} DESTINATION ${CMAKE_BINARY_DIR}/lib)
+install(FILES ${target_location} DESTINATION ${CMAKE_BINARY_DIR}/app)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 	file(GLOB dlls ${Boost_LIBRARY_DIRS}/*boost_python*${CMAKE_SHARED_LIBRARY_SUFFIX})
-	install(FILES ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/lib)
+	install(FILES ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/app)
 endif(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+
+file(GLOB scripts *.py *.prc)
+
+install(FILES ${scripts} DESTINATION ${CMAKE_BINARY_DIR}/app)
