@@ -1,4 +1,7 @@
 #include "Game.hpp"
+#ifdef __APPLE__
+#undef _GLIBCXX_USE_INT128
+#endif
 #include <boost/python.hpp>
 
 using namespace boost::python;

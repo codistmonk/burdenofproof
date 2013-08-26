@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.8)
 project (BurdenOfProof_demo1)
 
+set(CMAKE_CXX_FLAGS "-std=c++11")
+
 set(Boost_USE_STATIC_LIBS    OFF)
 set(Boost_USE_MULTITHREADED  ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
@@ -8,10 +10,11 @@ find_package(Boost REQUIRED python)
 include_directories(${Boost_INCLUDE_DIRS})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+	set(Boost_LIBRARIES boost_python)
+
 	set(PYTHON_INCLUDE_DIRS "/System/Library/Frameworks/Python.framework/Versions/2.5/Headers")
 	set(PYTHON_LIBRARIES "/System/Library/Frameworks/Python.framework/Versions/2.5/Python")
 	link_directories(${CMAKE_BINARY_DIR})
-	set(Boost_LIBRARIES boost_python)
 else(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 	link_directories(${Boost_LIBRARY_DIRS})
 
