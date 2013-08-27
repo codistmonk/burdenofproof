@@ -1,7 +1,17 @@
 <CoordinateSystem> { Z-Up }
 
-<Texture> cement2 {
-	"Cement2/Cement2.jpg"
+<Texture> pavement_diffuse {
+	"pavers11/11_diffuse.png"
+	<Scalar> wrap { REPEAT }
+	<Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+	<Transform> {
+		<Scale> { 10 }
+	}
+}
+
+<Texture> pavement_normal {
+	"pavers11/11_normal.png"
+	<Scalar> envtype { NORMAL }
 	<Scalar> wrap { REPEAT }
 	<Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
 	<Transform> {
@@ -12,114 +22,199 @@
 <VertexPool> building_pad {
 	<Vertex> 1 {
 		0 0 0.01
-		<UV> { 0 0 }
+		<UV> {
+			0 0
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 2 {
 		1 0 0.01
-		<UV> { 1 0 }
+		<UV> {
+			1 0
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 3 {
 		1 1 0.01
-		<UV> { 1 1 }
+		<UV> {
+			1 1
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 4 {
 		0 1 0.01
-		<UV> { 0 1 }
+		<UV> {
+			0 1
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 
 	<Vertex> 5 {
 		0 0 0
-		<UV> { 0 0.99 }
+		<UV> {
+			0 0.99
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 0 1 }
+		}
 	}
 	<Vertex> 6 {
 		1 0 0
-		<UV> { 1 0.99 }
+		<UV> {
+			1 0.99
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 0 1 }
+		}
 	}
 	<Vertex> 7 {
 		1 0 0.01
-		<UV> { 1 1 }
+		<UV> {
+			1 1
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 0 1 }
+		}
 	}
 	<Vertex> 8 {
 		0 0 0.01
-		<UV> { 0 1 }
+		<UV> {
+			0 1
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 0 1 }
+		}
 	}
 
 	<Vertex> 9 {
 		1 0 0.01
-		<UV> { 0 0 }
+		<UV> {
+			0 0
+			<Tangent> { 0 1 0 }
+			<Binormal> { 0 0 1 }
+		}
 	}
 	<Vertex> 10 {
 		1 0 0
-		<UV> { 0.01 0 }
+		<UV> {
+			0.01 0
+			<Tangent> { 0 1 0 }
+			<Binormal> { 0 0 1 }
+		}
 	}
 	<Vertex> 11 {
 		1 1 0
-		<UV> { 0.01 1 }
+		<UV> {
+			0.01 1
+			<Tangent> { 0 1 0 }
+			<Binormal> { 0 0 1 }
+		}
 	}
 	<Vertex> 12 {
 		1 1 0.01
-		<UV> { 0 1 }
+		<UV> {
+			0 1
+			<Tangent> { 0 1 0 }
+			<Binormal> { 0 0 1 }
+		}
 	}
 
 	<Vertex> 13 {
 		0 1 0.01
-		<UV> { 0 0 }
+		<UV> {
+			0 0
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 0 -1 }
+		}
 	}
 	<Vertex> 14 {
 		1 1 0.01
-		<UV> { 1 0 }
+		<UV> {
+			1 0
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 0 -1 }
+		}
 	}
 	<Vertex> 15 {
 		1 1 0
-		<UV> { 1 0.01 }
+		<UV> {
+			1 0.01
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 0 -1 }
+		}
 	}
 	<Vertex> 16 {
 		0 1 0
-		<UV> { 0 0.01 }
+		<UV> {
+			0 0.01
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 0 -1 }
+		}
 	}
 
 	<Vertex> 17 {
 		0 0 0
-		<UV> { 0.99 0 }
+		<UV> {
+			0.99 0
+			<Tangent> { 0 0 1 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 18 {
 		0 0 0.01
-		<UV> { 1 0 }
+		<UV> {
+			1 0
+			<Tangent> { 0 0 1 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 19 {
 		0 1 0.01
-		<UV> { 1 1 }
+		<UV> {
+			1 1
+			<Tangent> { 0 0 1 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 20 {
 		0 1 0
-		<UV> { 0.99 1 }
+		<UV> {
+			0.99 1
+			<Tangent> { 0 0 1 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 }
 
 <Instance> building_pad {
 	<Polygon> {
-		<TRef> { cement2 }
 		<Normal> { 0 0 1 }
+		<TRef> { pavement_diffuse }
+		<TRef> { pavement_normal }
 		<VertexRef> { 1 2 3 4 <Ref> { building_pad } }
 	}
 	<Polygon> {
-		<TRef> { cement2 }
 		<Normal> { 0 -1 0 }
+		<TRef> { pavement_diffuse }
+		<TRef> { pavement_normal }
 		<VertexRef> { 5 6 7 8 <Ref> { building_pad } }
 	}
 	<Polygon> {
-		<TRef> { cement2 }
 		<Normal> { 1 0 0 }
+		<TRef> { pavement_diffuse }
+		<TRef> { pavement_normal }
 		<VertexRef> { 9 10 11 12 <Ref> { building_pad } }
 	}
 	<Polygon> {
-		<TRef> { cement2 }
 		<Normal> { 0 1 0 }
+		<TRef> { pavement_diffuse }
+		<TRef> { pavement_normal }
 		<VertexRef> { 13 14 15 16 <Ref> { building_pad } }
 	}
 	<Polygon> {
-		<TRef> { cement2 }
 		<Normal> { -1 0 0 }
+		<TRef> { pavement_diffuse }
+		<TRef> { pavement_normal }
 		<VertexRef> { 17 18 19 20 <Ref> { building_pad } }
 	}
 	<Transform> {
