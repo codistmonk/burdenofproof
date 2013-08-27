@@ -377,6 +377,8 @@ class MyApp(ShowBase):
 			self.phoneState.demand("Hidden")
 		elif (self.phoneState.state == "Hidden"):
 			self.phoneState.demand("Visible")
+		else:
+			self.phoneState.demand(self.phoneState.getPreviousState())
 
 	def controlCamera(self, task):
 		if (self.phoneState.state == "Center"):
