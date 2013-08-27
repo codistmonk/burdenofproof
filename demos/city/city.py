@@ -257,7 +257,8 @@ class MyApp(ShowBase):
 		self.policeBuildingPrototype = self.loader.loadModel("models/police_building")
 		self.tribunalPrototype = self.loader.loadModel("models/tribunal")
 		self.officeBuildingPrototype = self.loader.loadModel("models/office_building")
-		self.housePrototype = self.loader.loadModel("models/house")
+		self.housePrototype = self.loader.loadModel("models/House/CasaSimples")
+		self.housePrototype.setPos(5, 5, 2.1)
 
 		self.buildCity()
 
