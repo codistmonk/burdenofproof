@@ -7,7 +7,8 @@
     .___..__ .___.___.___.__..__ .  .
       |  [__)[__ [__ [__ |  |[__)|\/|
       |  |  \[___[___|   |__||  \|  |
-    obj2egg.py [n##][b][t][s] filename1.obj ...
+    obj2egg.py [n##][v][b][t][s] filename1.obj ...
+        -v verbose
         -n regenerate normals with # degree smoothing
             exaple -n30  (normals at less 30 degrees will be smoothed)
         -b make binarmals
@@ -184,9 +185,23 @@ class MtlFile:
         if verbose: print "%d materials" % len(self.materials), "loaded from", filename
         return self
 
+class ObjCurve:
+
+    def __init__(self, cstype):
+        self.cstype = cstype
+        self.degree = None
+        self.curve = None
+        self.params = None
+
 class ObjFile:
     """a representation of a wavefront .obj file"""
-    def __init__(self, filename=None):
+    def __init__(self, filename=None, verbose=False):
+        self.initializeAttributes()
+
+        if filename is not None:
+            self.read(filename, verbose)
+
+    def initializeAttributes(self):
         self.filename = None
         self.objects = ["defaultobject"]
         self.groups = ["defaultgroup"]
@@ -195,31 +210,19 @@ class ObjFile:
         self.normals = []
         self.faces = []
         self.polylines = []
+        self.curves = []
         self.matlibs = []
         self.materialsbyname = {}
         self.comments = {}
         self.currentobject = self.objects[0]
         self.currentgroup = self.groups[0]
         self.currentmaterial = None
-        if filename is not None:
-            self.read(filename)
 
     def read(self, filename, verbose=False):
+        self.initializeAttributes()
+
         if verbose: print "ObjFile.read:", "filename:", filename
         self.filename = filename
-        self.objects = ["defaultobject"]
-        self.groups = ["defaultgroup"]
-        self.points = []
-        self.uvs = []
-        self.normals = []
-        self.faces = []
-        self.polylines = []
-        self.matlibs = []
-        self.materialsbyname = {}
-        self.comments = {}
-        self.currentobject = self.objects[0]
-        self.currentgroup = self.groups[0]
-        self.currentmaterial = None
         try:
             file = open(filename)
         except:
@@ -280,30 +283,54 @@ class ObjFile:
                 if verbose: print "l:", tokens[1:]
                 self.__newpolyline(tokens[1:])
                 continue
+            if tokens[0] == "cstype" and tokens[1] == "bspline":
+                if verbose: print "begin:", tokens[1]
+                self.__newcurveorsurface(tokens[1])
+                continue
+            if tokens[0] == "deg" and len(tokens) == 2:
+                if verbose: print "deg:", tokens[1]
+                self.__newcsdegree(tokens[1])
+                continue
+            if tokens[0] == "curv" and len(tokens) > 4:
+                if verbose: print "curv:", tokens[1:]
+                self.__newcscontrolpoints(tokens[1:])
+                continue
+            if tokens[0] == "parm" and tokens[1] == "u" and len(tokens) > 4:
+                if verbose: print "parm:", tokens[1:]
+                self.__newcsknots(tokens[2:])
+                continue
+            if tokens[0] == "end":
+                if verbose: print "end:", self.curves[-1][0].cstype
+                continue
             print "%s:%d:" % (filename, linenumber), "unknown:", tokens
         file.close()
         return self
 
+    def index(self, v):
+        result = int(v)
+        return result if 0 <= result else 1 + (result % len(self.points))
+
     def __vertlist(self, lst):
+        nbpoints = len(self.points)
         res = []
         for vert in lst:
             vinfo = vert.split("/")
             vlen = len(vinfo)
             vertex = {'v':None, 'vt':None, 'vn':None}
             if vlen == 1:
-                vertex['v'] = int(vinfo[0])
+                vertex['v'] = self.index(vinfo[0])
             elif vlen == 2:
                 if vinfo[0] != '':
-                    vertex['v'] = int(vinfo[0])
+                    vertex['v'] = self.index(vinfo[0])
                 if vinfo[1] != '':
-                    vertex['vt'] = int(vinfo[1])
+                    vertex['vt'] = self.index(vinfo[1])
             elif vlen == 3:
                 if vinfo[0] != '':
-                    vertex['v'] = int(vinfo[0])
+                    vertex['v'] = self.index(vinfo[0])
                 if vinfo[1] != '':
-                    vertex['vt'] = int(vinfo[1])
+                    vertex['vt'] = self.index(vinfo[1])
                 if vinfo[2] != '':
-                    vertex['vn'] = int(vinfo[2])
+                    vertex['vn'] = self.index(vinfo[2])
             else:
                 print "aborting..."
                 raise UNKNOWN, res
@@ -314,6 +341,22 @@ class ObjFile:
     def __enclose(self, lst):
         mdata = (self.currentobject, self.currentgroup, self.currentmaterial)
         return (lst, mdata)
+
+    def __newcsknots(self, l):
+        self.curves[-1][0].params = [float(x) for x in l]
+        return self
+
+    def __newcscontrolpoints(self, l):
+        self.curves[-1][0].curve = self.__vertlist(l[2:])
+        return self
+
+    def __newcsdegree(self, degree):
+        self.curves[-1][0].degree = int(degree)
+        return self
+
+    def __newcurveorsurface(self, cstype):
+        self.curves.append(self.__enclose(ObjCurve(cstype)))
+        return self
 
     def __newpolyline(self, l):
         polyline = self.__vertlist(l)
@@ -398,6 +441,9 @@ class ObjFile:
     def __linesby(self, objname, groupname):
         return self.__itemsby(self.polylines, objname, groupname)
 
+    def __curvesby(self, objname, groupname):
+        return self.__itemsby(self.curves, objname, groupname)
+
     def __eggifyverts(self, eprim, evpool, vlist):
         for vertex in vlist:
             ixyz = vertex['v']
@@ -476,6 +522,28 @@ class ObjFile:
         #; each matching line
         return self
 
+    def __curvestoegg(self, egg, objname, groupname):
+        selectedcurves = self.__curvesby(objname, groupname)
+        if len(selectedcurves) == 0:
+            return self
+        eobj = EggGroup(objname)
+        egg.addChild(eobj)
+        egrp = EggGroup(groupname)
+        eobj.addChild(egrp)
+        evpool = EggVertexPool(groupname)
+        egrp.addChild(evpool)
+        for curve in selectedcurves:
+            objcurve, mdata = curve
+            wobj, wgrp, wmat = mdata
+            ecurve = EggNurbsCurve()
+            egrp.addChild(ecurve)
+            ecurve.setup(objcurve.degree + 1, len(objcurve.params))
+            for i, knot in enumerate(objcurve.params):
+                ecurve.setKnot(i, knot)
+            self.__eggifyverts(ecurve, evpool, objcurve.curve)
+        #; each matching curve
+        return self
+
     def toEgg(self, verbose=True):
         if verbose: print "converting..."
         # make a new egg
@@ -490,6 +558,11 @@ class ObjFile:
             for objname in self.objects:
                 for groupname in self.groups:
                     self.__polylinestoegg(egg, objname, groupname)
+        # convert curves
+        if len(self.curves) > 0:
+            for objname in self.objects:
+                for groupname in self.groups:
+                    self.__curvestoegg(egg, objname, groupname)
         return egg
 
 def pathify(path):
@@ -510,24 +583,27 @@ def main(argv=None):
     if argv is None:
         argv = sys.argv
     try:
-        opts, args = getopt.getopt(argv[1:], "hn:bs", ["help", "normals", "binormals", "show"])
+        opts, args = getopt.getopt(argv[1:], "hvn:tbs", ["help", "verbose", "tangents", "normals", "binormals", "show"])
     except getopt.error, msg:
         print msg
         print __doc__
         return 2
     show = False
+    verbose = False
     for o, a in opts:
         if o in ("-h", "--help"):
             print __doc__
             return 0
         elif o in ("-s", "--show"):
             show = True
+        elif o in ("-v", "--verbose"):
+            verbose = True
     for infile in args:
         try:
             if ".obj" not in infile:
-                print "WARNING", finfile, "does not look like a valid obj file"
+                print "WARNING", infile, "does not look like a valid obj file"
                 continue
-            obj = ObjFile(infile)
+            obj = ObjFile(infile, verbose)
             egg = obj.toEgg()
             f, e = os.path.splitext(infile)
             outfile = f + ".egg"

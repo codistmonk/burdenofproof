@@ -30,7 +30,7 @@ def importMakehumanData(path):
 			shutil.copyfile(path, newPath)
 
 			try:
-				os.system("python obj2egg.py b t " + newPath)
+				os.system("python obj2egg.py -b -t " + newPath)
 			except:
 				print "Unexpected error:", sys.exc_info()[0]
 			finally:
