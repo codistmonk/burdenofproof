@@ -6,8 +6,9 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
 endif()
 
 #optimization
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
 add_definitions("-march=native")
-
+endif()
 
 set(Boost_USE_STATIC_LIBS    OFF)
 set(Boost_USE_MULTITHREADED  ON)
@@ -21,12 +22,12 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 	set(PYTHON_INCLUDE_DIRS "/System/Library/Frameworks/Python.framework/Versions/2.5/Headers")
 	set(PYTHON_LIBRARIES "/System/Library/Frameworks/Python.framework/Versions/2.5/Python")
 	link_directories(${CMAKE_BINARY_DIR})
-else(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+else()
 	link_directories(${Boost_LIBRARY_DIRS})
 	set(PYTHON_INCLUDE_DIRS "/usr/include/python2.7")
 	set(PYTHON_LIBRARIES "/usr/lib/python2.7")
 	find_package(PythonLibs 2.7 REQUIRED)
-endif(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+endif()
 include_directories(${PYTHON_INCLUDE_DIRS})
 
 message(${Boost_LIBRARIES})
@@ -40,11 +41,11 @@ target_link_libraries(bop ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 	set_target_properties(bop PROPERTIES SUFFIX ".pyd")
-endif(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	set_target_properties(bop PROPERTIES PREFIX "" SUFFIX ".so")
-endif(CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
+endif()
 
 get_property(target_location TARGET bop PROPERTY LOCATION)
 install(FILES ${target_location} DESTINATION ${CMAKE_BINARY_DIR}/app)
@@ -52,7 +53,7 @@ install(FILES ${target_location} DESTINATION ${CMAKE_BINARY_DIR}/app)
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 	file(GLOB dlls ${Boost_LIBRARY_DIRS}/*boost_python*${CMAKE_SHARED_LIBRARY_SUFFIX})
 	install(FILES ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/app)
-endif(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+endif()
 
 file(GLOB scripts *.py *.prc)
 
