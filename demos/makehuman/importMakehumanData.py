@@ -34,7 +34,8 @@ def importMakehumanData(path):
 			except:
 				print "Unexpected error:", sys.exc_info()[0]
 			finally:
-				os.remove(newPath)
+#				os.remove(newPath)
+				pass
 		elif path.endswith(".target"):
 			newPath = os.path.join("data", path[len(data) + 1:] + "b")
 
