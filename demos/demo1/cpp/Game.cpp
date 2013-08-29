@@ -9,7 +9,7 @@ using namespace boost::python;
 namespace burdenofproof
 {
 
-Game::Game(): time(0LL) {}
+Game::Game(int seed): time(0LL) {}
 
 int64_t Game::getTime() const
 {

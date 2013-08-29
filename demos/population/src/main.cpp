@@ -5,7 +5,7 @@
 #include "Utils.hpp"
 #include "MainView.hpp"
 #include "Maths.hpp"
-
+#include "CityBlueprint.hpp"
 
 
 
@@ -21,6 +21,10 @@ int main(int argc, char **argv) {
     for(int i=0; i <= 10; ++i)
       std::cout << nf.randomFemaleName() << " " << nf.randomLastName() << std::endl ;
     std::flush(std::cout);
+    CityBlueprint bp;
+    SHOW(bp);
+    SHOW(bp.getCell(2,1));
+    SHOW(bp.getCell(2,0));
 //     maths::RandomIntGenerator rndi(0,10);
 //     for(int i=0;i<=100;++i)
 //       SHOW(rndi());

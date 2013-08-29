@@ -5,7 +5,7 @@
 #include <type_traits>
 
 namespace maths{
-  int seed(void);
+  int seed();
 
   template<typename T, typename DistribType>
   class RandomGenerator{
