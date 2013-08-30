@@ -1,3 +1,0 @@
-#ifdef __APPLE__
-#undef _GLIBCXX_USE_INT128
-#endif

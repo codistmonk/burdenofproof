@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include "beforestd"
 #include <boost/python.hpp>
 
 using namespace boost::python;
