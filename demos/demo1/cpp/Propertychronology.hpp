@@ -13,7 +13,7 @@ public:
     PropertyChronology();
     virtual ~PropertyChronology() = 0;
     virtual const T& getValue(std::int64_t time);
-private:
+protected:
     std::set<TemporalValue<T> >  m_temporalValues;
 };
 
@@ -24,12 +24,7 @@ PropertyChronology<T>::PropertyChronology()
 }
 
 
-
-
-
-
-
-
+/*************************************************************************************/
 
 
 

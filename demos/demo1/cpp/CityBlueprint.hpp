@@ -4,7 +4,7 @@
 #include <vector>
 #include <string>
 #include <ostream>
-
+#include <cstdint>
 
 #define BLUEPRINTPATH "../../../city/blueprint.txt"
 
