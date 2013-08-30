@@ -1,5 +1,5 @@
-#ifndef MVC_OBSERVER_H
-#define MVC_OBSERVER_H
+#ifndef MVC_OBSERVER_HPP
+#define MVC_OBSERVER_HPP
 
 
 class MVC_OBSERVABLE;

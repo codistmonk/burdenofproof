@@ -21,10 +21,16 @@ void Game::update(int64_t const milliseconds)
 
 BOOST_PYTHON_MODULE(bop)
 {
+    class_<CityBlueprint>("CityBlueprint")
+        .def("getCell", &CityBlueprint::getCell)
+        .def(self_ns::str(self))
+    ;
     class_<Game>("Game")
         .def("getTime", &Game::getTime)
         .def("update", &Game::update)
+        .def("getCityBlueprint", &Game::getCityBlueprint, return_internal_reference<1>())
     ;
+
 }
 
 } // namespace burdenofproof

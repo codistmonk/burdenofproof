@@ -8,7 +8,7 @@ class Application(ShowBase):
 		ShowBase.__init__(self)
 
 		self.game = Game()
-
+		print self.game.getCityBlueprint()
 loadPrcFile("myconfig.prc")
 
 Application().run()

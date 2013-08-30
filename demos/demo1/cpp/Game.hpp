@@ -26,7 +26,7 @@ public:
 	int64_t getTime() const;
 
 	void update(int64_t const milliseconds);
-	inline const CityBlueprint& getCityBlueprint() const {return m_cityBlueprint;}
+    inline const CityBlueprint& getCityBlueprint() const {return m_cityBlueprint;}
 }; // class Game
 
 } // namespace burdenofproof
