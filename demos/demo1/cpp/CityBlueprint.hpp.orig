@@ -5,7 +5,10 @@
 #include <string>
 #include <ostream>
 #include <cstdint>
+<<<<<<< HEAD
+=======
 
+>>>>>>> 39798b0ed01d8413506d77cee21ab189686cf6ac
 
 #define BLUEPRINTPATH "../../../city/blueprint.txt"
 
