@@ -27,7 +27,7 @@ CityBlueprint::CityBlueprint(const std::string &path) : m_sizeWE(-1), m_sizeNS(-
         m_sizeWE = (*it).size();
         m_sizeNS = m_blueprint.size();
 
-        for(int i = 0; i < m_blueprint.size();++i){
+        for(unsigned int i = 0; i < m_blueprint.size();++i){
             int width = m_blueprint[i].size();
             m_cityCells.push_back(vector<CityCell>(width));
             for(int j = 0; j <  width;++j){

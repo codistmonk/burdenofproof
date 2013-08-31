@@ -3,7 +3,9 @@
 
 #include <random>
 #include <memory>
+#ifndef _MSC_VER
 #include <initializer_list>
+#endif
 #include <algorithm>
 
 namespace maths{
@@ -35,7 +37,7 @@ private:
     int		m_max;
 };
 
-
+#ifndef _MSC_VER
 
 template<typename T, int s>
 class Vector
@@ -98,9 +100,9 @@ Vector<T,s> Vector<T,s>::operator +(Vector<T,s> const& v) const {
 
 
 typedef Vector<float,3> vec3f;
-}
 
+#endif  // _MSC_VER
 
+}  // namespace maths
 
-
-#endif
+#endif  // MATHS_HPP

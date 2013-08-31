@@ -3,6 +3,8 @@
 
 #include "Propertychronology.hpp"
 
+#ifndef _MSC_VER
+
 template<typename T>
 class PiecewiseConstantChronology : public PropertyChronology<T>{
 public:
@@ -27,5 +29,7 @@ T PiecewiseConstantChronology<T>::getValue(std::int64_t time) const{
     return (*PropertyChronology<T>::m_temporalValues.lower_bound(time)).getValue();
 
 }
+
+#endif  // _MSC_VER
 
 #endif // PIECEWISECONSTANTCHRONOLOGY_HPP
