@@ -8,6 +8,7 @@
 #include "Piecewiseconstantchronology.hpp"
 #include "Piecewiselinearchronology.hpp"
 #include "Maths.hpp"
+#include "lpoint3.h"
 
 enum class Gender : int8_t {MALE, FEMALE};
 
@@ -26,7 +27,7 @@ public:
     inline PropertyChronology<std::int64_t> const & getDeathDay() const {return m_deathDay;}
     inline PropertyChronology<Gender> const & getGender() const {return m_gender;}
     inline PropertyChronology<float> const & getMurderousInstinct() const {return m_murderousInstinct;}
-    inline PropertyChronology<maths::vec3f> const & getPosition() const {return m_position;}
+    inline PropertyChronology<LPoint3d> const & getPosition() const {return m_position;}
 #endif 
 private:
 #if !defined(_MSC_VER) && !defined(__APPLE__)
@@ -37,7 +38,7 @@ private:
     PiecewiseConstantChronology<std::int64_t> m_deathDay;
     PiecewiseConstantChronology<Gender>       m_gender;
     PiecewiseLinearChronology<float>          m_murderousInstinct;
-    PiecewiseLinearChronology<maths::vec3f>   m_position;
+    PiecewiseLinearChronology<LPoint3d>   m_position;
 #endif
     Character const& m_character;
 };
