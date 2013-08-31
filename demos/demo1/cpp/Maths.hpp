@@ -3,13 +3,15 @@
 
 #include <random>
 #include <memory>
+#include <initializer_list>
+#include <algorithm>
 
 namespace maths{
 
 template<typename T, typename DistribType>
 class RandomGenerator{
 public:
-    RandomGenerator() {};
+    RandomGenerator() {}
     inline T operator()() {return  m_distribution(m_randomEngine);}
 protected:
     std::mt19937			m_randomEngine;
@@ -39,21 +41,61 @@ template<typename T, int s>
 class Vector
 {
 public:
-    Vector();
+    Vector() {}
+    Vector(std::initializer_list<T> const& il) {std::copy_n(il.begin(),s,m_data.begin());}
+    Vector(Vector<T,s> const & v) {std::copy(v.m_data.begin(),v.m_data.end(),m_data.begin());}
+    Vector(Vector<T,s> && vRvalue) : m_data(std::move(vRvalue.m_data)){}
+    Vector& operator=(Vector const& v);
+    Vector& operator=(Vector && vRvalue);
     constexpr int size() const {return s;}
-    inline T const & operator[](int n) const {return m_data[n];}
-    inline T operator[](int n) {return m_data[n];}
-    inline Vector<T,s> operator*(T const & t) const {return Vector<T,s>();}  //TODO
-    inline Vector<T,s> operator+(Vector<T,s> const & v) {return Vector<T,s>();} //TODO
-    inline Vector<T,s> operator/(T const & t) {return (*this)*(1.0/t);}
+    inline T const& operator[](int n) const {return m_data[n];}
+    inline T& operator[](int n) {return m_data[n];}
+    inline Vector<T,s> operator*(T const & t) const ;
+    inline Vector<T,s> operator+(Vector<T,s> const & v) const;
+    inline Vector<T,s> operator/(T const & t) const;
 private:
     std::array<T,s>  m_data;
 };
 
-template<typename T, int s>
-Vector<T,s>::Vector(){
 
-};
+template<typename T, int s>
+Vector<T,s>& Vector<T,s>::operator=(Vector const& v) {
+    if(this!=&v)
+        std::copy(v.m_data.begin(),v.m_data.end(),m_data.begin());
+    return *this;
+}
+
+template<typename T, int s>
+Vector<T,s>& Vector<T,s>::operator=(Vector && vRvalue) {
+    if(this!=&vRvalue)
+        m_data(std::move(vRvalue.m_data));
+    return *this;
+}
+
+template<typename T, int s>
+Vector<T,s> Vector<T,s>::operator *(T const& t) const {
+    Vector<T,s> RES(*this);
+    for(int i=0; i < s; ++i)
+        RES[i]*=t;
+    return RES;
+}
+
+template<typename T, int s>
+Vector<T,s> Vector<T,s>::operator /(T const& t) const {
+    Vector<T,s> RES(*this);
+    for(int i=0; i < s; ++i)
+        RES[i]/=t;
+    return RES;
+}
+
+template<typename T, int s>
+Vector<T,s> Vector<T,s>::operator +(Vector<T,s> const& v) const {
+    Vector<T,s> RES(*this);
+    for(int i=0; i < s; ++i)
+        RES[i]+=v[i];
+    return RES;
+}
+
 
 typedef Vector<float,3> vec3f;
 }
