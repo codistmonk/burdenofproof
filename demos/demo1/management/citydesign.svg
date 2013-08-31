@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="360.50065"
-     inkscape:cy="1332.5768"
+     inkscape:zoom="0.24748737"
+     inkscape:cx="747.55393"
+     inkscape:cy="1154.6371"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -205,5 +205,117 @@
        d="m 480,-367.63782 c 0,-88.36556 71.6345,-159.99998 160,-159.99998 l -160,0 0,159.99998 z"
        id="path3781-4-6"
        inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:none"
+       id="rect3820-4-8"
+       width="1600"
+       height="1600"
+       x="-60"
+       y="372.36218" />
+    <rect
+       style="fill:#00ff00;fill-opacity:1;stroke:none"
+       id="rect3820-4-8-5"
+       width="1600"
+       height="1600"
+       x="-40"
+       y="2052.3621" />
+    <rect
+       style="fill:#0000ff;fill-opacity:1;stroke:none"
+       id="rect3820-4-8-7"
+       width="1600"
+       height="1600"
+       x="-40"
+       y="3692.3621" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 460,-1067.6378 c 0,88.36555 -71.6344,159.99998 -160,159.99998 l 160,0 0,-159.99998 z"
+       id="path3781-6-6"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 120,-887.63782 160,0 c 0,87.37346 -71.62769,158.22275 -160,158.22275 l 0,-158.22275 z"
+       id="rect2989-1-1"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89"
+       width="160"
+       height="160"
+       x="680"
+       y="-1067.6378" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 100,-887.63782 0,160 c -87.37346,0 -158.22275,-71.6277 -158.22275,-160 l 158.22275,0 z"
+       id="rect2989-0-2-2"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 120,-907.63782 0,-159.99998 c 87.37346,0 158.22274,71.6277 158.22274,159.99998 l -158.22274,0 z"
+       id="rect2989-9-3-7"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 100,-907.63782 -160,0 c 0,-87.37338 71.62769,-158.22268 160,-158.22268 l 0,158.22268 z"
+       id="rect2989-4-2-9"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 460,-727.63782 c 0,-88.36557 -71.6344,-159.99999 -160,-159.99999 l 160,0 0,159.99999 z"
+       id="path3781-8-2-5"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 480,-1067.6378 c 0,88.36556 71.6345,159.99998 160,159.99998 l -160,0 0,-159.99998 z"
+       id="path3781-82-1-4"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 480,-727.63782 c 0,-88.36556 71.6345,-159.99998 160,-159.99998 l -160,0 0,159.99998 z"
+       id="path3781-4-6-3"
+       inkscape:connector-curvature="0" />
+    <text
+       xml:space="preserve"
+       style="font-size:184.2190094px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="917.75122"
+       y="-935.77008"
+       id="text4036"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4038"
+         x="917.75122"
+         y="-935.77008">WALKWAY</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:184.2190094px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="905.51794"
+       y="-573.4314"
+       id="text4036-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4038-2"
+         x="905.51794"
+         y="-573.4314">ROAD</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:184.2190094px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="910.19537"
+       y="-213.4314"
+       id="text4036-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4038-3"
+         x="910.19537"
+         y="-213.4314">GROUND</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:184.2190094px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="917.75122"
+       y="144.22989"
+       id="text4036-4"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4038-1"
+         x="917.75122"
+         y="144.22989">BUILDING</tspan></text>
   </g>
 </svg>
