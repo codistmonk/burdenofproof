@@ -24,9 +24,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.12374369"
-     inkscape:cx="3780.94"
-     inkscape:cy="332.02664"
+     inkscape:zoom="0.0875"
+     inkscape:cx="3437.5286"
+     inkscape:cy="-2244.2564"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -394,6 +394,151 @@
        height="160"
        x="-947.63782"
        y="-4560"
+       transform="matrix(0,1,-1,0,0,0)" />
+    <rect
+       style="fill:#ff0000;fill-opacity:1;stroke:none"
+       id="rect3820-4-8-1-6"
+       width="1600"
+       height="1600"
+       x="2720"
+       y="4172.3618" />
+    <rect
+       style="fill:#0000ff;fill-opacity:1;stroke:none"
+       id="rect3820-4-8-7-7-2"
+       width="1600"
+       height="1600"
+       x="4400"
+       y="2492.3621" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-2"
+       width="1440"
+       height="160"
+       x="4400"
+       y="3932.3621" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-1-4"
+       width="1440"
+       height="160"
+       x="2652.3621"
+       y="-6000"
+       transform="matrix(0,1,-1,0,0,0)" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-9-8"
+       width="1440"
+       height="160"
+       x="4560"
+       y="2492.3621" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-1-8-6"
+       width="1440"
+       height="160"
+       x="2492.3621"
+       y="-4560"
+       transform="matrix(0,1,-1,0,0,0)" />
+    <rect
+       style="fill:#0000ff;fill-opacity:1;stroke:none"
+       id="rect3820-4-8-7-7-2-5"
+       width="1600"
+       height="1600"
+       x="2720"
+       y="2492.3621" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-2-0"
+       width="1440"
+       height="160"
+       x="2720"
+       y="3932.3621" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-1-4-9"
+       width="1440"
+       height="160"
+       x="2652.3621"
+       y="-4320"
+       transform="matrix(0,1,-1,0,0,0)" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-9-8-0"
+       width="1440"
+       height="160"
+       x="2880"
+       y="2492.3621" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-1-8-6-0"
+       width="1440"
+       height="160"
+       x="2492.3621"
+       y="-2880"
+       transform="matrix(0,1,-1,0,0,0)" />
+    <rect
+       style="fill:#0000ff;fill-opacity:1;stroke:none"
+       id="rect3820-4-8-7-7-2-6"
+       width="1600"
+       height="1600"
+       x="4400"
+       y="4172.3623" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-2-1"
+       width="1440"
+       height="160"
+       x="4400"
+       y="5612.3623" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-1-4-3"
+       width="1440"
+       height="160"
+       x="4332.3623"
+       y="-6000"
+       transform="matrix(0,1,-1,0,0,0)" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-9-8-8"
+       width="1440"
+       height="160"
+       x="4560"
+       y="4172.3623" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-1-8-6-9"
+       width="1440"
+       height="160"
+       x="4172.3623"
+       y="-4560"
+       transform="matrix(0,1,-1,0,0,0)" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-4"
+       width="160"
+       height="160"
+       x="4160"
+       y="4172.3623" />
+    <path
+       style="fill:#808080;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 4160,4492.3622 c 0,-88.3656 -71.6344,-160 -160,-160 l 160,0 0,160 z"
+       id="path3781-8-2-5-6"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-2-0-0"
+       width="1280"
+       height="160"
+       x="2880"
+       y="4172.3623" />
+    <rect
+       style="fill:#808080;fill-opacity:1;stroke:none"
+       id="rect3820-4-89-2-79-2-0-0-6"
+       width="1280"
+       height="160"
+       x="4332.3623"
+       y="-4320"
        transform="matrix(0,1,-1,0,0,0)" />
   </g>
 </svg>
