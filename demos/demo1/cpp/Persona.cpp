@@ -1,5 +1,6 @@
 #include "Persona.hpp"
 
-Persona::Persona()
-{
+Persona::Persona(const Character &character) : m_character(character){
+
 }
+

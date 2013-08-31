@@ -8,7 +8,7 @@ class PiecewiseLinearChronology : public PropertyChronology<T>{
 public:
     PiecewiseLinearChronology();
     ~PiecewiseLinearChronology();
-    inline const T& getValue(std::int64_t time) const override;
+    inline T getValue(std::int64_t time) const override;
 private:
 };
 
@@ -24,16 +24,23 @@ PiecewiseLinearChronology<T>::~PiecewiseLinearChronology(){
 
 template<typename T>
 //TODO: think about this method
-const T& PiecewiseLinearChronology<T>::getValue(std::int64_t t) const{
+T PiecewiseLinearChronology<T>::getValue(std::int64_t t) const{
 
-    if(PropertyChronology<T>::m_temporalValues.count(t))
-        return PropertyChronology<T>::m_temporalValues.find(t);
+    auto exactIt = PropertyChronology<T>::m_temporalValues.find(t);
+    if(exactIt != PropertyChronology<T>::m_temporalValues.end())
+        return (*exactIt).getValue();
 
-    T& v1 =*(--PropertyChronology<T>::m_temporalValues.lower_bound(t));
-    T& v2 =*PropertyChronology<T>::m_temporalValues.upper_bound(t);
+    auto it1 =--PropertyChronology<T>::m_temporalValues.lower_bound(t);
+    auto it2 =PropertyChronology<T>::m_temporalValues.upper_bound(t);
 
-    //TODO
-    return *PropertyChronology<T>::m_temporalValues.lower_bound(t);
+    auto& t1 = (*it1).getTime();
+    auto& t2 = (*it2).getTime();
+
+    auto& v1 = (*it1).getValue();
+    auto& v2 = (*it2).getValue();
+
+    //TODO WARNING INTEGER DIVISION
+    return (v1*(t2-t)+v2*(t-t1))/(t2-t1);
 
 }
 

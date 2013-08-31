@@ -7,6 +7,7 @@
 
 #include "Maths.hpp"
 #include "CityBlueprint.hpp"
+#include "Population.hpp"
 
 namespace burdenofproof
 {
@@ -18,7 +19,9 @@ private:
 
 	int64_t time;
 	CityBlueprint m_cityBlueprint   ;
-
+    Population    m_population;
+    Game(Game const& );
+    Game& operator=(Game const&);
 public:
 
 	Game(int seed = 0);

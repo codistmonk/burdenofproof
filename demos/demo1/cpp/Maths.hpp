@@ -2,55 +2,61 @@
 #define MATHS_HPP
 
 #include <random>
-#include <type_traits>
+#include <memory>
 
 namespace maths{
 
-  template<typename T, typename DistribType>
-  class RandomGenerator{
-  public:
+template<typename T, typename DistribType>
+class RandomGenerator{
+public:
     RandomGenerator() {};
     inline T operator()() {return  m_distribution(m_randomEngine);}
-  protected:
+protected:
     std::mt19937			m_randomEngine;
     DistribType  			m_distribution;
-  };
- 
-  
-  class RandomNormalFloatGenerator : public RandomGenerator<float, std::normal_distribution<float>> {
-  public:
-  RandomNormalFloatGenerator(const float mean = 0.0f, const float stddev = 1.0f) : RandomGenerator< float, std::normal_distribution< float > >(), m_mean(mean), m_stddev(stddev) {m_distribution = std::normal_distribution<float>(mean,stddev);}
-  private:
+};
+
+
+class RandomNormalFloatGenerator : public RandomGenerator<float, std::normal_distribution<float>> {
+public:
+    RandomNormalFloatGenerator(const float mean = 0.0f, const float stddev = 1.0f) : RandomGenerator< float, std::normal_distribution< float > >(), m_mean(mean), m_stddev(stddev) {m_distribution = std::normal_distribution<float>(mean,stddev);}
+private:
     float 				m_mean;
     float 				m_stddev;
-  };
-  
-  class RandomIntGenerator : public RandomGenerator<int, std::uniform_int_distribution<int>>{
-  public:
+};
+
+class RandomIntGenerator : public RandomGenerator<int, std::uniform_int_distribution<int>>{
+public:
     RandomIntGenerator(int min = 0, int max = 100) : RandomGenerator< int, std::uniform_int_distribution< int > >(), m_min(min), m_max(max) { m_distribution =std::uniform_int_distribution<int>(min,max); }
-  private:
+private:
     int 	m_min;
     int		m_max;
-  };
-  
 };
 
 
 
+template<typename T, int s>
+class Vector
+{
+public:
+    Vector();
+    constexpr int size() const {return s;}
+    inline T const & operator[](int n) const {return m_data[n];}
+    inline T operator[](int n) {return m_data[n];}
+    inline Vector<T,s> operator*(T const & t) const {return Vector<T,s>();}  //TODO
+    inline Vector<T,s> operator+(Vector<T,s> const & v) {return Vector<T,s>();} //TODO
+    inline Vector<T,s> operator/(T const & t) {return (*this)*(1.0/t);}
+private:
+    std::array<T,s>  m_data;
+};
 
+template<typename T, int s>
+Vector<T,s>::Vector(){
 
+};
 
-
-
-
-
-
-
-
-
-
-
-
+typedef Vector<float,3> vec3f;
+}
 
 
 

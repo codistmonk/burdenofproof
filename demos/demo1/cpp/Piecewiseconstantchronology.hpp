@@ -8,7 +8,7 @@ class PiecewiseConstantChronology : public PropertyChronology<T>{
 public:
     PiecewiseConstantChronology();
     ~PiecewiseConstantChronology();
-    inline const T& getValue(std::int64_t time) const override;
+    virtual T getValue(std::int64_t time) const override;
 private:
 };
 
@@ -23,8 +23,8 @@ PiecewiseConstantChronology<T>::~PiecewiseConstantChronology(){
 }
 
 template<typename T>
-const T& PiecewiseConstantChronology<T>::getValue(std::int64_t time) const{
-    return *PropertyChronology<T>::m_temporalValues.lower_bound(time);
+T PiecewiseConstantChronology<T>::getValue(std::int64_t time) const{
+    return (*PropertyChronology<T>::m_temporalValues.lower_bound(time)).getValue();
 
 }
 

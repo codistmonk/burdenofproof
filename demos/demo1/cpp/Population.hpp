@@ -2,7 +2,6 @@
 #define POPULATION_HPP
 
 #include <set>
-
 #include "Character.hpp"
 
 class Population
@@ -10,6 +9,7 @@ class Population
 public:
     Population();
 private:
+    void addDemo1Population();
     std::set<Character> m_population;
 };
 

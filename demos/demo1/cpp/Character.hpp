@@ -15,7 +15,7 @@ public:
 private:
     std::list<Persona> m_personas;
     Persona*           m_actualPersona;
-    Persona*            m_routinePersona;
+    Persona*           m_routinePersona;
     static int m_counter;
     int m_id;
 };
