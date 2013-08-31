@@ -11,7 +11,11 @@ template<typename T>
 class PropertyChronology
 {
 public:
-    PropertyChronology();
+    PropertyChronology() {}
+    PropertyChronology(PropertyChronology<T> const& pc) : m_temporalValues(pc.m_temporalValues) {}
+    PropertyChronology(PropertyChronology<T> && pcRvalue) : m_temporalValues(std::move(pcRvalue.m_temporalValues)){}
+    PropertyChronology & operator=(PropertyChronology<T> const& pc);
+    PropertyChronology & operator=(PropertyChronology<T> && pcRvalue);
     virtual ~PropertyChronology();
     virtual  T getValue(std::int64_t time) const = 0;
 protected:
@@ -20,9 +24,19 @@ protected:
 
 
 template<typename T>
-PropertyChronology<T>::PropertyChronology()
+PropertyChronology<T> & PropertyChronology<T>::operator=(PropertyChronology<T> const& pc)
 {
+    if(this!= &pc)
+        m_temporalValues= pc.m_temporalValues;
+    return *this;
+}
 
+template<typename T>
+PropertyChronology<T> & PropertyChronology<T>::operator=(PropertyChronology<T> && pcRvalue)
+{
+    if(this != &pcRvalue)
+        m_temporalValues = std::move(pcRvalue.m_temporalValues);
+    return *this;
 }
 
 template<typename T>
@@ -30,9 +44,5 @@ PropertyChronology<T>::~PropertyChronology()
 {
 
 }
-
-/*************************************************************************************/
-
-
 
 #endif // PROPERTYCHRONOLOGY_HPP

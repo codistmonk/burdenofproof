@@ -14,7 +14,6 @@ class Character;
 
 class Persona
 {
-    typedef std::array<float, 3>    vec3f;
 public:
     Persona(Character const& character);
     inline Character const&  getCharacter() const {return m_character;}
