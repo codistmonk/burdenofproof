@@ -12,12 +12,13 @@ class ObjCurve:
 
 class ObjListener:
 
+	def __init__(self):
+		pass
+
 	def object(self, name):
-		print "object:", name
 		pass
 
 	def group(self, name):
-		print "group:", name
 		pass
 
 	def vertex(self, values):
@@ -35,6 +36,9 @@ class ObjListener:
 	def curve(self, cs):
 		pass
 
+	def finish():
+		pass
+
 def parsePoints(tokens):
 	result = []
 
@@ -42,6 +46,9 @@ def parsePoints(tokens):
 		result.append([int(x) for x in vertexInfo.replace("//", "/0/").split("/")])
 
 	return result
+
+def floats(strings):
+	return [float(x) for x in strings]
 
 class ObjParser:
 
@@ -52,6 +59,8 @@ class ObjParser:
 		with open(path) as infile:
 			for line in infile:
 				self.parseLine(line)
+
+		listener.finish()
 
 	def parseLine(self, line):
 		tokens = line.split()
@@ -64,11 +73,11 @@ class ObjParser:
 		elif "g" == tokens[0]:
 			self.listener.group(tokens[1])
 		elif "v" == tokens[0]:
-			self.listener.vertex(tokens[1:])
+			self.listener.vertex(floats(tokens[1:]))
 		elif "vt" == tokens[0]:
-			self.listener.vertexTexture(tokens[1:])
+			self.listener.vertexTexture(floats(tokens[1:]))
 		elif "vn" == tokens[0]:
-			self.listener.vertexNormal(tokens[1:])
+			self.listener.vertexNormal(floats(tokens[1:]))
 		elif "f" == tokens[0]:
 			self.listener.face(parsePoints(tokens[1:]))
 		elif "cstype" == tokens[0] and "bspline" == tokens[1]:
@@ -80,9 +89,7 @@ class ObjParser:
 			self.cs.end = float(tokens[2])
 			self.cs.controlPoints = parsePoints(tokens[3:])
 		elif "parm" == tokens[0] and "u" == tokens[1]:
-			self.cs.knots = [float(x) for x in tokens[2:]]
+			self.cs.knots = floats(tokens[2:])
 		elif "end" == tokens[0]:
 			self.listener.curve(self.cs)
 			self.cs = None
-
-ObjParser(sys.argv[1], ObjListener())

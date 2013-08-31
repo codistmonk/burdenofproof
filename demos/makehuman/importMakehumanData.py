@@ -28,14 +28,6 @@ def importMakehumanData(path):
 
 			ensureDirectory(newPath)
 			shutil.copyfile(path, newPath)
-
-			try:
-				os.system("python obj2egg.py -b -t " + newPath)
-			except:
-				print "Unexpected error:", sys.exc_info()[0]
-			finally:
-#				os.remove(newPath)
-				pass
 		elif path.endswith(".target"):
 			newPath = os.path.join("data", path[len(data) + 1:] + "b")
 
