@@ -10,16 +10,16 @@ class Character
 public:
     Character();
     inline int getId() const {return m_id;}
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && !defined(__APPLE__)
     inline Persona const & getActuelPersona() const { return *m_actualPersona;}
     inline Persona const & getRoutinePersona() const { return *m_routinePersona;}
-#endif  // _MSC_VER
+#endif
 private:
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && !defined(__APPLE__)
     std::list<Persona> m_personas;
     Persona*           m_actualPersona;
     Persona*           m_routinePersona;
-#endif  // _MSC_VER
+#endif
     static int m_counter;
     int m_id;
 };
