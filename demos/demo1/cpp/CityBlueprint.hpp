@@ -7,7 +7,7 @@
 #include <string>
 #include <ostream>  // NOLINT(readability/streams)
 
-#define BLUEPRINTPATH "../../../city/blueprint.txt"
+#define BLUEPRINTPATH "../../city/blueprint.txt"
 
 namespace burdenofproof {
 
