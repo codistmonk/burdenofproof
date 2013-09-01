@@ -1,7 +1,17 @@
 <CoordinateSystem> { Z-Up }
 
 <Texture> cement {
-	"Cement/Cement.jpg"
+	"asphalt/asphalt_diffuse.png"
+	<Scalar> wrap { REPEAT }
+	<Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
+	<Transform> {
+		<Scale> { 1000 }
+	}
+}
+
+<Texture> cement_normal {
+	"asphalt/asphalt_normal.png"
+	<Scalar> envtype { NORMAL }
 	<Scalar> wrap { REPEAT }
 	<Scalar> minfilter { LINEAR_MIPMAP_LINEAR }
 	<Transform> {
@@ -12,25 +22,42 @@
 <VertexPool> terrain {
 	<Vertex> 1 {
 		-1 -1 0
-		<UV> { 0 0 }
+		<UV> {
+			0 0
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 2 {
 		1 -1 0
-		<UV> { 1 0 }
+		<UV> {
+			1 0
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 3 {
 		1 1 0
-		<UV> { 1 1 }
+		<UV> {
+			1 1
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 	<Vertex> 4 {
 		-1 1 0
-		<UV> { 0 1 }
+		<UV> {
+			0 1
+			<Tangent> { 1 0 0 }
+			<Binormal> { 0 1 0 }
+		}
 	}
 }
 
 <Instance> terrain {
 	<Polygon> {
 		<TRef> { cement }
+		<TRef> { cement_normal }
 		<Normal> { 0 0 1 }
 		<VertexRef> { 1 2 3 4 <Ref> { terrain } }
 	}

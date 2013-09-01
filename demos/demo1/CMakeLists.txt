@@ -66,10 +66,11 @@ install(FILES ${target_location} DESTINATION ${CMAKE_BINARY_DIR}/app)
 
 if(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 	file(GLOB dlls ${Boost_LIBRARY_DIRS}/*boost_python*${CMAKE_SHARED_LIBRARY_SUFFIX})
-	install(FILES ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/app)
+	file(COPY ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/app)
 endif()
 
 file(GLOB SCRIPTS *.py *.prc)
+file(COPY ${SCRIPTS} DESTINATION ${CMAKE_BINARY_DIR}/app)
 
-install(FILES ${SCRIPTS} DESTINATION ${CMAKE_BINARY_DIR}/app)
-install(FILES models/cityblueprint.txt DESTINATION ${CMAKE_BINARY_DIR}/app/models)
+file(GLOB MODELS models/*)
+file(COPY ${MODELS} DESTINATION ${CMAKE_BINARY_DIR}/app/models)
