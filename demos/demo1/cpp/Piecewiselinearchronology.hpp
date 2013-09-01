@@ -23,14 +23,20 @@ PiecewiseLinearChronology< T >::~PiecewiseLinearChronology() {}
 template< typename T >
 // TODO(DaleCooper): think about this method
 T PiecewiseLinearChronology< T >::getValue(std::int64_t const t) const {
-    auto exactIt = PropertyChronology<T>::m_temporalValues.find(t);
+    TemporalValue<T> const& timeAsTV
+            = static_cast<TemporalValue<T> >(t);
+
+    auto exactIt
+            = PropertyChronology<T>::m_temporalValues.find(timeAsTV);
 
     if (exactIt != PropertyChronology<T>::m_temporalValues.end()) {
         return (*exactIt).getValue();
     }
 
-    auto it1 =--PropertyChronology<T>::m_temporalValues.lower_bound(t);
-    auto it2 =PropertyChronology<T>::m_temporalValues.upper_bound(t);
+    auto it1
+            =--PropertyChronology<T>::m_temporalValues.lower_bound(timeAsTV);
+    auto it2
+            = PropertyChronology<T>::m_temporalValues.upper_bound(timeAsTV);
 
     auto& t1 = (*it1).getTime();
     auto& t2 = (*it2).getTime();

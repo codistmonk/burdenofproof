@@ -24,8 +24,9 @@ PiecewiseConstantChronology<T>::~PiecewiseConstantChronology() {}
 
 template< typename T >
 T PiecewiseConstantChronology< T >::getValue(std::int64_t const time) const {
-    return (*PropertyChronology< T >::m_temporalValues.lower_bound(time))
-        .getValue();
+    return (*PropertyChronology< T >::m_temporalValues
+            .lower_bound(static_cast<TemporalValue<T> >(time)))
+            .getValue();
 }
 
 #endif  // _MSC_VER

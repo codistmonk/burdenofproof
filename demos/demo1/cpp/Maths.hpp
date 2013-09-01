@@ -62,7 +62,7 @@ class Vector {
     Vector() {}
 
     explicit Vector(std::initializer_list<T> const & il) {
-        std::copy_n(il.begin(), s, m_data.begin());
+        std::copy_n(il.begin(), std::min(s, il.size()), m_data.begin());
     }
 
     Vector(Vector<T, s> const & v) {

@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 2.8)
 project (BurdenOfProof_demo1)
 
+# Support custom cmake modules
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
+
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	set(CMAKE_CXX_FLAGS "-std=c++11")
 endif()
@@ -14,6 +17,7 @@ set(Boost_USE_STATIC_LIBS    OFF)
 set(Boost_USE_MULTITHREADED  ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
 find_package(Boost COMPONENTS python REQUIRED)
+find_package(Panda3D REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
@@ -39,8 +43,8 @@ add_library(bop SHARED ${SRC_CPP})
 
 add_custom_target(cpplint ALL)
 file(GLOB SRC_ALL cpp/*)
-foreach (file ${SRC_ALL})
-	add_custom_command(TARGET cpplint COMMAND python ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1/cpp ${file})
+foreach (f ${SRC_ALL})
+	add_custom_command(TARGET cpplint COMMAND python2 ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1/cpp ${f})
 endforeach()
 
 target_link_libraries(bop ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
