@@ -32,6 +32,7 @@ CityBlueprint::CityBlueprint(std::string const & path)
         : m_sizeWE(-1), m_sizeNS(-1) {
     std::string line;
     std::ifstream blueprintFile(path, std::ios::in);
+
     if (blueprintFile.is_open()) {
         while (blueprintFile >> line) {
             m_blueprint.push_back(std::move(line));  // move may be dangerous

@@ -14,11 +14,13 @@ namespace burdenofproof {
 
 class Game {
  private:
-    int64_t       m_time;
+    std::string const m_scriptPath;
 
-    CityBlueprint m_cityBlueprint;
+    int64_t           m_time;
 
-    Population    m_population;
+    CityBlueprint     m_cityBlueprint;
+
+    Population        m_population;
 
     explicit Game(Game const &);
 
@@ -26,7 +28,7 @@ class Game {
 
  public:
     // TODO(?) use seed
-    explicit Game(int const seed = 0);
+    Game(std::string const & scriptPath = ".", int const seed = 0);
 
     inline int64_t getTime() const {
         return m_time;

@@ -72,3 +72,4 @@ endif()
 file(GLOB SCRIPTS *.py *.prc)
 
 install(FILES ${SCRIPTS} DESTINATION ${CMAKE_BINARY_DIR}/app)
+install(FILES models/cityblueprint.txt DESTINATION ${CMAKE_BINARY_DIR}/app/models)

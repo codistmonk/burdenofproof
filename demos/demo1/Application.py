@@ -1,4 +1,4 @@
-import sys
+import sys, os
 from panda3d.core import *
 from panda3d.egg import *
 from direct.showbase.ShowBase import ShowBase
@@ -20,7 +20,9 @@ class Application(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 
-		self.game = Game()
+		self.scriptPath = os.path.dirname(sys.argv[0]).replace("\\", "/")
+
+		self.game = Game(self.scriptPath)
 
 		self.setupModels()
 		self.setupLighting()
@@ -70,9 +72,10 @@ class Application(ShowBase):
 					blockPolygon.setMaterial(groundMaterial)
 				cityEgg.addChild(blockPolygon)
 
-		cityEgg.writeEgg("test.egg")
+		eggPath = os.path.join(os.path.dirname(sys.argv[0]), "models", "test.egg").replace("\\", "/")
+		cityEgg.writeEgg(eggPath)
 
-		self.city = self.loader.loadModel("../test.egg")
+		self.city = self.loader.loadModel("models/test")
 		self.city.reparentTo(self.render)
 
 	def setupLighting(self):
