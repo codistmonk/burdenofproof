@@ -49,7 +49,8 @@ CityBlueprint::CityBlueprint(std::string const & path)
         m_sizeNS = m_blueprint.size();
 
         for (auto & blueprintRow : m_blueprint) {
-            vector< CityCell > cityRow(blueprintRow.size());
+            vector< CityCell > cityRow;
+            cityRow.reserve(blueprintRow.size());
 
             std::transform(blueprintRow.begin(), blueprintRow.end(),
                 std::back_inserter(cityRow), cellFromChar);
