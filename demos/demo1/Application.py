@@ -1,3 +1,4 @@
+import sys
 from panda3d.core import *
 from direct.showbase.ShowBase import ShowBase
 from bop import *
@@ -8,7 +9,20 @@ class Application(ShowBase):
 		ShowBase.__init__(self)
 
 		self.game = Game()
-		print self.game.getCityBlueprint()
+
+		self.setupModels()
+		self.setupKeyboard()
+
+	def setupModels(self):
+		self.setupCity()
+
+	def setupCity(self):
+		blueprint = self.game.getCityBlueprint()
+		print "citySize:", blueprint.getSizeNS(), blueprint.getSizeWE()
+
+	def setupKeyboard(self):
+		self.accept("escape", sys.exit)
+
 loadPrcFile("myconfig.prc")
 
 Application().run()

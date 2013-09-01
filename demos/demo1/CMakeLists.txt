@@ -39,8 +39,8 @@ add_library(bop SHARED ${SRC_CPP})
 
 add_custom_target(cpplint ALL)
 file(GLOB SRC_ALL cpp/*)
-foreach (f ${SRC_ALL})
-	add_custom_command(TARGET cpplint COMMAND python ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1/cpp ${f})
+foreach (file ${SRC_ALL})
+	add_custom_command(TARGET cpplint COMMAND python ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1/cpp ${file})
 endforeach()
 
 target_link_libraries(bop ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})

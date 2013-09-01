@@ -18,6 +18,8 @@ using boost::python::return_internal_reference;
 
 BOOST_PYTHON_MODULE(bop) {
     class_<CityBlueprint>("CityBlueprint")
+            .def("getSizeNS", &CityBlueprint::getSizeNS)
+            .def("getSizeWE", &CityBlueprint::getSizeWE)
             .def("getCell", &CityBlueprint::getCell)
             .def(boost::python::self_ns::str(self));
     class_<Game, boost::noncopyable>("Game")
