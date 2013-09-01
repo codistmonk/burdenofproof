@@ -12,7 +12,7 @@ class TemporalValue {
 
     TemporalValue(T const & value, std::int64_t const & time);
 
-    explicit TemporalValue(std::int64_t const & time);
+    explicit TemporalValue(std::int64_t const &  time);
 
     explicit TemporalValue(TemporalValue<T> const & tv)
         : m_value(tv.m_value), m_time(tv.m_time) {}
@@ -38,9 +38,6 @@ class TemporalValue {
         return m_time < tv.m_time;
     }
 
-//    inline bool operator<(std::int64_t const & time) const {
-//        return m_time < time;
-//    }
  private:
     std::shared_ptr< T > m_value;
 
@@ -84,16 +81,6 @@ struct TemporalValueComparator {
         TemporalValue< T > const & tp2) const {
         return tp1 < tp2;
     }
-
-//    inline bool operator()(TemporalValue< T > const & tp1,
-//        std::int64_t const & time) const {
-//        return tp1 < time;
-//    }
-
-//    inline bool operator()(std::int64_t const & time,
-//        TemporalValue< T > const& tp1) const {
-//        return tp1 < time;
-//    }
 };
 
 #endif  // TEMPORALVALUE_HPP_
