@@ -14,7 +14,7 @@ namespace burdenofproof {
 
 class Game {
  private:
-    int64_t time;
+    int64_t       m_time;
 
     CityBlueprint m_cityBlueprint;
 
@@ -22,12 +22,15 @@ class Game {
 
     explicit Game(Game const &);
 
-    Game& operator=(Game const&);
+    Game & operator=(Game const&);
 
  public:
-    explicit Game(int seed = 0);
+    // TODO(?) use seed
+    explicit Game(int const seed = 0);
 
-    int64_t getTime() const;
+    inline int64_t getTime() const {
+        return m_time;
+    }
 
     void update(int64_t const milliseconds);
 

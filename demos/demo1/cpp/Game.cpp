@@ -4,14 +4,12 @@
 
 namespace burdenofproof {
 
-Game::Game(int seed): time(0LL), m_population() {}
-
-int64_t Game::getTime() const {
-    return this->time;
-}
+Game::Game(int const seed): m_time(0LL), m_population() {}
 
 void Game::update(int64_t const milliseconds) {
-    this->time += milliseconds;
+    m_time += milliseconds;
+
+    // TODO(?) update population
 }
 
 using boost::python::class_;
