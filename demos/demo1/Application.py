@@ -5,15 +5,7 @@ from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 from bop import *
 from orbitalcameracontroller import *
-
-def addEggVertex(eggVertexPool, x, y, z):
-	vertex = EggVertex()
-
-	vertex.setPos(Point3D(x, y, z))
-
-	eggVertexPool.addVertex(vertex)
-
-	return vertex
+from utils import *
 
 class Application(ShowBase):
 
@@ -72,10 +64,10 @@ class Application(ShowBase):
 					blockPolygon.setMaterial(groundMaterial)
 				cityEgg.addChild(blockPolygon)
 
-		eggPath = os.path.join(os.path.dirname(sys.argv[0]), "models", "test.egg").replace("\\", "/")
+		eggPath = os.path.join(os.path.dirname(sys.argv[0]), "models", "city.egg").replace("\\", "/")
 		cityEgg.writeEgg(eggPath)
 
-		self.city = self.loader.loadModel("models/test")
+		self.city = self.loader.loadModel("models/city")
 		self.city.reparentTo(self.render)
 
 	def setupLighting(self):

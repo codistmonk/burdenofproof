@@ -1,0 +1,40 @@
+<Texture> groundTextureNormal {
+  "textures/grass/grass_normal.png"
+  <Scalar> wrap { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Scalar> envtype { normal }
+  <Transform> {
+    <Scale> { 10 }
+  }
+}
+<Texture> groundTextureDiffuse {
+  "textures/grass/grass_diffuse.png"
+  <Scalar> wrap { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Transform> {
+    <Scale> { 10 }
+  }
+}
+<VertexPool> groundVertices {
+  <Vertex> 0 {
+    0 0 0
+    <UV> { 0 0 }
+  }
+  <Vertex> 1 {
+    10 0 0
+    <UV> { 1 0 }
+  }
+  <Vertex> 2 {
+    10 0 -10
+    <UV> { 1 1 }
+  }
+  <Vertex> 3 {
+    0 0 -10
+    <UV> { 0 1 }
+  }
+}
+<Polygon> {
+  <TRef> { groundTextureDiffuse }
+  <TRef> { groundTextureNormal }
+  <VertexRef> { 0 1 2 3 <Ref> { groundVertices } }
+}

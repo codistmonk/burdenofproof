@@ -1,3 +1,5 @@
+from panda3d.core import *
+from panda3d.egg import *
 
 def clamp(value, minValue, maxValue):
 	return min(max(minValue, value), maxValue)
@@ -10,3 +12,13 @@ def clampY(target, minY, maxY):
 
 def clampZ(target, minZ, maxZ):
 	target.setZ(clamp(target.getZ(), minZ, maxZ))
+
+def addEggVertex(eggVertexPool, x, y, z, u = 0, v = 0):
+	vertex = EggVertex()
+
+	vertex.setPos(Point3D(x, y, z))
+	vertex.setUv(Point2D(u, v))
+
+	eggVertexPool.addVertex(vertex)
+
+	return vertex
