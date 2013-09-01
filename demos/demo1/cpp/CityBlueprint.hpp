@@ -7,7 +7,7 @@
 #include <string>
 #include <ostream>  // NOLINT(readability/streams)
 
-#define BLUEPRINTPATH "models/cityblueprint.txt"
+std::string const BLUEPRINTPATH = "models/cityblueprint.txt";
 
 namespace burdenofproof {
 
