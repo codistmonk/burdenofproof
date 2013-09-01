@@ -19,6 +19,7 @@ class Application(ShowBase):
 	def setupCity(self):
 		blueprint = self.game.getCityBlueprint()
 		print "citySize:", blueprint.getSizeNS(), blueprint.getSizeWE()
+		print blueprint.getCell(0, 0)
 
 	def setupKeyboard(self):
 		self.accept("escape", sys.exit)
