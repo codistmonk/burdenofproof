@@ -2,11 +2,11 @@
 #ifndef MATHS_HPP_
 #define MATHS_HPP_
 
-#include <random>
-#include <memory>
 #ifndef _MSC_VER
 #include <initializer_list>
 #endif
+#include <random>
+#include <memory>
 #include <algorithm>
 
 namespace maths{

@@ -4,7 +4,7 @@
 
 #include <cstdint>
 #include <string>
-#include <iostream>
+#include <iostream>  // NOLINT(readability/streams)
 
 #include "Maths.hpp"
 #include "CityBlueprint.hpp"
