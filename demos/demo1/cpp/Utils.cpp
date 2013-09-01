@@ -1,3 +1,4 @@
+// NOLINT(legal/copyright)
 #include <fstream>
 #include <string>
 #include "Utils.hpp"

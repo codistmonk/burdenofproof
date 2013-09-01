@@ -1,5 +1,6 @@
-#ifndef PERSONA_HPP
-#define PERSONA_HPP
+// NOLINT(legal/copyright)
+#ifndef PERSONA_HPP_
+#define PERSONA_HPP_
 
 #include <cstdint>
 #include <string>
@@ -42,4 +43,4 @@ private:
     Character const& m_character;
 };
 
-#endif  // PERSONA_HPP
+#endif  // PERSONA_HPP_

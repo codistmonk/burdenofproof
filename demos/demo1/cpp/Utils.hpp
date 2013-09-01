@@ -1,5 +1,6 @@
-#ifndef DEMOS_DEMO1_CPP_UTILS_HPP_
-#define DEMOS_DEMO1_CPP_UTILS_HPP_
+// NOLINT(legal/copyright)
+#ifndef UTILS_HPP_
+#define UTILS_HPP_
 
 #include <iostream>
 #include <string>
@@ -27,4 +28,4 @@ namespace utils {
         unsigned int      m_NameCount;
     };
 }  // namespace utils
-#endif  // DEMOS_DEMO1_CPP_UTILS_HPP_
+#endif  // UTILS_HPP_

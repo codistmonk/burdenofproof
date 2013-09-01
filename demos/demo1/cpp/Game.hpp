@@ -1,37 +1,41 @@
-#ifndef GAME_HPP
-#define GAME_HPP
+// NOLINT(legal/copyright)
+#ifndef GAME_HPP_
+#define GAME_HPP_
 
+#include <cstdint>
 #include <string>
 #include <iostream>
-#include <cstdint>
 
 #include "Maths.hpp"
 #include "CityBlueprint.hpp"
 #include "Population.hpp"
 
-namespace burdenofproof
-{
+namespace burdenofproof {
 
-class Game
-{
+class Game {
+ private:
+    int64_t time;
 
-private:
+    CityBlueprint m_cityBlueprint;
 
-	int64_t time;
-	CityBlueprint m_cityBlueprint   ;
     Population    m_population;
-    Game(Game const& );
+
+    explicit Game(Game const &);
+
     Game& operator=(Game const&);
-public:
 
-	Game(int seed = 0);
+ public:
+    explicit Game(int seed = 0);
 
-	int64_t getTime() const;
+    int64_t getTime() const;
 
-	void update(int64_t const milliseconds);
-    inline const CityBlueprint& getCityBlueprint() const {return m_cityBlueprint;}
-}; // class Game
+    void update(int64_t const milliseconds);
 
-} // namespace burdenofproof
+    inline CityBlueprint const & getCityBlueprint() const {
+        return m_cityBlueprint;
+    }
+};  // class Game
 
-#endif
+}  // namespace burdenofproof
+
+#endif  // GAME_HPP_

@@ -1,3 +1,4 @@
+// NOLINT(legal/copyright)
 #include "CityBlueprint.hpp"
 
 #include <fstream>

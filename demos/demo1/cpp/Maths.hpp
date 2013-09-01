@@ -1,5 +1,6 @@
-#ifndef MATHS_HPP
-#define MATHS_HPP
+// NOLINT(legal/copyright)
+#ifndef MATHS_HPP_
+#define MATHS_HPP_
 
 #include <random>
 #include <memory>
@@ -105,4 +106,4 @@ typedef Vector<float,3> vec3f;
 
 }  // namespace maths
 
-#endif  // MATHS_HPP
+#endif  // MATHS_HPP_

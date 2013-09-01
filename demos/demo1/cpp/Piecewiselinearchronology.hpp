@@ -1,5 +1,6 @@
-#ifndef PIECEWISELINEARCHRONOLOGY_HPP
-#define PIECEWISELINEARCHRONOLOGY_HPP
+// NOLINT(legal/copyright)
+#ifndef PIECEWISELINEARCHRONOLOGY_HPP_
+#define PIECEWISELINEARCHRONOLOGY_HPP_
 
 #include "Propertychronology.hpp"
 
@@ -44,4 +45,4 @@ T PiecewiseLinearChronology<T>::getValue(std::int64_t t) const{
 
 }
 
-#endif // PIECEWISELINEARCHRONOLOGY_HPP
+#endif  // PIECEWISELINEARCHRONOLOGY_HPP_

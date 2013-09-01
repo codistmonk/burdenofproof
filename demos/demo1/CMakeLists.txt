@@ -34,8 +34,14 @@ message(${Boost_LIBRARIES})
 message(${PYTHON_INCLUDE_DIRS})
 message(${PYTHON_LIBRARIES})
 
-file(GLOB SRC cpp/*.cpp)
-add_library(bop SHARED ${SRC})
+file(GLOB SRC_CPP cpp/*.cpp)
+add_library(bop SHARED ${SRC_CPP})
+
+add_custom_target(cpplint ALL)
+file(GLOB SRC_ALL cpp/*)
+foreach (f ${SRC_ALL})
+	add_custom_command(TARGET cpplint COMMAND python ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1/cpp ${f})
+endforeach()
 
 target_link_libraries(bop ${Boost_LIBRARIES} ${PYTHON_LIBRARIES})
 
@@ -55,6 +61,6 @@ if(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 	install(FILES ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/app)
 endif()
 
-file(GLOB scripts *.py *.prc)
+file(GLOB SCRIPTS *.py *.prc)
 
-install(FILES ${scripts} DESTINATION ${CMAKE_BINARY_DIR}/app)
+install(FILES ${SCRIPTS} DESTINATION ${CMAKE_BINARY_DIR}/app)

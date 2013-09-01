@@ -1,5 +1,6 @@
-#ifndef POPULATION_HPP
-#define POPULATION_HPP
+// NOLINT(legal/copyright)
+#ifndef POPULATION_HPP_
+#define POPULATION_HPP_
 
 #include <set>
 #include "Character.hpp"
@@ -13,4 +14,4 @@ private:
     std::set<Character> m_population;
 };
 
-#endif // POPULATION_HPP
+#endif  // POPULATION_HPP_

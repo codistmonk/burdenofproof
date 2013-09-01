@@ -1,7 +1,7 @@
+// NOLINT(legal/copyright)
 #include "Character.hpp"
 
-Character::Character()
-{
+Character::Character() {
     m_id = Character::m_counter++;
 }
 

@@ -1,5 +1,6 @@
-#ifndef PIECEWISECONSTANTCHRONOLOGY_HPP
-#define PIECEWISECONSTANTCHRONOLOGY_HPP
+// NOLINT(legal/copyright)
+#ifndef PIECEWISECONSTANTCHRONOLOGY_HPP_
+#define PIECEWISECONSTANTCHRONOLOGY_HPP_
 
 #include "Propertychronology.hpp"
 
@@ -32,4 +33,4 @@ T PiecewiseConstantChronology<T>::getValue(std::int64_t time) const{
 
 #endif  // _MSC_VER
 
-#endif // PIECEWISECONSTANTCHRONOLOGY_HPP
+#endif  // PIECEWISECONSTANTCHRONOLOGY_HPP_

@@ -1,5 +1,6 @@
-#ifndef DEMOS_DEMO1_CPP_TEMPORALVALUE_HPP_
-#define DEMOS_DEMO1_CPP_TEMPORALVALUE_HPP_
+// NOLINT(legal/copyright)
+#ifndef TEMPORALVALUE_HPP_
+#define TEMPORALVALUE_HPP_
 
 #include <cstdint>
 #include <memory>
@@ -64,4 +65,4 @@ struct TemporalValueComparator {
 //    inline bool operator()(TemporalValue<T> const& tp1, std::int64_t const& time) const { return tp1 < time;}
 //    inline bool operator()(std::int64_t const& time, TemporalValue<T> const& tp1) const { return tp1 < time;}
 };
-#endif  // DEMOS_DEMO1_CPP_TEMPORALVALUE_HPP_
+#endif  // TEMPORALVALUE_HPP_

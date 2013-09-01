@@ -1,5 +1,6 @@
-#ifndef PROPERTYCHRONOLOGY_HPP
-#define PROPERTYCHRONOLOGY_HPP
+// NOLINT(legal/copyright)
+#ifndef PROPERTYCHRONOLOGY_HPP_
+#define PROPERTYCHRONOLOGY_HPP_
 
 #include <cstdint>
 #include <map>
@@ -45,4 +46,4 @@ PropertyChronology<T>::~PropertyChronology()
 
 }
 
-#endif // PROPERTYCHRONOLOGY_HPP
+#endif  // PROPERTYCHRONOLOGY_HPP_
