@@ -9,6 +9,8 @@
 
 #define BLUEPRINTPATH "../../../city/blueprint.txt"
 
+namespace burdenofproof {
+
 enum class CityCell : int8_t {
     GROUND,
     ROAD,
@@ -25,11 +27,19 @@ class CityBlueprint {
  public:
     explicit CityBlueprint(std::string const & path = BLUEPRINTPATH);
 
-    inline char getCell(int const line, int const row) const {
-        return m_blueprint[line][row];
+    inline int getSizeNS() const {
+        return m_sizeNS;
     }
 
-    friend std::ostream& operator<<(std::ostream &os, CityBlueprint const & p);
+    inline int getSizeWE() const {
+        return m_sizeWE;
+    }
+
+    inline CityCell getCell(int const nsIndex, int const weIndex) const {
+        return m_cityCells[nsIndex][weIndex];
+    }
+
+    friend std::ostream& operator<<(std::ostream & os, CityBlueprint const & p);
 
     inline CityCell operator()(int const i, int const j) const {
         return m_cityCells[i][j];
@@ -44,5 +54,7 @@ class CityBlueprint {
 
     int m_sizeNS;
 };
+
+}  // namespace burdenofproof
 
 #endif  // CITYBLUEPRINT_HPP_

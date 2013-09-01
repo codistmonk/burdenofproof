@@ -12,6 +12,22 @@
 using std::vector;
 using std::string;
 
+namespace burdenofproof {
+
+static CityCell cellFromChar(char const c) {
+    switch (c) {
+        case '_' : return CityCell::GROUND;
+        case 'H' : return CityCell::HOUSE;
+        case 'S' : return CityCell::ROAD;
+        case 'O' : return CityCell::OFFICE_BUILDING;
+        case 'P' : return CityCell::POLICE_BUILDING;
+        default  : {
+            DEBUG;
+            return CityCell::GROUND;
+        }
+    }
+}
+
 CityBlueprint::CityBlueprint(std::string const & path)
         : m_sizeWE(-1), m_sizeNS(-1) {
     std::string line;
@@ -28,51 +44,27 @@ CityBlueprint::CityBlueprint(std::string const & path)
         };
 
         std::vector<std::string>::const_iterator it = std::max_element(
-            m_blueprint.cbegin(),
-            m_blueprint.cend(),
-            compareFonction);
+            m_blueprint.cbegin(), m_blueprint.cend(), compareFonction);
         m_sizeWE = (*it).size();
         m_sizeNS = m_blueprint.size();
 
-        for (unsigned int i = 0; i < m_blueprint.size(); ++i) {
-            int width = m_blueprint[i].size();
-            m_cityCells.push_back(vector<CityCell>(width));
-            for (int j = 0; j <  width; ++j) {
-                switch (m_blueprint[i][j]) {
-                case '_' : {
-                    m_cityCells[i].push_back(CityCell::GROUND);
-                    break;
-                }
-                case 'H' : {
-                    m_cityCells[i].push_back(CityCell::HOUSE);
-                    break;
-                }
-                case 'S' : {
-                    m_cityCells[i].push_back(CityCell::ROAD);
-                    break;
-                }
-                case 'O' : {
-                    m_cityCells[i].push_back(CityCell::OFFICE_BUILDING);
-                    break;
-                }
-                case 'P' : {
-                    m_cityCells[i].push_back(CityCell::POLICE_BUILDING);
-                    break;
-                }
-                default  : {
-                    DEBUG;
-                    break;
-                }
-                }
-            }
+        for (auto & blueprintRow : m_blueprint) {
+            vector< CityCell > cityRow(blueprintRow.size());
+
+            std::transform(blueprintRow.begin(), blueprintRow.end(),
+                std::back_inserter(cityRow), cellFromChar);
+
+            m_cityCells.push_back(cityRow);
         }
     }
 }
 
 std::ostream & operator<<(std::ostream & os, CityBlueprint const & bp) {
     for (auto & line : bp.m_blueprint) {
-        os << " | " <<line << " | "<< std::endl;
+        os << " | " << line << " | "<< std::endl;
     }
 
     return os;
 }
+
+}  // namespace burdenofproof
