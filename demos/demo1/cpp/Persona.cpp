@@ -1,7 +1,4 @@
 // NOLINT(legal/copyright)
 #include "Persona.hpp"
 
-Persona::Persona(const Character &character) : m_character(character){
-
-}
-
+Persona::Persona(Character const & character) : m_character(character) {}

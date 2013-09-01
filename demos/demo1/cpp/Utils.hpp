@@ -2,7 +2,7 @@
 #ifndef UTILS_HPP_
 #define UTILS_HPP_
 
-#include <iostream>
+#include <iostream>  // NOLINT(readability/streams)
 #include <string>
 #include <deque>
 #include <utility>
@@ -12,20 +12,32 @@
 
 namespace utils {
 
-    class NameFactory {
-    public:
-        NameFactory();
-        virtual ~NameFactory();
-        const std::string&    randomMaleName();
-        const std::string&    randomFemaleName();
-        const std::string&    randomLastName();
-    private:
-        std::deque<std::string> m_maleFirstNames;
-        std::deque<std::string> m_femaleFirstNames;
-        std::deque<std::string> m_lastNames;
-        unsigned int      m_maleFirstNameCount;
-        unsigned int      m_femaleFirstNameCount;
-        unsigned int      m_NameCount;
-    };
+class NameFactory {
+ public:
+    NameFactory();
+
+    virtual ~NameFactory();
+
+    std::string const & randomMaleName();
+
+    std::string const & randomFemaleName();
+
+    std::string const & randomLastName();
+
+ private:
+    std::deque< std::string > m_maleFirstNames;
+
+    std::deque< std::string > m_femaleFirstNames;
+
+    std::deque< std::string > m_lastNames;
+
+    unsigned int m_maleFirstNameCount;
+
+    unsigned int m_femaleFirstNameCount;
+
+    unsigned int m_NameCount;
+};
+
 }  // namespace utils
+
 #endif  // UTILS_HPP_

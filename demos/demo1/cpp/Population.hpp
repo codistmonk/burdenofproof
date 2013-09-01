@@ -5,13 +5,14 @@
 #include <set>
 #include "Character.hpp"
 
-class Population
-{
-public:
+class Population {
+ public:
     Population();
-private:
+
+ private:
     void addDemo1Population();
-    std::set<Character> m_population;
+
+    std::set< Character > m_population;
 };
 
 #endif  // POPULATION_HPP_
