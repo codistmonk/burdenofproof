@@ -46,11 +46,6 @@ class MyApp(ShowBase):
 
 		self.accept("mouse1", self.setMouseBtn, [0, 1])
 		self.accept("mouse1-up", self.setMouseBtn, [0, 0])
-		self.accept("mouse2", self.togglePhoneCenter)
-		self.accept("tab", self.togglePhoneCenter)
-		self.accept("mouse3", self.togglePhoneVisible)
-		self.accept("wheel_up", self.incrementMinimapZoom, [1])
-		self.accept("wheel_down", self.incrementMinimapZoom, [-1])
 
 		self.taskMgr.add(self.controlCamera, "cameraTask")
 
@@ -59,87 +54,7 @@ class MyApp(ShowBase):
 		self.loadSky()
 		self.loadTerrain()
 		self.setupBuildings()
-		self.setupPhone()
-
-	def setupPhone(self):
-		self.phone = self.loader.loadModel("models/phone")
-		self.phone.reparentTo(self.render2d)
-		self.phone.setLightOff()
-		self.phone.setDepthWrite(False)
-		self.phone.setDepthTest(False)
-
-		self.phoneDisplayRegion = self.win.makeDisplayRegion(0.0, 1.0, 0.0, 1.0)
-		self.phoneDisplayRegion.setClearColor(Vec4(1, 1, 1, 1))
-		self.phoneDisplayRegion.setClearColorActive(True)
-		self.phoneDisplayRegion.setClearDepthActive(True)
-		self.phoneDisplayRegion.setSort(self.cam2d.node().getDisplayRegion(0).getSort() + 1)
-		self.phoneDisplayRegion.setActive(False)
-
-		self.minimapCamera = NodePath(Camera("minimapCamera"))
-		self.minimapCamera.node().setLens(OrthographicLens())
-		self.minimapCamera.node().getLens().setNearFar(1, 100)
-		self.minimapCamera.reparentTo(self.minimap)
-		self.minimapCamera.setPos(self.camera.getPos())
-		self.minimapCamera.setZ(50)
-		self.minimapCamera.lookAt(self.camera.getPos())
-		self.phoneDisplayRegion.setCamera(self.minimapCamera)
-
-		self.orientationTriangle = self.loader.loadModel("models/orientation_triangle")
-		self.orientationTriangle.reparentTo(self.minimap)
-		self.orientationTriangle.setPos(0, 0, 45)
-		self.orientationTriangle.setHpr(0, -90, 0)
-		self.orientationTriangle.setLightOff()
-
-		self.updatePhoneGeometry(None)
-
-		self.accept("window-event", self.updatePhoneGeometry)
-
-		self.minimapZoom = 3
-		self.incrementMinimapZoom(0)
-
-	def updatePhoneGeometry(self, event):
-		windowWidth = 1.0 * self.win.getXSize()
-		windowHeight = 1.0 * self.win.getYSize()
-		phoneWidth = 256.0
-		phoneHeight = 512.0
-		phoneTopBorder = 48.0
-		phoneDisplayRegionLeftOffset = 15.0
-		phoneDisplayRegionRightOffset = 241.0
-		phoneDisplayRegionBottomOffset = 73.0
-		phoneDisplayRegionTopOffset = 459.0
-		phoneLeft = windowWidth - phoneWidth
-		phoneHiddenBottom = 0.0 - phoneHeight + phoneTopBorder
-		phoneVisibleBottom = 0.0
-		phoneCenterLeft = phoneLeft / 2.0
-		phoneCenterBottom = (windowHeight - phoneHeight) / 2.0
-		self.phoneHiddenPosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneHiddenBottom / windowHeight - 1.0)
-		self.phoneVisiblePosition = Vec3(2.0 * phoneLeft / windowWidth - 1.0, 0, 2.0 * phoneVisibleBottom / windowHeight - 1.0)
-		self.phoneCenterPosition = Vec3(2.0 * phoneCenterLeft / windowWidth - 1.0, 0, 2.0 * phoneCenterBottom / windowHeight - 1.0)
-		self.phoneDisplayRegionHiddenDimensions = Vec4((phoneLeft + phoneDisplayRegionLeftOffset) / windowWidth, (phoneLeft + phoneDisplayRegionRightOffset) / windowWidth,
-			(phoneHiddenBottom + phoneDisplayRegionBottomOffset) / windowHeight, (phoneHiddenBottom + phoneDisplayRegionTopOffset) / windowHeight)
-		self.phoneDisplayRegionVisibleDimensions = Vec4((phoneLeft + phoneDisplayRegionLeftOffset) / windowWidth, (phoneLeft + phoneDisplayRegionRightOffset) / windowWidth,
-			(phoneVisibleBottom + phoneDisplayRegionBottomOffset) / windowHeight, (phoneVisibleBottom + phoneDisplayRegionTopOffset) / windowHeight)
-		self.phoneDisplayRegionCenterDimensions = Vec4((phoneCenterLeft + phoneDisplayRegionLeftOffset) / windowWidth, (phoneCenterLeft + phoneDisplayRegionRightOffset) / windowWidth,
-			(phoneCenterBottom + phoneDisplayRegionBottomOffset) / windowHeight, (phoneCenterBottom + phoneDisplayRegionTopOffset) / windowHeight)
-
-		self.phone.setScale(2.0 * phoneWidth / windowWidth, 1.0, 2.0 * phoneHeight / windowHeight)
-
-		if (self.phoneState.state == "Visible"):
-			self.phone.setPos(self.phoneVisiblePosition)
-			self.phoneDisplayRegion.setDimensions(self.phoneDisplayRegionVisibleDimensions)
-		elif (self.phoneState.state == "Center"):
-			self.phone.setPos(self.phoneCenterPosition)
-			self.phoneDisplayRegion.setDimensions(self.phoneDisplayRegionCenterDimensions)
-		else:
-			self.phone.setPos(self.phoneHiddenPosition)
-			self.phoneDisplayRegion.setDimensions(self.phoneDisplayRegionHiddenDimensions)
-
-	def incrementMinimapZoom(self, zoomVariation):
-		if (zoomVariation == 0 or self.phoneState.state == "Visible" or self.phoneState.state == "Center"):
-			self.minimapZoom = clamp(self.minimapZoom + zoomVariation, -2, 4)
-			s = 2 ** self.minimapZoom
-			self.orientationTriangle.setScale(5.0 / s)
-			self.minimapCamera.node().getLens().setFilmSize(self.phoneDisplayRegion.getPixelWidth() / s, self.phoneDisplayRegion.getPixelHeight() / s)
+		self.phoneState.setupPhone()
 
 	def setupLights(self):
 		self.sunLight = self.render.attachNewNode(DirectionalLight("sunLight"))
@@ -201,7 +116,6 @@ class MyApp(ShowBase):
 		cityNSSize = len(city) * blockSize
 		self.maxX = cityWESize / 2.0
 		self.maxY = cityNSSize / 2.0
-		self.minimap = NodePath("minimap")
 		buildingOutline = LineSegs("building")
 
 		buildingSize = 8
@@ -235,7 +149,7 @@ class MyApp(ShowBase):
 					buildingPrototype.instanceTo(buildingInstance)
 
 					# Create building outline in minimap
-					buildingOutlineInstance = self.minimap.attachNewNode("buildingOutline")
+					buildingOutlineInstance = self.phoneState.minimap.attachNewNode("buildingOutline")
 					buildingOutlineInstance.setPos(buildingX, buildingY, buildingZ)
 					buildingOutlinePrototype.instanceTo(buildingOutlineInstance)
 
@@ -287,20 +201,6 @@ class MyApp(ShowBase):
 		else:
 			self.filters.setBlurSharpen(amount=amount)
 
-	def togglePhoneCenter(self):
-		if (self.phoneState.state != "Center"):
-			self.phoneState.demand("Center")
-		else:
-			self.phoneState.demand(self.phoneState.getPreviousState())
-
-	def togglePhoneVisible(self):
-		if (self.phoneState.state == "Visible"):
-			self.phoneState.demand("Hidden")
-		elif (self.phoneState.state == "Hidden"):
-			self.phoneState.demand("Visible")
-		else:
-			self.phoneState.demand(self.phoneState.getPreviousState())
-
 	def controlCamera(self, task):
 		if (self.phoneState.state == "Center"):
 			return Task.cont
@@ -333,12 +233,12 @@ class MyApp(ShowBase):
 		clampY(self.camera, -self.maxY, self.maxY)
 		self.camera.setZ(2)
 
-		self.minimapCamera.setX(self.camera.getX())
-		self.minimapCamera.setY(self.camera.getY())
+		self.phoneState.minimapCamera.setX(self.camera.getX())
+		self.phoneState.minimapCamera.setY(self.camera.getY())
 
-		self.orientationTriangle.setX(self.camera.getX())
-		self.orientationTriangle.setY(self.camera.getY())
-		self.orientationTriangle.setHpr(heading, -90, 0)
+		self.phoneState.orientationTriangle.setX(self.camera.getX())
+		self.phoneState.orientationTriangle.setY(self.camera.getY())
+		self.phoneState.orientationTriangle.setHpr(heading, -90, 0)
 
 		self.last = task.time
 
