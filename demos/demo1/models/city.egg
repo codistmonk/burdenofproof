@@ -16,6 +16,12 @@
   <File> road {
     road
   }
+  <File> sidewalk {
+    nwexteriorsidewalk
+  }
+  <File> sidewalk {
+    neexteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -34,6 +40,12 @@
   }
   <File> road {
     road
+  }
+  <File> sidewalk {
+    nwexteriorsidewalk
+  }
+  <File> sidewalk {
+    neexteriorsidewalk
   }
 }
 <Instance> {
@@ -54,6 +66,12 @@
   <File> road {
     road
   }
+  <File> sidewalk {
+    nwexteriorsidewalk
+  }
+  <File> sidewalk {
+    neexteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -61,6 +79,9 @@
   }
   <File> ground {
     ground
+  }
+  <File> sidewalk {
+    swexteriorsidewalk
   }
 }
 <Instance> {
@@ -70,6 +91,12 @@
   <File> road {
     road
   }
+  <File> sidewalk {
+    nwexteriorsidewalk
+  }
+  <File> sidewalk {
+    swexteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -77,6 +104,18 @@
   }
   <File> road {
     road
+  }
+  <File> sidewalk {
+    nwinteriorsidewalk
+  }
+  <File> sidewalk {
+    neinteriorsidewalk
+  }
+  <File> sidewalk {
+    swinteriorsidewalk
+  }
+  <File> sidewalk {
+    seinteriorsidewalk
   }
 }
 <Instance> {
@@ -94,6 +133,12 @@
   <File> road {
     road
   }
+  <File> sidewalk {
+    nwinteriorsidewalk
+  }
+  <File> sidewalk {
+    neinteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -110,6 +155,12 @@
   <File> road {
     road
   }
+  <File> sidewalk {
+    nwinteriorsidewalk
+  }
+  <File> sidewalk {
+    neinteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -117,6 +168,12 @@
   }
   <File> road {
     road
+  }
+  <File> sidewalk {
+    neexteriorsidewalk
+  }
+  <File> sidewalk {
+    seexteriorsidewalk
   }
 }
 <Instance> {
@@ -200,6 +257,9 @@
   <File> ground {
     ground
   }
+  <File> sidewalk {
+    neexteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -207,6 +267,12 @@
   }
   <File> road {
     road
+  }
+  <File> sidewalk {
+    neinteriorsidewalk
+  }
+  <File> sidewalk {
+    seinteriorsidewalk
   }
 }
 <Instance> {
@@ -247,6 +313,12 @@
   }
   <File> road {
     road
+  }
+  <File> sidewalk {
+    neexteriorsidewalk
+  }
+  <File> sidewalk {
+    seexteriorsidewalk
   }
 }
 <Instance> {
@@ -335,6 +407,12 @@
   <File> road {
     road
   }
+  <File> sidewalk {
+    neinteriorsidewalk
+  }
+  <File> sidewalk {
+    seinteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -366,6 +444,12 @@
   }
   <File> road {
     road
+  }
+  <File> sidewalk {
+    neexteriorsidewalk
+  }
+  <File> sidewalk {
+    swinteriorsidewalk
   }
 }
 <Instance> {
@@ -462,6 +546,12 @@
   <File> road {
     road
   }
+  <File> sidewalk {
+    swexteriorsidewalk
+  }
+  <File> sidewalk {
+    neinteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -469,6 +559,12 @@
   }
   <File> road {
     road
+  }
+  <File> sidewalk {
+    swinteriorsidewalk
+  }
+  <File> sidewalk {
+    seinteriorsidewalk
   }
 }
 <Instance> {
@@ -494,6 +590,12 @@
   <File> road {
     road
   }
+  <File> sidewalk {
+    seexteriorsidewalk
+  }
+  <File> sidewalk {
+    nwinteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -513,6 +615,9 @@
   <File> ground {
     ground
   }
+  <File> sidewalk {
+    neinteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -521,6 +626,9 @@
   <File> ground {
     ground
   }
+  <File> sidewalk {
+    neexteriorsidewalk
+  }
 }
 <Instance> {
   <Transform> {
@@ -528,6 +636,12 @@
   }
   <File> road {
     road
+  }
+  <File> sidewalk {
+    swexteriorsidewalk
+  }
+  <File> sidewalk {
+    seexteriorsidewalk
   }
 }
 <Instance> {
