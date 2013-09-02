@@ -26,7 +26,7 @@ def retrieveTexture(textureName, textureFolderName, textureEnvType, textureScale
 		texture.setWrapMode(EggTexture.WMClamp)
 	else:
 		texture.setWrapMode(EggTexture.WMRepeat)
-		texture.addUniformScale(textureScale)
+		texture.addScale2d(textureScale)
 
 	return texture
 
@@ -34,36 +34,6 @@ def finishEgg(eggData):
 	eggData.recomputeVertexNormals(0.0)
 	eggData.recomputeTangentBinormalAuto()
 	eggData.removeUnusedVertices(True)
-
-def generateTexturedQuad(name, size, textureName, useTextureNormal = False, textureScale = 1.0, translation = None):
-	vertices = EggVertexPool(name + "Vertices")
-	polygon = EggPolygon()
-
-	polygon.addVertex(addEggVertex(vertices, 0, 0, 0, 0, 0))
-	polygon.addVertex(addEggVertex(vertices, size, 0, 0, 1, 0))
-	polygon.addVertex(addEggVertex(vertices, size, 0, -size, 1, 1))
-	polygon.addVertex(addEggVertex(vertices, 0, 0, -size, 0, 1))
-
-	polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
-
-	if useTextureNormal:
-		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
-
-	egg = EggData()
-
-	egg.addChild(vertices)
-
-	if translation is None:
-		egg.addChild(polygon)
-	else:
-		group = EggGroup()
-		egg.addChild(group)
-		group.setGroupType(EggGroup.GTInstance)
-		group.addChild(polygon)
-		group.addTranslate3d(translation)
-
-	finishEgg(egg)
-	egg.writeEgg("models/" + name + ".egg")
 
 def xyFromUv(u, v, quarterTurns):
 	if quarterTurns == 1:
@@ -74,6 +44,41 @@ def xyFromUv(u, v, quarterTurns):
 		return v, 1.0 - u
 	else:
 		return u, v
+
+def generateTexturedQuad(name, size, textureName, useTextureNormal = False, textureScale = 1.0, scale = None, translation = None, quarterTurns = 0):
+	vertices = EggVertexPool(name + "Vertices")
+	polygon = EggPolygon()
+
+	x, y = xyFromUv(0, 0, quarterTurns)
+	polygon.addVertex(addEggVertex(vertices, x * size, 0, - y * size, 0, 0))
+	x, y = xyFromUv(1, 0, quarterTurns)
+	polygon.addVertex(addEggVertex(vertices, x * size, 0, - y * size, 1, 0))
+	x, y = xyFromUv(1, 1, quarterTurns)
+	polygon.addVertex(addEggVertex(vertices, x * size, 0, - y * size, 1, 1))
+	x, y = xyFromUv(0, 1, quarterTurns)
+	polygon.addVertex(addEggVertex(vertices, x * size, 0, - y * size, 0, 1))
+
+	polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
+
+	if useTextureNormal:
+		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
+
+	egg = EggData()
+
+	egg.addChild(vertices)
+
+	group = EggGroup()
+	egg.addChild(group)
+	group.setGroupType(EggGroup.GTInstance)
+	group.addChild(polygon)
+
+	if not scale is None:
+		group.addScale3d(scale)
+	if not translation is None:
+		group.addTranslate3d(translation)
+
+	finishEgg(egg)
+	egg.writeEgg("models/" + name + ".egg")
 
 def newFlatPolygon(eggVertices, uvs, quarterTurns = 0):
 	polygon = EggPolygon()
@@ -272,9 +277,14 @@ def generateHalf2Sidewalks(size):
 blockSize = 10.0
 generateTexturedQuad("ground", blockSize, "grass", True, blockSize)
 generateTexturedQuad("road", blockSize, "asphalt", True, blockSize)
-generateTexturedQuad("building", blockSize - 2.0, "blue", translation = Vec3D(blockSize / 10.0, 0.0, -blockSize / 10.0))
+generateTexturedQuad("building", blockSize - 2.0, "blue",
+	translation = Vec3D(blockSize / 10.0, 0.0, -blockSize / 10.0))
 generateBuildingPad(blockSize)
 generateExteriorSidewalks(blockSize)
 generateInteriorSidewalks(blockSize)
 generateHalf1Sidewalks(blockSize)
 generateHalf2Sidewalks(blockSize)
+generateTexturedQuad("wemarking", blockSize, "marking",
+	scale = Vec3D(1.0, 1.0, 1.0 / 5.0 / 8.0), textureScale = 5.0, translation = Vec3D(0.0, 0.01, -5.0))
+generateTexturedQuad("nsmarking", blockSize, "marking",
+	quarterTurns = 1, scale = Vec3D(1.0 / 5.0 / 8.0, 1.0, 1.0), textureScale = 5.0, translation = Vec3D(5.0, 0.01, 0.0))

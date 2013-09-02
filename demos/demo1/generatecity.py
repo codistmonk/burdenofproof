@@ -73,6 +73,11 @@ for nsIndex, blueprintRow in enumerate(blueprint):
 			sItem = getItem(blueprint, nsIndex + 1, weIndex)
 			seItem = getItem(blueprint, nsIndex + 1, weIndex + 1)
 
+			if isRoad(wItem) and isRoad(blueprintItem) and isRoad(eItem) and (not isRoad(nItem) or not isRoad(sItem)):
+				block.addChild(EggExternalReference("marking", "wemarking"))
+			if isRoad(nItem) and isRoad(blueprintItem) and isRoad(sItem) and (not isRoad(wItem) or not isRoad(eItem)):
+				block.addChild(EggExternalReference("marking", "nsmarking"))
+
 			if wItem != blueprintItem and nItem != blueprintItem:
 				block.addChild(EggExternalReference("sidewalk", "nwexteriorsidewalk"))
 			if eItem != blueprintItem and nItem != blueprintItem:
@@ -81,6 +86,7 @@ for nsIndex, blueprintRow in enumerate(blueprint):
 				block.addChild(EggExternalReference("sidewalk", "swexteriorsidewalk"))
 			if eItem != blueprintItem and sItem != blueprintItem:
 				block.addChild(EggExternalReference("sidewalk", "seexteriorsidewalk"))
+
 			if wItem == blueprintItem and nItem == blueprintItem and nwItem != blueprintItem:
 				block.addChild(EggExternalReference("sidewalk", "nwinteriorsidewalk"))
 			if eItem == blueprintItem and nItem == blueprintItem and neItem != blueprintItem:
@@ -89,6 +95,7 @@ for nsIndex, blueprintRow in enumerate(blueprint):
 				block.addChild(EggExternalReference("sidewalk", "swinteriorsidewalk"))
 			if eItem == blueprintItem and sItem == blueprintItem and seItem != blueprintItem:
 				block.addChild(EggExternalReference("sidewalk", "seinteriorsidewalk"))
+
 			if wItem != blueprintItem and nItem == blueprintItem:
 				block.addChild(EggExternalReference("sidewalk", "nwhalf1sidewalk"))
 			if eItem != blueprintItem and nItem == blueprintItem:

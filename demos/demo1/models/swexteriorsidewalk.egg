@@ -4,7 +4,7 @@
   <Scalar> minfilter { linear_mipmap_linear }
   <Scalar> envtype { normal }
   <Transform> {
-    <Scale> { 10 }
+    <Scale> { 10 10 }
   }
 }
 <Texture> swexteriorsidewalkTextureDiffuse.tref1 {
@@ -12,7 +12,7 @@
   <Scalar> wrap { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
   <Transform> {
-    <Scale> { 10 }
+    <Scale> { 10 10 }
   }
 }
 <Texture> swexteriorsidewalkTextureDiffuse {
@@ -20,7 +20,7 @@
   <Scalar> wrap { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
   <Transform> {
-    <Scale> { 10 }
+    <Scale> { 10 10 }
   }
 }
 <Instance> {

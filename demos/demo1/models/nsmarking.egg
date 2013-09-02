@@ -1,0 +1,40 @@
+<Texture> nsmarkingTextureDiffuse {
+  "textures/marking/marking_diffuse.png"
+  <Scalar> wrap { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Transform> {
+    <Scale> { 5 5 }
+  }
+}
+<VertexPool> nsmarkingVertices {
+  <Vertex> 0 {
+    0 0 -10
+    <UV> { 1 1 }
+    <Normal> { 0 1 0 }
+  }
+  <Vertex> 1 {
+    0 0 0
+    <UV> { 0 1 }
+    <Normal> { 0 1 0 }
+  }
+  <Vertex> 2 {
+    10 0 -10
+    <UV> { 1 0 }
+    <Normal> { 0 1 0 }
+  }
+  <Vertex> 3 {
+    10 0 0
+    <UV> { 0 0 }
+    <Normal> { 0 1 0 }
+  }
+}
+<Instance> {
+  <Transform> {
+    <Scale> { 0.025 1 1 }
+    <Translate> { 5 0.01 0 }
+  }
+  <Polygon> {
+    <TRef> { nsmarkingTextureDiffuse }
+    <VertexRef> { 3 2 0 1 <Ref> { nsmarkingVertices } }
+  }
+}
