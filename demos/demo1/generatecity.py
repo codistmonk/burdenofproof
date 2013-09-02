@@ -89,5 +89,21 @@ for nsIndex, blueprintRow in enumerate(blueprint):
 				block.addChild(EggExternalReference("sidewalk", "swinteriorsidewalk"))
 			if eItem == blueprintItem and sItem == blueprintItem and seItem != blueprintItem:
 				block.addChild(EggExternalReference("sidewalk", "seinteriorsidewalk"))
+			if wItem != blueprintItem and nItem == blueprintItem:
+				block.addChild(EggExternalReference("sidewalk", "nwhalf1sidewalk"))
+			if eItem != blueprintItem and nItem == blueprintItem:
+				block.addChild(EggExternalReference("sidewalk", "nehalf2sidewalk"))
+			if wItem != blueprintItem and sItem == blueprintItem:
+				block.addChild(EggExternalReference("sidewalk", "swhalf2sidewalk"))
+			if eItem != blueprintItem and sItem == blueprintItem:
+				block.addChild(EggExternalReference("sidewalk", "sehalf1sidewalk"))
+			if wItem == blueprintItem and nItem != blueprintItem:
+				block.addChild(EggExternalReference("sidewalk", "nwhalf2sidewalk"))
+			if eItem == blueprintItem and nItem != blueprintItem:
+				block.addChild(EggExternalReference("sidewalk", "nehalf1sidewalk"))
+			if wItem == blueprintItem and sItem != blueprintItem:
+				block.addChild(EggExternalReference("sidewalk", "swhalf1sidewalk"))
+			if eItem == blueprintItem and sItem != blueprintItem:
+				block.addChild(EggExternalReference("sidewalk", "sehalf2sidewalk"))
 
 city.writeEgg("models/city.egg")
