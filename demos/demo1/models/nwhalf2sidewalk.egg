@@ -32,24 +32,46 @@
   <Polygon> {
     <TRef> { nwhalf2sidewalkTextureDiffuse.tref1 }
     <TRef> { nwhalf2sidewalkTextureNormal }
-    <VertexRef> { 6 7 3 2 <Ref> { nwhalf2sidewalkVertices } }
+    <VertexRef> { 10 11 5 4 <Ref> { nwhalf2sidewalkVertices } }
   }
   <Polygon> {
     <TRef> { nwhalf2sidewalkTextureDiffuse }
-    <VertexRef> { 0 4 5 1 <Ref> { nwhalf2sidewalkVertices } }
+    <VertexRef> { 2 8 9 3 <Ref> { nwhalf2sidewalkVertices } }
+  }
+  <Polygon> {
+    <TRef> { nwhalf2sidewalkTextureDiffuse }
+    <VertexRef> { 0 6 7 1 <Ref> { nwhalf2sidewalkVertices } }
   }
 }
 <VertexPool> nwhalf2sidewalkVertices {
   <Vertex> 0 {
+    0 0.9 -0.01
+    <UV> {
+      0.02 0
+      <Tangent> { 0 0 -1 }
+      <Binormal> { 1 0 0 }
+    }
+    <Normal> { 0 -1 0 }
+  }
+  <Vertex> 1 {
     0 0.9 0
     <UV> {
-      0.1 0
+      0.01 0
+      <Tangent> { 0 0 -1 }
+      <Binormal> { 1 0 0 }
+    }
+    <Normal> { 0 -1 0 }
+  }
+  <Vertex> 2 {
+    0 0.9 0
+    <UV> {
+      0.01 0
       <Tangent> { 0 -1 0 }
       <Binormal> { 1 0 0 }
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 1 {
+  <Vertex> 3 {
     0 0.91 0
     <UV> {
       0 0
@@ -58,7 +80,7 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 2 {
+  <Vertex> 4 {
     0 0.91 0
     <UV> {
       0 0.91
@@ -67,7 +89,7 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 3 {
+  <Vertex> 5 {
     0 1 0
     <UV> {
       0 1
@@ -76,16 +98,34 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 4 {
+  <Vertex> 6 {
+    0.5 0.9 -0.01
+    <UV> {
+      0.02 0.333333
+      <Tangent> { 0 0 -1 }
+      <Binormal> { 1 0 0 }
+    }
+    <Normal> { 0 -1 0 }
+  }
+  <Vertex> 7 {
     0.5 0.9 0
     <UV> {
-      0.1 0.666667
+      0.01 0.333333
+      <Tangent> { 0 0 -1 }
+      <Binormal> { 1 0 0 }
+    }
+    <Normal> { 0 -1 0 }
+  }
+  <Vertex> 8 {
+    0.5 0.9 0
+    <UV> {
+      0.01 0.666667
       <Tangent> { 0 -1 0 }
       <Binormal> { 1 0 0 }
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 5 {
+  <Vertex> 9 {
     0.5 0.91 0
     <UV> {
       0 0.666667
@@ -94,7 +134,7 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 6 {
+  <Vertex> 10 {
     0.5 0.91 0
     <UV> {
       0.5 0.91
@@ -103,7 +143,7 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 7 {
+  <Vertex> 11 {
     0.5 1 0
     <UV> {
       0.5 1

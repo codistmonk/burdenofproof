@@ -136,7 +136,7 @@ def arc(centerX, centerY, radius, angleBegin, angleEnd, angleCount, includeEnd =
 def reverseUvs(uvs):
 	result = []
 
-	for i in range(len(uvs) - 2, -2, -2):
+	for i in range(len(uvs) - 2, -1, -2):
 		result.append(uvs[i])
 		result.append(uvs[i + 1])
 
@@ -146,39 +146,61 @@ def newCurbTop(eggVertices, curbUvs, quarterTurns = 0):
 	polygon = EggPolygon()
 	walksideUvs = curbUvs[0]
 	roadsideUvs = curbUvs[1]
-	n = len(walksideUvs)
+	n = len(roadsideUvs)
 
 	for i in range(0, n, 2):
 		u, v = roadsideUvs[i], roadsideUvs[i + 1]
 		x, y = xyFromUv(u, v, quarterTurns)
 		polygon.addVertex(addEggVertex(eggVertices, x, y, 0.0, 0.01, i / (n - 1.0)))
 
-	for i in range(n - 2, -2, -2):
+	for i in range(n - 2, -1, -2):
 		u, v = walksideUvs[i], walksideUvs[i + 1]
 		x, y = xyFromUv(u, v, quarterTurns)
 		polygon.addVertex(addEggVertex(eggVertices, x, y, 0.0, 0.0, i / (n - 1.0)))
 
 	return polygon
 
+def newCurbSide(eggVertices, curbUvs, quarterTurns = 0):
+	result = []
+	roadsideUvs = curbUvs[1]
+	n = len(roadsideUvs)
+
+	for i in range(0, n - 2, 2):
+		x1, y1 = xyFromUv(roadsideUvs[i], roadsideUvs[i + 1], quarterTurns)
+		x2, y2 = xyFromUv(roadsideUvs[i + 2], roadsideUvs[i + 3], quarterTurns)
+		polygon = EggPolygon()
+
+		polygon.addVertex(addEggVertex(eggVertices, x1, y1, -0.01, 0.02, i / (n - 1.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x2, y2, -0.01, 0.02, (i + 1) / (n - 1.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x2, y2, 0.0, 0.01, (i + 1) / (n - 1.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x1, y1, 0.0, 0.01, i / (n - 1.0)))
+
+		result.append(polygon)
+
+	return result
+
 def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
 	textureScale = size
 	textureName = "pavers"
-	curbTopUvs = reverseUvs(curbUvs[0]) + curbUvs[1]
-
-	print sidewalkType, curbTopUvs
 
 	for quarterTurns, namePrefix in enumerate(["sw", "se", "ne", "nw"]):
 		name = namePrefix + sidewalkType + "sidewalk"
 		egg, group = newEggAndGroup()
 		vertices = EggVertexPool(name + "Vertices")
 		egg.addChild(vertices)
+
 		polygon = newFlatPolygon(vertices, walkUvs, quarterTurns)
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 		group.addChild(polygon)
+
 		polygon = newCurbTop(vertices, curbUvs, quarterTurns)
 		polygon.addTexture(retrieveTexture(name, "cement", EggTexture.ETUnspecified, textureScale, textureFormat = "jpg"))
 		group.addChild(polygon)
+
+		for polygon in newCurbSide(vertices, curbUvs, quarterTurns):
+			polygon.addTexture(retrieveTexture(name, "cement", EggTexture.ETUnspecified, textureScale, textureFormat = "jpg"))
+			group.addChild(polygon)
 
 		group.addRotx(-90.0)
 		group.addUniformScale(size)
@@ -189,10 +211,10 @@ def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
 
 def generateExteriorSidewalks(size, smoothness = 16):
 	connectUvs = [
-		0.1, 0.5,
-		0.0, 0.5,
-		0.0, 0.0,
-		0.5, 0.0,
+		0.09, 0.5,
+		0.00, 0.5,
+		0.00, 0.0,
+		0.50, 0.0,
 	] + arc(0.5, 0.5, 0.41, -pi / 2.0, -pi, smoothness)
 	curbUvs = [
 		arc(0.5, 0.5, 0.41, -pi / 2.0, -pi, smoothness, includeEnd = True),
@@ -203,8 +225,8 @@ def generateExteriorSidewalks(size, smoothness = 16):
 
 def generateInteriorSidewalks(size, smoothness = 16):
 	connectUvs = [
-		0.0, 0.1,
-		0.0, 0.0,
+		0.0, 0.09,
+		0.0, 0.00,
 	] + arc(0.0, 0.0, 0.09, 0.0, pi / 2.0, smoothness)
 	curbUvs = [
 		arc(0.0, 0.0, 0.09, 0.0, pi / 2.0, smoothness, includeEnd = True),
