@@ -65,19 +65,22 @@ def generateTexturedQuad(name, size, textureName, useTextureNormal = False, text
 	finishEgg(egg)
 	egg.writeEgg("models/" + name + ".egg")
 
-def newPolygon(eggVertices, uvs, quarterTurns = 0):
+def xyFromUv(u, v, quarterTurns):
+	if quarterTurns == 1:
+		return 1.0 - v, u
+	elif quarterTurns == 2:
+		return 1.0 - u, 1.0 - v
+	elif quarterTurns == 3:
+		return v, 1.0 - u
+	else:
+		return u, v
+
+def newFlatPolygon(eggVertices, uvs, quarterTurns = 0):
 	polygon = EggPolygon()
 
 	for i in range(0, len(uvs), 2):
 		u, v = uvs[i], uvs[i + 1]
-		if quarterTurns == 1:
-			x, y = 1.0 - v, u
-		elif quarterTurns == 2:
-			x, y = 1.0 - u, 1.0 - v
-		elif quarterTurns == 3:
-			x, y = v, 1.0 - u
-		else:
-			x, y = u, v
+		x, y = xyFromUv(u, v, quarterTurns)
 		polygon.addVertex(addEggVertex(eggVertices, x, y, 0.0, x, y))
 
 	return polygon
@@ -106,7 +109,7 @@ def generateBuildingPad(size):
 	]
 
 	for quarterTurns in range(4):
-		polygon = newPolygon(vertices, uvs, quarterTurns)
+		polygon = newFlatPolygon(vertices, uvs, quarterTurns)
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 		group.addChild(polygon)
@@ -139,6 +142,24 @@ def reverseUvs(uvs):
 
 	return result
 
+def newCurbTop(eggVertices, curbUvs, quarterTurns = 0):
+	polygon = EggPolygon()
+	walksideUvs = curbUvs[0]
+	roadsideUvs = curbUvs[1]
+	n = len(walksideUvs)
+
+	for i in range(0, n, 2):
+		u, v = roadsideUvs[i], roadsideUvs[i + 1]
+		x, y = xyFromUv(u, v, quarterTurns)
+		polygon.addVertex(addEggVertex(eggVertices, x, y, 0.0, 0.01, i / (n - 1.0)))
+
+	for i in range(n - 2, -2, -2):
+		u, v = walksideUvs[i], walksideUvs[i + 1]
+		x, y = xyFromUv(u, v, quarterTurns)
+		polygon.addVertex(addEggVertex(eggVertices, x, y, 0.0, 0.0, i / (n - 1.0)))
+
+	return polygon
+
 def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
 	textureScale = size
 	textureName = "pavers"
@@ -151,11 +172,11 @@ def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
 		egg, group = newEggAndGroup()
 		vertices = EggVertexPool(name + "Vertices")
 		egg.addChild(vertices)
-		polygon = newPolygon(vertices, walkUvs, quarterTurns)
+		polygon = newFlatPolygon(vertices, walkUvs, quarterTurns)
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 		group.addChild(polygon)
-		polygon = newPolygon(vertices, curbTopUvs, quarterTurns)
+		polygon = newCurbTop(vertices, curbUvs, quarterTurns)
 		polygon.addTexture(retrieveTexture(name, "cement", EggTexture.ETUnspecified, textureScale, textureFormat = "jpg"))
 		group.addChild(polygon)
 

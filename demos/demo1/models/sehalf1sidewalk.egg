@@ -32,33 +32,42 @@
   <Polygon> {
     <TRef> { sehalf1sidewalkTextureDiffuse.tref1 }
     <TRef> { sehalf1sidewalkTextureNormal }
-    <VertexRef> { 2 4 5 3 <Ref> { sehalf1sidewalkVertices } }
+    <VertexRef> { 3 6 7 5 <Ref> { sehalf1sidewalkVertices } }
   }
   <Polygon> {
     <TRef> { sehalf1sidewalkTextureDiffuse }
-    <VertexRef> { 2 3 1 0 <Ref> { sehalf1sidewalkVertices } }
+    <VertexRef> { 1 0 2 4 <Ref> { sehalf1sidewalkVertices } }
   }
 }
 <VertexPool> sehalf1sidewalkVertices {
   <Vertex> 0 {
     0.9 0 0
     <UV> {
-      0.9 0
-      <Tangent> { 1 0 0 }
-      <Binormal> { 0 1 0 }
+      0.1 0.666667
+      <Tangent> { -1 0 0 }
+      <Binormal> { 0 -1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 1 {
     0.9 0.5 0
     <UV> {
-      0.9 0.5
-      <Tangent> { 1 0 0 }
-      <Binormal> { 0 1 0 }
+      0.1 0
+      <Tangent> { -1 0 0 }
+      <Binormal> { 0 -1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 2 {
+    0.91 0 0
+    <UV> {
+      0 0.666667
+      <Tangent> { -1 0 0 }
+      <Binormal> { 0 -1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 3 {
     0.91 0 0
     <UV> {
       0.91 0
@@ -67,7 +76,16 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 3 {
+  <Vertex> 4 {
+    0.91 0.5 0
+    <UV> {
+      0 0
+      <Tangent> { -1 0 0 }
+      <Binormal> { 0 -1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 5 {
     0.91 0.5 0
     <UV> {
       0.91 0.5
@@ -76,7 +94,7 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 4 {
+  <Vertex> 6 {
     1 0 0
     <UV> {
       1 0
@@ -85,7 +103,7 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 5 {
+  <Vertex> 7 {
     1 0.5 0
     <UV> {
       1 0.5
