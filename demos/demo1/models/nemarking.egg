@@ -1,0 +1,82 @@
+<Texture> nemarkingTextureDiffuse {
+  "textures/curvemarking/curvemarking_diffuse.png"
+  <Scalar> wrap { clamp }
+  <Scalar> minfilter { linear_mipmap_linear }
+}
+<Instance> {
+  <Transform> {
+    <RotX> { -90 }
+    <Scale> { 10 }
+    <Translate> { 0 0.001 0 }
+  }
+  <Instance> {
+    <Transform> {
+      <Translate> { -0.5 -0.5 0 }
+      <Scale> { 0.2 0.025 1 }
+      <RotZ> { 102 }
+      <Translate> { 0.489074 0.103956 0 }
+    }
+    <Polygon> {
+      <TRef> { nemarkingTextureDiffuse }
+      <VertexRef> { 0 2 3 1 <Ref> { nemarkingVertices } }
+    }
+  }
+  <Instance> {
+    <Transform> {
+      <Translate> { -0.5 -0.5 0 }
+      <Scale> { 0.2 0.025 1 }
+      <RotZ> { 124 }
+      <Translate> { 0.414519 0.279596 0 }
+    }
+    <Polygon> {
+      <TRef> { nemarkingTextureDiffuse }
+      <VertexRef> { 0 2 3 1 <Ref> { nemarkingVertices } }
+    }
+  }
+  <Instance> {
+    <Transform> {
+      <Translate> { -0.5 -0.5 0 }
+      <Scale> { 0.2 0.025 1 }
+      <RotZ> { 146 }
+      <Translate> { 0.279596 0.414519 0 }
+    }
+    <Polygon> {
+      <TRef> { nemarkingTextureDiffuse }
+      <VertexRef> { 0 2 3 1 <Ref> { nemarkingVertices } }
+    }
+  }
+  <Instance> {
+    <Transform> {
+      <Translate> { -0.5 -0.5 0 }
+      <Scale> { 0.2 0.025 1 }
+      <RotZ> { 168 }
+      <Translate> { 0.103956 0.489074 0 }
+    }
+    <Polygon> {
+      <TRef> { nemarkingTextureDiffuse }
+      <VertexRef> { 0 2 3 1 <Ref> { nemarkingVertices } }
+    }
+  }
+}
+<VertexPool> nemarkingVertices {
+  <Vertex> 0 {
+    0 0 0
+    <UV> { 0 0 }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 1 {
+    0 1 0
+    <UV> { 0 1 }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 2 {
+    1 0 0
+    <UV> { 1 0 }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 3 {
+    1 1 0
+    <UV> { 1 1 }
+    <Normal> { 0 0 1 }
+  }
+}
