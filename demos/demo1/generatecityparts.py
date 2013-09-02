@@ -126,12 +126,12 @@ def appendCircle(uvs, centerX, centerY, radius, angleBegin, angleEnd, angleCount
 		uvs.append(round(centerX + radius * cos(angle), rounding))
 		uvs.append(round(centerY + radius * sin(angle), rounding))
 
-def generateTeriorSidewalks(teriorType, size, uvs):
+def generateSidewalks(sidewalkType, size, uvs):
 	textureScale = size
 	textureName = "pavers"
 
 	for quarterTurns, namePrefix in enumerate(["sw", "se", "ne", "nw"]):
-		name = namePrefix + teriorType + "teriorsidewalk"
+		name = namePrefix + sidewalkType + "sidewalk"
 		egg, group = newEggAndGroup()
 		vertices = EggVertexPool(name + "Vertices")
 		egg.addChild(vertices)
@@ -155,7 +155,7 @@ def generateExteriorSidewalks(size, smoothness = 16):
 
 	appendCircle(uvs, 0.5, 0.5, 0.4, -pi / 2.0, -pi, smoothness)
 
-	generateTeriorSidewalks("ex", size, uvs)
+	generateSidewalks("exterior", size, uvs)
 
 def generateInteriorSidewalks(size, smoothness = 16):
 	uvs = [
@@ -165,7 +165,27 @@ def generateInteriorSidewalks(size, smoothness = 16):
 
 	appendCircle(uvs, 0.0, 0.0, 0.1, 0.0, pi / 2.0, smoothness)
 	
-	generateTeriorSidewalks("in", size, uvs)
+	generateSidewalks("interior", size, uvs)
+
+def generateHalf1Sidewalks(size):
+	uvs = [
+		0.0, 0.0,
+		0.5, 0.0,
+		0.5, 0.1,
+		0.0, 0.1
+	]
+
+	generateSidewalks("half1", size, uvs)
+
+def generateHalf2Sidewalks(size):
+	uvs = [
+		0.0, 0.0,
+		0.1, 0.0,
+		0.1, 0.5,
+		0.0, 0.5
+	]
+
+	generateSidewalks("half2", size, uvs)
 
 blockSize = 10.0
 generateTexturedQuad("ground", blockSize, "grass", True, blockSize)
@@ -174,3 +194,5 @@ generateTexturedQuad("building", blockSize - 2.0, "blue", translation = Vec3D(bl
 generateBuildingPad(blockSize)
 generateExteriorSidewalks(blockSize)
 generateInteriorSidewalks(blockSize)
+generateHalf1Sidewalks(blockSize)
+generateHalf2Sidewalks(blockSize)
