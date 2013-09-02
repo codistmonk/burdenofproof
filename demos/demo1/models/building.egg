@@ -6,22 +6,39 @@
 <VertexPool> buildingVertices {
   <Vertex> 0 {
     0 0 0
-    <UV> { 0 0 }
+    <UV> {
+      0 0
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 0 -1 }
+    }
   }
   <Vertex> 1 {
     8 0 0
-    <UV> { 1 0 }
+    <UV> {
+      1 0
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 0 -1 }
+    }
   }
   <Vertex> 2 {
     8 0 -8
-    <UV> { 1 1 }
+    <UV> {
+      1 1
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 0 -1 }
+    }
   }
   <Vertex> 3 {
     0 0 -8
-    <UV> { 0 1 }
+    <UV> {
+      0 1
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 0 -1 }
+    }
   }
 }
 <Polygon> {
+  <Normal> { 0 1 0 }
   <TRef> { buildingTextureDiffuse }
   <VertexRef> { 0 1 2 3 <Ref> { buildingVertices } }
 }

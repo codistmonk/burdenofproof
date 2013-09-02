@@ -29,15 +29,30 @@ def retrieveTexture(textureName, textureFolderName, textureEnvType, textureScale
 
 	return texture
 
+def setNormalAndTangentAndBinormal(polygon, tangent):
+	polygon.recomputePolygonNormal()
+	normal = Vec3D()
+	polygon.calculateNormal(normal)
+	binormal = normal.cross(tangent)
+
+	for vertex in polygon.getVertices():
+		uv = EggVertexUV(vertex.getUvObj(""))
+		uv.setTangent(tangent)
+		uv.setBinormal(binormal)
+		vertex.setUvObj(uv)
+
 def generateTexturedQuad(name, size, textureName, useTextureNormal = False, textureScale = 1.0):
 	vertices = EggVertexPool(name + "Vertices")
-
 	polygon = EggPolygon()
-	polygon.addVertex(addEggVertex(vertices, 0, 0, 0, 0, 0))
-	polygon.addVertex(addEggVertex(vertices, size, 0, 0, 1, 0))
-	polygon.addVertex(addEggVertex(vertices, size, 0, -size, 1, 1))
-	polygon.addVertex(addEggVertex(vertices, 0, 0, -size, 0, 1))
+	v00 = polygon.addVertex(addEggVertex(vertices, 0, 0, 0, 0, 0))
+	v10 = polygon.addVertex(addEggVertex(vertices, size, 0, 0, 1, 0))
+	v11 = polygon.addVertex(addEggVertex(vertices, size, 0, -size, 1, 1))
+	v01 = polygon.addVertex(addEggVertex(vertices, 0, 0, -size, 0, 1))
+
+	setNormalAndTangentAndBinormal(polygon, Vec3D(1, 0, 0))
+
 	polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
+
 	if useTextureNormal:
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 
@@ -46,6 +61,11 @@ def generateTexturedQuad(name, size, textureName, useTextureNormal = False, text
 	egg.addChild(polygon)
 	egg.writeEgg("models/" + name + ".egg")
 
-generateTexturedQuad("ground", 10.0, "grass", True, 10.0)
-generateTexturedQuad("road", 10.0, "asphalt", True, 10.0)
-generateTexturedQuad("building", 8.0, "blue")
+def generateBuildingPad(size):
+	pass	
+
+blockSize = 10.0
+generateTexturedQuad("ground", blockSize, "grass", True, blockSize)
+generateTexturedQuad("road", blockSize, "asphalt", True, blockSize)
+generateTexturedQuad("building", blockSize - 2.0, "blue")
+

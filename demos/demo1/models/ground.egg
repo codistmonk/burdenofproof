@@ -18,22 +18,39 @@
 <VertexPool> groundVertices {
   <Vertex> 0 {
     0 0 0
-    <UV> { 0 0 }
+    <UV> {
+      0 0
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 0 -1 }
+    }
   }
   <Vertex> 1 {
     10 0 0
-    <UV> { 1 0 }
+    <UV> {
+      1 0
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 0 -1 }
+    }
   }
   <Vertex> 2 {
     10 0 -10
-    <UV> { 1 1 }
+    <UV> {
+      1 1
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 0 -1 }
+    }
   }
   <Vertex> 3 {
     0 0 -10
-    <UV> { 0 1 }
+    <UV> {
+      0 1
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 0 -1 }
+    }
   }
 }
 <Polygon> {
+  <Normal> { 0 1 0 }
   <TRef> { groundTextureDiffuse }
   <TRef> { groundTextureNormal }
   <VertexRef> { 0 1 2 3 <Ref> { groundVertices } }
