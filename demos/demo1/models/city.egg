@@ -1,0 +1,576 @@
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 -35 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 -35 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 -35 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 -35 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 -35 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 -35 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 -35 }
+  }
+  <File> ground {
+    ground
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 -25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 -25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 -25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 -25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 -25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 -25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 -25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 -15 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 -15 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 -15 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 -15 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 -15 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 -15 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 -15 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 -5 }
+  }
+  <File> ground {
+    ground
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 -5 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 -5 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 -5 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 -5 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 -5 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 -5 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 5 }
+  }
+  <File> ground {
+    ground
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 5 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 5 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 5 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 5 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 5 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 5 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 15 }
+  }
+  <File> ground {
+    ground
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 15 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 15 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 15 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 15 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 15 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 15 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 25 }
+  }
+  <File> ground {
+    ground
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 25 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 25 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 25 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 25 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 25 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 35 }
+  }
+  <File> ground {
+    ground
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 35 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 35 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 35 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 35 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 35 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 35 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -35 0 45 }
+  }
+  <File> ground {
+    ground
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -25 0 45 }
+  }
+  <File> ground {
+    ground
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -15 0 45 }
+  }
+  <File> road {
+    road
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { -5 0 45 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 5 0 45 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 15 0 45 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}
+<Instance> {
+  <Transform> {
+    <Translate> { 25 0 45 }
+  }
+  <File> building {
+    building
+  }
+  <File> buildingpad {
+    buildingpad
+  }
+}

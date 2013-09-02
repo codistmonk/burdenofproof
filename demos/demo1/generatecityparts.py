@@ -113,7 +113,7 @@ def generateBuildingPad(size):
 
 	group.addRotx(-90.0)
 	group.addUniformScale(size)
-	group.addTranslate3d(Vec3D(0.0, 1.0, 0.0))
+	group.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
 
 	finishEgg(egg)
 	egg.writeEgg("models/" + name + ".egg")
@@ -141,6 +141,7 @@ def generateSidewalks(sidewalkType, size, uvs):
 		group.addChild(polygon)
 		group.addRotx(-90.0)
 		group.addUniformScale(size)
+		group.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
 
 		finishEgg(egg)
 		egg.writeEgg("models/" + name + ".egg")
