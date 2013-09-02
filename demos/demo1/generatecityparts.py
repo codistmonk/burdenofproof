@@ -4,7 +4,7 @@ from panda3d.core import *
 from panda3d.egg import *
 from utils import *
 
-def retrieveTexture(textureName, textureFolderName, textureEnvType, textureScale, textureFormat = "png"):
+def retrieveTexture(textureName, textureFolderName, textureEnvType = EggTexture.ETUnspecified, textureScale = 1.0, textureFormat = "png"):
 	if EggTexture.ETUnspecified == textureEnvType:
 		textureNameEnding = "Diffuse"
 		textureFileNameEnding = "diffuse"
@@ -148,22 +148,27 @@ def reverseUvs(uvs):
 	return result
 
 def newCurbTop(eggVertices, curbUvs, quarterTurns = 0):
+	result = []
 	polygon = EggPolygon()
 	walksideUvs = curbUvs[0]
 	roadsideUvs = curbUvs[1]
 	n = len(roadsideUvs)
 
-	for i in range(0, n, 2):
-		u, v = roadsideUvs[i], roadsideUvs[i + 1]
-		x, y = xyFromUv(u, v, quarterTurns)
-		polygon.addVertex(addEggVertex(eggVertices, x, y, 0.0, 0.01, i / (n - 1.0)))
+	for i in range(0, n - 2, 2):
+		x1, y1 = xyFromUv(roadsideUvs[i], roadsideUvs[i + 1], quarterTurns)
+		x2, y2 = xyFromUv(roadsideUvs[i + 2], roadsideUvs[i + 3], quarterTurns)
+		x3, y3 = xyFromUv(walksideUvs[i + 2], walksideUvs[i + 3], quarterTurns)
+		x4, y4 = xyFromUv(walksideUvs[i], walksideUvs[i + 1], quarterTurns)
+		polygon = EggPolygon()
 
-	for i in range(n - 2, -1, -2):
-		u, v = walksideUvs[i], walksideUvs[i + 1]
-		x, y = xyFromUv(u, v, quarterTurns)
-		polygon.addVertex(addEggVertex(eggVertices, x, y, 0.0, 0.0, i / (n - 1.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x1, y1, 0.0, 0.01, i / (n - 2.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x2, y2, 0.0, 0.01, (i + 2) / (n - 2.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x3, y3, 0.0, 0.00, (i + 2) / (n - 2.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x4, y4, 0.0, 0.00, i / (n - 2.0)))
 
-	return polygon
+		result.append(polygon)
+
+	return result
 
 def newCurbSide(eggVertices, curbUvs, quarterTurns = 0):
 	result = []
@@ -175,10 +180,10 @@ def newCurbSide(eggVertices, curbUvs, quarterTurns = 0):
 		x2, y2 = xyFromUv(roadsideUvs[i + 2], roadsideUvs[i + 3], quarterTurns)
 		polygon = EggPolygon()
 
-		polygon.addVertex(addEggVertex(eggVertices, x1, y1, -0.01, 0.02, i / (n - 1.0)))
-		polygon.addVertex(addEggVertex(eggVertices, x2, y2, -0.01, 0.02, (i + 1) / (n - 1.0)))
-		polygon.addVertex(addEggVertex(eggVertices, x2, y2, 0.0, 0.01, (i + 1) / (n - 1.0)))
-		polygon.addVertex(addEggVertex(eggVertices, x1, y1, 0.0, 0.01, i / (n - 1.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x1, y1, -0.01, 0.02, i / (n - 2.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x2, y2, -0.01, 0.02, (i + 2) / (n - 2.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x2, y2, 0.0, 0.01, (i + 2) / (n - 2.0)))
+		polygon.addVertex(addEggVertex(eggVertices, x1, y1, 0.0, 0.01, i / (n - 2.0)))
 
 		result.append(polygon)
 
@@ -199,9 +204,9 @@ def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 		group.addChild(polygon)
 
-		polygon = newCurbTop(vertices, curbUvs, quarterTurns)
-		polygon.addTexture(retrieveTexture(name, "cement", EggTexture.ETUnspecified, textureScale, textureFormat = "jpg"))
-		group.addChild(polygon)
+		for polygon in newCurbTop(vertices, curbUvs, quarterTurns):
+			polygon.addTexture(retrieveTexture(name, "cement", EggTexture.ETUnspecified, textureScale, textureFormat = "jpg"))
+			group.addChild(polygon)
 
 		for polygon in newCurbSide(vertices, curbUvs, quarterTurns):
 			polygon.addTexture(retrieveTexture(name, "cement", EggTexture.ETUnspecified, textureScale, textureFormat = "jpg"))
@@ -274,6 +279,52 @@ def generateHalf2Sidewalks(size):
 
 	generateSidewalks("half2", size, connectUvs, curbUvs)
 
+def newMarking(eggVertices):
+	return newFlatPolygon(eggVertices, [
+		0.0, 0.0,
+		1.0, 0.0,
+		1.0, 1.0,
+		0.0, 1.0
+	])
+
+def frange(begin, end, n, includeBegin = True, includeEnd = False):
+	result = []
+	extent = end - begin
+
+	for i in range(0 if includeBegin else 1, n + (1 if includeEnd else 0)):
+		result.append(begin + i * extent / n)
+		pass
+
+	return result
+
+def generateCurvedRoadMarkings(size, smoothness = 5):
+	overflowAngle = 10.0
+
+	for quarterTurns, namePrefix in enumerate(["sw", "se", "ne", "nw"]):
+		name = namePrefix + "marking"
+		egg, group = newEggAndGroup()
+		vertices = EggVertexPool(name + "Vertices")
+		egg.addChild(vertices)
+		centerX, centerY = xyFromUv(1.0, 1.0, quarterTurns)
+
+		for angle in frange(quarterTurns * 90.0 - 180.0 - overflowAngle, quarterTurns * 90.0 - 90.0 + overflowAngle, smoothness, False, False):
+			markingGroup = newGroup(group)
+			markingPolygon = newMarking(vertices)
+			markingPolygon.addTexture(retrieveTexture(name, "curvemarking"))
+			markingGroup.addChild(markingPolygon)
+			markingGroup.addTranslate3d(Vec3D(-0.5, -0.5, 0.0))
+			markingGroup.addScale3d(Vec3D(1.0 / 5.0, 1.0 / 8.0 / 5.0, 1.0))
+			markingGroup.addRotz(angle + 90.0)
+			markingGroup.addTranslate3d(Vec3D(centerX + 0.5 * cos(deg2Rad(angle)), centerY + 0.5 * sin(deg2Rad(angle)), 0.0))
+
+		group.addRotx(-90.0)
+		group.addUniformScale(size)
+		group.addTranslate3d(Vec3D(0.0, 0.001, 0.0))
+
+		finishEgg(egg)
+		egg.writeEgg("models/" + name + ".egg")
+
+
 blockSize = 10.0
 generateTexturedQuad("ground", blockSize, "grass", True, blockSize)
 generateTexturedQuad("road", blockSize, "asphalt", True, blockSize)
@@ -285,6 +336,7 @@ generateInteriorSidewalks(blockSize)
 generateHalf1Sidewalks(blockSize)
 generateHalf2Sidewalks(blockSize)
 generateTexturedQuad("wemarking", blockSize, "marking",
-	scale = Vec3D(1.0, 1.0, 1.0 / 5.0 / 8.0), textureScale = 5.0, translation = Vec3D(0.0, 0.01, -5.0))
+	scale = Vec3D(1.0, 1.0, 1.0 / 40.0), textureScale = 5.0, translation = Vec3D(0.0, 0.001, -(0.5 - 1.0 / 40.0 / 2.0) * blockSize))
 generateTexturedQuad("nsmarking", blockSize, "marking",
-	quarterTurns = 1, scale = Vec3D(1.0 / 5.0 / 8.0, 1.0, 1.0), textureScale = 5.0, translation = Vec3D(5.0, 0.01, 0.0))
+	quarterTurns = 1, scale = Vec3D(1.0 / 40.0, 1.0, 1.0), textureScale = 5.0, translation = Vec3D((0.5 - 1.0 / 40.0 / 2.0) * blockSize, 0.001, 0.0))
+generateCurvedRoadMarkings(blockSize)

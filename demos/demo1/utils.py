@@ -22,3 +22,12 @@ def addEggVertex(eggVertexPool, x, y, z, u = 0, v = 0):
 	eggVertexPool.addVertex(vertex)
 
 	return vertex
+
+def newGroup(eggData):
+	group = EggGroup()
+
+	group.setGroupType(EggGroup.GTInstance)
+
+	eggData.addChild(group)
+
+	return group

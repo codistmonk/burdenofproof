@@ -31,7 +31,7 @@
 <Instance> {
   <Transform> {
     <Scale> { 0.025 1 1 }
-    <Translate> { 5 0.01 0 }
+    <Translate> { 4.875 0.001 0 }
   }
   <Polygon> {
     <TRef> { nsmarkingTextureDiffuse }
