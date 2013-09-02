@@ -31,7 +31,7 @@
 <Instance> {
   <Transform> {
     <Scale> { 1 1 0.025 }
-    <Translate> { 0 0.01 -5 }
+    <Translate> { 0 0.001 -4.875 }
   }
   <Polygon> {
     <TRef> { wemarkingTextureDiffuse }

@@ -706,6 +706,9 @@
   <File> road {
     road
   }
+  <File> curvedRoadMarking {
+    nemarking
+  }
   <File> sidewalk {
     neexteriorsidewalk
   }
@@ -855,6 +858,9 @@
   <File> road {
     road
   }
+  <File> marking {
+    swmarking
+  }
   <File> sidewalk {
     swexteriorsidewalk
   }
@@ -943,6 +949,9 @@
   }
   <File> road {
     road
+  }
+  <File> marking {
+    semarking
   }
   <File> sidewalk {
     seexteriorsidewalk

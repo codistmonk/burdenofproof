@@ -4,15 +4,6 @@ from panda3d.core import *
 from panda3d.egg import *
 from utils import *
 
-def newGroup(eggData):
-	group = EggGroup()
-
-	group.setGroupType(EggGroup.GTInstance)
-
-	eggData.addChild(group)
-
-	return group
-
 def isBuilding(blueprintItem):
 	return blueprintItem == 'P' or blueprintItem == 'O' or blueprintItem == 'H'
 
@@ -72,6 +63,15 @@ for nsIndex, blueprintRow in enumerate(blueprint):
 			swItem = getItem(blueprint, nsIndex + 1, weIndex - 1)
 			sItem = getItem(blueprint, nsIndex + 1, weIndex)
 			seItem = getItem(blueprint, nsIndex + 1, weIndex + 1)
+
+			if isRoad(nItem) and isRoad(blueprintItem) and isRoad(eItem) and not isRoad(wItem) and not isRoad(sItem):
+				block.addChild(EggExternalReference("marking", "swmarking"))
+			if isRoad(wItem) and isRoad(blueprintItem) and isRoad(nItem) and not isRoad(sItem) and not isRoad(eItem):
+				block.addChild(EggExternalReference("marking", "semarking"))
+			if isRoad(sItem) and isRoad(blueprintItem) and isRoad(wItem) and not isRoad(eItem) and not isRoad(nItem):
+				block.addChild(EggExternalReference("curvedRoadMarking", "nemarking"))
+			if isRoad(eItem) and isRoad(blueprintItem) and isRoad(sItem) and not isRoad(nItem) and not isRoad(wItem):
+				block.addChild(EggExternalReference("curvedRoadMarking", "nwmarking"))
 
 			if isRoad(wItem) and isRoad(blueprintItem) and isRoad(eItem) and (not isRoad(nItem) or not isRoad(sItem)):
 				block.addChild(EggExternalReference("marking", "wemarking"))
