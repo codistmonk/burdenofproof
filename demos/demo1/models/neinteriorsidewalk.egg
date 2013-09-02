@@ -1,4 +1,4 @@
-<Texture> seexteriorsidewalkTextureNormal {
+<Texture> neinteriorsidewalkTextureNormal {
   "textures/pavers/pavers_normal.png"
   <Scalar> wrap { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
@@ -7,7 +7,7 @@
     <Scale> { 10 }
   }
 }
-<Texture> seexteriorsidewalkTextureDiffuse {
+<Texture> neinteriorsidewalkTextureDiffuse {
   "textures/pavers/pavers_diffuse.png"
   <Scalar> wrap { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
@@ -21,190 +21,172 @@
     <Scale> { 10 }
   }
   <Polygon> {
-    <TRef> { seexteriorsidewalkTextureDiffuse }
-    <TRef> { seexteriorsidewalkTextureNormal }
+    <TRef> { neinteriorsidewalkTextureDiffuse }
+    <TRef> { neinteriorsidewalkTextureNormal }
     <VertexRef> {
-      1 0 3 4 2 19 18 17 16 15 14 13 12 11 10 9 8 7 6 5
-      <Ref> { seexteriorsidewalkVertices }
+      16 17 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+      <Ref> { neinteriorsidewalkVertices }
     }
   }
 }
-<VertexPool> seexteriorsidewalkVertices {
+<VertexPool> neinteriorsidewalkVertices {
   <Vertex> 0 {
-    0.5 0 0
+    0.9 1 0
     <UV> {
-      0.5 0
+      0.9 1
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 1 {
-    0.5 0.1 0
+    0.9005 0.9902 0
     <UV> {
-      0.5 0.1
+      0.9005 0.9902
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 2 {
-    0.9 0.5 0
+    0.9019 0.9805 0
     <UV> {
-      0.9 0.5
+      0.9019 0.9805
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 3 {
-    1 0 0
+    0.9043 0.971 0
     <UV> {
-      1 0
+      0.9043 0.971
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 4 {
-    1 0.5 0
+    0.9076 0.9617 0
     <UV> {
-      1 0.5
+      0.9076 0.9617
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 5 {
-    0.5392 0.1019 0
+    0.9118 0.9529 0
     <UV> {
-      0.5392 0.1019
+      0.9118 0.9529
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 6 {
-    0.578 0.1077 0
+    0.9169 0.9444 0
     <UV> {
-      0.578 0.1077
+      0.9169 0.9444
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 7 {
-    0.6161 0.1172 0
+    0.9227 0.9366 0
     <UV> {
-      0.6161 0.1172
+      0.9227 0.9366
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 8 {
-    0.6531 0.1304 0
+    0.9293 0.9293 0
     <UV> {
-      0.6531 0.1304
+      0.9293 0.9293
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 9 {
-    0.6886 0.1472 0
+    0.9366 0.9227 0
     <UV> {
-      0.6886 0.1472
+      0.9366 0.9227
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 10 {
-    0.7222 0.1674 0
+    0.9444 0.9169 0
     <UV> {
-      0.7222 0.1674
+      0.9444 0.9169
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 11 {
-    0.7538 0.1908 0
+    0.9529 0.9118 0
     <UV> {
-      0.7538 0.1908
+      0.9529 0.9118
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 12 {
-    0.7828 0.2172 0
+    0.9617 0.9076 0
     <UV> {
-      0.7828 0.2172
+      0.9617 0.9076
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 13 {
-    0.8092 0.2462 0
+    0.971 0.9043 0
     <UV> {
-      0.8092 0.2462
+      0.971 0.9043
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 14 {
-    0.8326 0.2778 0
+    0.9805 0.9019 0
     <UV> {
-      0.8326 0.2778
+      0.9805 0.9019
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 15 {
-    0.8528 0.3114 0
+    0.9902 0.9005 0
     <UV> {
-      0.8528 0.3114
+      0.9902 0.9005
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 16 {
-    0.8696 0.3469 0
+    1 0.9 0
     <UV> {
-      0.8696 0.3469
+      1 0.9
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }
     <Normal> { 0 0 1 }
   }
   <Vertex> 17 {
-    0.8828 0.3839 0
+    1 1 0
     <UV> {
-      0.8828 0.3839
-      <Tangent> { 1 0 0 }
-      <Binormal> { 0 1 0 }
-    }
-    <Normal> { 0 0 1 }
-  }
-  <Vertex> 18 {
-    0.8923 0.422 0
-    <UV> {
-      0.8923 0.422
-      <Tangent> { 1 0 0 }
-      <Binormal> { 0 1 0 }
-    }
-    <Normal> { 0 0 1 }
-  }
-  <Vertex> 19 {
-    0.8981 0.4608 0
-    <UV> {
-      0.8981 0.4608
+      1 1
       <Tangent> { 1 0 0 }
       <Binormal> { 0 1 0 }
     }

@@ -118,30 +118,20 @@ def generateBuildingPad(size):
 	finishEgg(egg)
 	egg.writeEgg("models/" + name + ".egg")
 
-def appendCircle(uvs, centerX, centerY, radius, angleBegin, angleEnd, angleCount):
+def appendCircle(uvs, centerX, centerY, radius, angleBegin, angleEnd, angleCount, rounding = 4):
 	angleExtent = angleEnd - angleBegin
 
 	for i in range(angleCount):
 		angle = angleBegin + i * angleExtent / angleCount
-		uvs.append(round(centerX + radius * cos(angle), 3))
-		uvs.append(round(centerY + radius * sin(angle), 3))
+		uvs.append(round(centerX + radius * cos(angle), rounding))
+		uvs.append(round(centerY + radius * sin(angle), rounding))
 
-def generateExteriorSidewalk():
-	uvs = [
-		0.1, 0.5,
-		0.0, 0.5,
-		0.0, 0.0,
-		0.5, 0.0,
-	]
-
-	appendCircle(uvs, 0.5, 0.5, 0.4, -pi / 2.0, -pi, 10)
-
-	size = 10.0
+def generateTeriorSidewalks(teriorType, size, uvs):
 	textureScale = size
 	textureName = "pavers"
 
 	for quarterTurns, namePrefix in enumerate(["sw", "se", "ne", "nw"]):
-		name = namePrefix + "exteriorsidewalk"
+		name = namePrefix + teriorType + "teriorsidewalk"
 		egg, group = newEggAndGroup()
 		vertices = EggVertexPool(name + "Vertices")
 		egg.addChild(vertices)
@@ -155,9 +145,32 @@ def generateExteriorSidewalk():
 		finishEgg(egg)
 		egg.writeEgg("models/" + name + ".egg")
 
+def generateExteriorSidewalks(size, smoothness = 16):
+	uvs = [
+		0.1, 0.5,
+		0.0, 0.5,
+		0.0, 0.0,
+		0.5, 0.0,
+	]
+
+	appendCircle(uvs, 0.5, 0.5, 0.4, -pi / 2.0, -pi, smoothness)
+
+	generateTeriorSidewalks("ex", size, uvs)
+
+def generateInteriorSidewalks(size, smoothness = 16):
+	uvs = [
+		0.0, 0.1,
+		0.0, 0.0,
+	]
+
+	appendCircle(uvs, 0.0, 0.0, 0.1, 0.0, pi / 2.0, smoothness)
+	
+	generateTeriorSidewalks("in", size, uvs)
+
 blockSize = 10.0
 generateTexturedQuad("ground", blockSize, "grass", True, blockSize)
 generateTexturedQuad("road", blockSize, "asphalt", True, blockSize)
 generateTexturedQuad("building", blockSize - 2.0, "blue", translation = Vec3D(blockSize / 10.0, 0.0, -blockSize / 10.0))
 generateBuildingPad(blockSize)
-generateExteriorSidewalk()
+generateExteriorSidewalks(blockSize)
+generateInteriorSidewalks(blockSize)
