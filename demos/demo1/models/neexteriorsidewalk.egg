@@ -1,0 +1,159 @@
+<Texture> neexteriorsidewalkTextureNormal {
+  "textures/pavers/pavers_normal.png"
+  <Scalar> wrap { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Scalar> envtype { normal }
+  <Transform> {
+    <Scale> { 10 }
+  }
+}
+<Texture> neexteriorsidewalkTextureDiffuse {
+  "textures/pavers/pavers_diffuse.png"
+  <Scalar> wrap { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Transform> {
+    <Scale> { 10 }
+  }
+}
+<Instance> {
+  <Transform> {
+    <RotX> { -90 }
+    <Scale> { 10 }
+  }
+  <Polygon> {
+    <TRef> { neexteriorsidewalkTextureDiffuse }
+    <TRef> { neexteriorsidewalkTextureNormal }
+    <VertexRef> {
+      2 3 4 1 0 5 6 7 8 9 10 11 12 13
+      <Ref> { neexteriorsidewalkVertices }
+    }
+  }
+}
+<VertexPool> neexteriorsidewalkVertices {
+  <Vertex> 0 {
+    0.5 0.9 0
+    <UV> {
+      0.5 0.9
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 1 {
+    0.5 1 0
+    <UV> {
+      0.5 1
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 2 {
+    0.9 0.5 0
+    <UV> {
+      0.9 0.5
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 3 {
+    1 0.5 0
+    <UV> {
+      1 0.5
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 4 {
+    1 1 0
+    <UV> {
+      1 1
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 5 {
+    0.563 0.895 0
+    <UV> {
+      0.563 0.895
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 6 {
+    0.624 0.88 0
+    <UV> {
+      0.624 0.88
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 7 {
+    0.682 0.856 0
+    <UV> {
+      0.682 0.856
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 8 {
+    0.735 0.824 0
+    <UV> {
+      0.735 0.824
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 9 {
+    0.783 0.783 0
+    <UV> {
+      0.783 0.783
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 10 {
+    0.824 0.735 0
+    <UV> {
+      0.824 0.735
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 11 {
+    0.856 0.682 0
+    <UV> {
+      0.856 0.682
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 12 {
+    0.88 0.624 0
+    <UV> {
+      0.88 0.624
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 13 {
+    0.895 0.563 0
+    <UV> {
+      0.895 0.563
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+}

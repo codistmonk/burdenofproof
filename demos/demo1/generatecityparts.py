@@ -1,4 +1,5 @@
 import sys, os
+from math import *
 from panda3d.core import *
 from panda3d.egg import *
 from utils import *
@@ -49,7 +50,7 @@ def generateTexturedQuad(name, size, textureName, useTextureNormal = False, text
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 
 	egg = EggData()
-	
+
 	egg.addChild(vertices)
 
 	if translation is None:
@@ -81,16 +82,22 @@ def newPolygon(eggVertices, uvs, quarterTurns = 0):
 
 	return polygon
 
+def newEggAndGroup():
+	egg = EggData()
+	group = EggGroup()
+
+	egg.addChild(group)
+	group.setGroupType(EggGroup.GTInstance)
+
+	return egg, group
+
 def generateBuildingPad(size):
 	name = "buildingpad"
 	textureName = "pavers"
-	textureScale = 10.0
+	textureScale = size
 	vertices = EggVertexPool(name + "Vertices")
-	egg = EggData()
-	group = EggGroup()
-	group.setGroupType(EggGroup.GTInstance)
+	egg, group = newEggAndGroup()
 	egg.addChild(vertices)
-	egg.addChild(group)
 	uvs = [
 		0.0, 0.0,
 		0.9, 0.0,
@@ -106,13 +113,51 @@ def generateBuildingPad(size):
 
 	group.addRotx(-90.0)
 	group.addUniformScale(size)
-	group.addTranslate3d(Vec3D(0.0, size / 10.0, 0.0))
+	group.addTranslate3d(Vec3D(0.0, 1.0, 0.0))
 
 	finishEgg(egg)
 	egg.writeEgg("models/" + name + ".egg")
+
+def appendCircle(uvs, centerX, centerY, radius, angleBegin, angleEnd, angleCount):
+	angleExtent = angleEnd - angleBegin
+
+	for i in range(angleCount):
+		angle = angleBegin + i * angleExtent / angleCount
+		uvs.append(round(centerX + radius * cos(angle), 3))
+		uvs.append(round(centerY + radius * sin(angle), 3))
+
+def generateExteriorSidewalk():
+	uvs = [
+		0.1, 0.5,
+		0.0, 0.5,
+		0.0, 0.0,
+		0.5, 0.0,
+	]
+
+	appendCircle(uvs, 0.5, 0.5, 0.4, -pi / 2.0, -pi, 10)
+
+	size = 10.0
+	textureScale = size
+	textureName = "pavers"
+
+	for quarterTurns, namePrefix in enumerate(["sw", "se", "ne", "nw"]):
+		name = namePrefix + "exteriorsidewalk"
+		egg, group = newEggAndGroup()
+		vertices = EggVertexPool(name + "Vertices")
+		egg.addChild(vertices)
+		polygon = newPolygon(vertices, uvs, quarterTurns)
+		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
+		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
+		group.addChild(polygon)
+		group.addRotx(-90.0)
+		group.addUniformScale(size)
+
+		finishEgg(egg)
+		egg.writeEgg("models/" + name + ".egg")
 
 blockSize = 10.0
 generateTexturedQuad("ground", blockSize, "grass", True, blockSize)
 generateTexturedQuad("road", blockSize, "asphalt", True, blockSize)
 generateTexturedQuad("building", blockSize - 2.0, "blue", translation = Vec3D(blockSize / 10.0, 0.0, -blockSize / 10.0))
 generateBuildingPad(blockSize)
+generateExteriorSidewalk()
