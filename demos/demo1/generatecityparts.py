@@ -4,7 +4,7 @@ from panda3d.core import *
 from panda3d.egg import *
 from utils import *
 
-def retrieveTexture(textureName, textureFolderName, textureEnvType, textureScale):
+def retrieveTexture(textureName, textureFolderName, textureEnvType, textureScale, textureFormat = "png"):
 	if EggTexture.ETUnspecified == textureEnvType:
 		textureNameEnding = "Diffuse"
 		textureFileNameEnding = "diffuse"
@@ -16,7 +16,7 @@ def retrieveTexture(textureName, textureFolderName, textureEnvType, textureScale
 
 	texture = EggTexture(
 		textureName + "Texture" + textureNameEnding,
-		"textures/" + textureFolderName + "/" + textureFolderName + "_" + textureFileNameEnding + ".png")
+		"textures/" + textureFolderName + "/" + textureFolderName + "_" + textureFileNameEnding + "." + textureFormat)
 
 	texture.setEnvType(textureEnvType)
 
@@ -118,27 +118,47 @@ def generateBuildingPad(size):
 	finishEgg(egg)
 	egg.writeEgg("models/" + name + ".egg")
 
-def appendCircle(uvs, centerX, centerY, radius, angleBegin, angleEnd, angleCount, rounding = 4):
+def arc(centerX, centerY, radius, angleBegin, angleEnd, angleCount, includeEnd = False, rounding = 4):
+	uvs = []
 	angleExtent = angleEnd - angleBegin
+	n = angleCount + (1 if includeEnd else 0)
 
-	for i in range(angleCount):
+	for i in range(n):
 		angle = angleBegin + i * angleExtent / angleCount
 		uvs.append(round(centerX + radius * cos(angle), rounding))
 		uvs.append(round(centerY + radius * sin(angle), rounding))
 
-def generateSidewalks(sidewalkType, size, uvs):
+	return uvs
+
+def reverseUvs(uvs):
+	result = []
+
+	for i in range(len(uvs) - 2, -2, -2):
+		result.append(uvs[i])
+		result.append(uvs[i + 1])
+
+	return result
+
+def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
 	textureScale = size
 	textureName = "pavers"
+	curbTopUvs = reverseUvs(curbUvs[0]) + curbUvs[1]
+
+	print sidewalkType, curbTopUvs
 
 	for quarterTurns, namePrefix in enumerate(["sw", "se", "ne", "nw"]):
 		name = namePrefix + sidewalkType + "sidewalk"
 		egg, group = newEggAndGroup()
 		vertices = EggVertexPool(name + "Vertices")
 		egg.addChild(vertices)
-		polygon = newPolygon(vertices, uvs, quarterTurns)
+		polygon = newPolygon(vertices, walkUvs, quarterTurns)
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 		group.addChild(polygon)
+		polygon = newPolygon(vertices, curbTopUvs, quarterTurns)
+		polygon.addTexture(retrieveTexture(name, "cement", EggTexture.ETUnspecified, textureScale, textureFormat = "jpg"))
+		group.addChild(polygon)
+
 		group.addRotx(-90.0)
 		group.addUniformScale(size)
 		group.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
@@ -147,46 +167,64 @@ def generateSidewalks(sidewalkType, size, uvs):
 		egg.writeEgg("models/" + name + ".egg")
 
 def generateExteriorSidewalks(size, smoothness = 16):
-	uvs = [
+	connectUvs = [
 		0.1, 0.5,
 		0.0, 0.5,
 		0.0, 0.0,
 		0.5, 0.0,
+	] + arc(0.5, 0.5, 0.41, -pi / 2.0, -pi, smoothness)
+	curbUvs = [
+		arc(0.5, 0.5, 0.41, -pi / 2.0, -pi, smoothness, includeEnd = True),
+		arc(0.5, 0.5, 0.40, -pi / 2.0, -pi, smoothness, includeEnd = True),
 	]
 
-	appendCircle(uvs, 0.5, 0.5, 0.4, -pi / 2.0, -pi, smoothness)
-
-	generateSidewalks("exterior", size, uvs)
+	generateSidewalks("exterior", size, connectUvs, curbUvs)
 
 def generateInteriorSidewalks(size, smoothness = 16):
-	uvs = [
+	connectUvs = [
 		0.0, 0.1,
 		0.0, 0.0,
+	] + arc(0.0, 0.0, 0.09, 0.0, pi / 2.0, smoothness)
+	curbUvs = [
+		arc(0.0, 0.0, 0.09, 0.0, pi / 2.0, smoothness, includeEnd = True),
+		arc(0.0, 0.0, 0.10, 0.0, pi / 2.0, smoothness, includeEnd = True)
 	]
 
-	appendCircle(uvs, 0.0, 0.0, 0.1, 0.0, pi / 2.0, smoothness)
-	
-	generateSidewalks("interior", size, uvs)
+	generateSidewalks("interior", size, connectUvs, curbUvs)
 
 def generateHalf1Sidewalks(size):
-	uvs = [
-		0.0, 0.0,
-		0.5, 0.0,
-		0.5, 0.1,
-		0.0, 0.1
+	connectUvs = [
+		0.0, 0.09,
+		0.0, 0.00,
+		0.5, 0.00,
+		0.5, 0.09
 	]
+	curbUvs = [[
+		0.5, 0.09,
+		0.0, 0.09
+	],[
+		0.5, 0.10,
+		0.0, 0.10
+	]]
 
-	generateSidewalks("half1", size, uvs)
+	generateSidewalks("half1", size, connectUvs, curbUvs)
 
 def generateHalf2Sidewalks(size):
-	uvs = [
-		0.0, 0.0,
-		0.1, 0.0,
-		0.1, 0.5,
-		0.0, 0.5
+	connectUvs = [
+		0.09, 0.5,
+		0.00, 0.5,
+		0.00, 0.0,
+		0.09, 0.0
 	]
+	curbUvs = [[
+		0.09, 0.0,
+		0.09, 0.5,
+	],[
+		0.10, 0.0,
+		0.10, 0.5,
+	]]
 
-	generateSidewalks("half2", size, uvs)
+	generateSidewalks("half2", size, connectUvs, curbUvs)
 
 blockSize = 10.0
 generateTexturedQuad("ground", blockSize, "grass", True, blockSize)

@@ -7,8 +7,16 @@
     <Scale> { 10 }
   }
 }
-<Texture> nwhalf1sidewalkTextureDiffuse {
+<Texture> nwhalf1sidewalkTextureDiffuse.tref1 {
   "textures/pavers/pavers_diffuse.png"
+  <Scalar> wrap { repeat }
+  <Scalar> minfilter { linear_mipmap_linear }
+  <Transform> {
+    <Scale> { 10 }
+  }
+}
+<Texture> nwhalf1sidewalkTextureDiffuse {
+  "textures/cement/cement_diffuse.jpg"
   <Scalar> wrap { repeat }
   <Scalar> minfilter { linear_mipmap_linear }
   <Transform> {
@@ -22,9 +30,13 @@
     <Translate> { 0 0.1 0 }
   }
   <Polygon> {
-    <TRef> { nwhalf1sidewalkTextureDiffuse }
+    <TRef> { nwhalf1sidewalkTextureDiffuse.tref1 }
     <TRef> { nwhalf1sidewalkTextureNormal }
-    <VertexRef> { 1 0 2 3 <Ref> { nwhalf1sidewalkVertices } }
+    <VertexRef> { 3 1 0 2 <Ref> { nwhalf1sidewalkVertices } }
+  }
+  <Polygon> {
+    <TRef> { nwhalf1sidewalkTextureDiffuse }
+    <VertexRef> { 3 2 4 5 <Ref> { nwhalf1sidewalkVertices } }
   }
 }
 <VertexPool> nwhalf1sidewalkVertices {
@@ -47,6 +59,24 @@
     <Normal> { 0 0 1 }
   }
   <Vertex> 2 {
+    0.09 0.5 0
+    <UV> {
+      0.09 0.5
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 3 {
+    0.09 1 0
+    <UV> {
+      0.09 1
+      <Tangent> { 1 0 0 }
+      <Binormal> { 0 1 0 }
+    }
+    <Normal> { 0 0 1 }
+  }
+  <Vertex> 4 {
     0.1 0.5 0
     <UV> {
       0.1 0.5
@@ -55,7 +85,7 @@
     }
     <Normal> { 0 0 1 }
   }
-  <Vertex> 3 {
+  <Vertex> 5 {
     0.1 1 0
     <UV> {
       0.1 1
