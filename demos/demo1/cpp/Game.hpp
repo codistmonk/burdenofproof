@@ -2,9 +2,11 @@
 #ifndef GAME_HPP_
 #define GAME_HPP_
 
+#include <thread>
 #include <cstdint>
 #include <string>
 #include <iostream>  // NOLINT(readability/streams)
+
 
 #include "Maths.hpp"
 #include "CityBlueprint.hpp"
@@ -16,7 +18,7 @@ class Game {
  private:
     std::string const m_scriptPath;
 
-    int64_t           m_time;
+    Time_Duration     m_time;
 
     CityBlueprint     m_cityBlueprint;
 
@@ -26,15 +28,17 @@ class Game {
 
     Game & operator=(Game const&);
 
+    std::thread       m_updateThread;
+
  public:
     // TODO(?) use seed
     Game(std::string const & scriptPath = ".", int const seed = 0);
 
-    inline int64_t getTime() const {
-        return m_time;
+    inline std::int64_t getTime() const {
+        return m_time.ticks();
     }
 
-    void update(int64_t const milliseconds);
+    void update(const Time_Duration & duration);
 
     inline CityBlueprint const & getCityBlueprint() const {
         return m_cityBlueprint;

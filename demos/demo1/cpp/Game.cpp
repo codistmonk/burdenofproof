@@ -1,7 +1,12 @@
 // NOLINT(legal/copyright)
 #include "Game.hpp"
+#include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/python.hpp>
 #include <string>
+
+using boost::posix_time::ptime;
+using boost::posix_time::time_duration;
+using boost::posix_time::milliseconds;
 
 namespace burdenofproof {
 
@@ -11,11 +16,17 @@ static std::string pathJoin(std::string const & path1,
 }
 
 Game::Game(std::string const & scriptPath, int const seed)
-    : m_scriptPath(scriptPath), m_time(0LL),
-      m_cityBlueprint(pathJoin(scriptPath, BLUEPRINTPATH)), m_population() {}
+    : m_scriptPath(scriptPath),
+      m_time(),
+      m_cityBlueprint(pathJoin(scriptPath, BLUEPRINTPATH)),
+      m_population() {
+//            m_updateThread = std::thread(&Game::update,
+//                                         this,
+//                                         Time_Duration(milliseconds(100)));
+}
 
-void Game::update(int64_t const milliseconds) {
-    m_time += milliseconds;
+void Game::update(const Time_Duration & duration) {
+    m_time += duration;
 
     // TODO(?) update population
 }

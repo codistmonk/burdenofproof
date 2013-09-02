@@ -4,7 +4,6 @@
 
 #include <cstdint>
 #include <string>
-#include <array>  // NOLINT(build/include_order)
 #include "Propertychronology.hpp"
 #include "Piecewiseconstantchronology.hpp"
 #include "Piecewiselinearchronology.hpp"

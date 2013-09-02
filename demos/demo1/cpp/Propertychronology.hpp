@@ -3,7 +3,6 @@
 #define PROPERTYCHRONOLOGY_HPP_
 
 #include <cstdint>
-#include <map>
 #include <set>
 #include "Temporalvalue.hpp"
 
@@ -25,10 +24,10 @@ class PropertyChronology {
 
     virtual ~PropertyChronology();
 
-    virtual  T getValue(std::int64_t time) const = 0;
+    virtual  T getValue(boost::posix_time::ptime const & time) const = 0;
 
  protected:
-    std::set< TemporalValue< T >/*, TemporalValueComparator< T > */ >
+    std::set< TemporalValue< T >, TemporalValueComparator< T > >
     m_temporalValues;
 };
 

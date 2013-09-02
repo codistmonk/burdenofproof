@@ -2,18 +2,20 @@
 #ifndef PIECEWISECONSTANTCHRONOLOGY_HPP_
 #define PIECEWISECONSTANTCHRONOLOGY_HPP_
 
+
 #include "Propertychronology.hpp"
 
 #ifndef _MSC_VER
 
 template< typename T >
 class PiecewiseConstantChronology : public PropertyChronology< T > {
+    typedef PropertyChronology< T > Super;
  public:
     PiecewiseConstantChronology();
 
     ~PiecewiseConstantChronology();
 
-    virtual T getValue(std::int64_t time) const override;
+    virtual T getValue(boost::posix_time::ptime const & time) const override;
 };
 
 template< typename T >
@@ -23,9 +25,9 @@ template< typename T >
 PiecewiseConstantChronology<T>::~PiecewiseConstantChronology() {}
 
 template< typename T >
-T PiecewiseConstantChronology< T >::getValue(std::int64_t const time) const {
-    return (*PropertyChronology< T >::m_temporalValues
-            .lower_bound(static_cast<TemporalValue<T> >(time)))
+T PiecewiseConstantChronology< T >::getValue(Time const & t) const {
+    return (*Super::m_temporalValues
+            .lower_bound(static_cast<TemporalValue<T> >(t)))
             .getValue();
 }
 

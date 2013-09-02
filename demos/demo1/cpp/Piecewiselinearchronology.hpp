@@ -6,12 +6,14 @@
 
 template< typename T >
 class PiecewiseLinearChronology : public PropertyChronology< T > {
+    typedef PropertyChronology< T > Super;
+
  public:
     PiecewiseLinearChronology();
 
     ~PiecewiseLinearChronology();
 
-    inline T getValue(std::int64_t time) const override;
+    inline T getValue(boost::posix_time::ptime const & time) const override;
 };
 
 template< typename T >
@@ -22,30 +24,33 @@ PiecewiseLinearChronology< T >::~PiecewiseLinearChronology() {}
 
 template< typename T >
 // TODO(DaleCooper): think about this method
-T PiecewiseLinearChronology< T >::getValue(std::int64_t const t) const {
+T PiecewiseLinearChronology< T >::getValue(Time const & t) const {
     TemporalValue<T> const& timeAsTV
             = static_cast<TemporalValue<T> >(t);
 
     auto exactIt
-            = PropertyChronology<T>::m_temporalValues.find(timeAsTV);
+            = Super::m_temporalValues.find(timeAsTV);
 
-    if (exactIt != PropertyChronology<T>::m_temporalValues.end()) {
+    if (exactIt != Super::m_temporalValues.end()) {
         return (*exactIt).getValue();
     }
 
     auto it1
-            =--PropertyChronology<T>::m_temporalValues.lower_bound(timeAsTV);
+            =--Super::m_temporalValues.lower_bound(timeAsTV);
     auto it2
-            = PropertyChronology<T>::m_temporalValues.upper_bound(timeAsTV);
+            = Super::m_temporalValues.upper_bound(timeAsTV);
 
-    auto& t1 = (*it1).getTime();
-    auto& t2 = (*it2).getTime();
-
-    auto& v1 = (*it1).getValue();
-    auto& v2 = (*it2).getValue();
+    Time const & t1 = (*it1).getTime();
+    Time const & t2 = (*it2).getTime();
+    Time_Duration t1Tot2 = t2 - t1;
+    Time_Duration t1Tot = t - t1;
+    std::int64_t length = t1Tot2.ticks();
+    std::int64_t deltaT = t1Tot.ticks();
+    T const & v1 = (*it1).getValue();
+    T const & v2 = (*it2).getValue();
 
     // TODO(DaleCooper) WARNING INTEGER DIVISION
-    return (v1*(t2-t)+v2*(t-t1))/(t2-t1);
+    return (v1*(length-deltaT)+v2*deltaT)/static_cast<double>(length);
 }
 
 #endif  // PIECEWISELINEARCHRONOLOGY_HPP_
