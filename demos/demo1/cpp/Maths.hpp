@@ -56,13 +56,13 @@ class RandomIntGenerator : public RandomGenerator< int,
     int m_max;
 };
 
-template< typename T, int s >
+template< typename T, int S >
 class Vector {
  public:
     Vector() {}
 
-    Vector(Vector<T, s> const & v) {
-        std::copy(v.m_data, v.m_data + s, m_data);
+    Vector(Vector< T, S > const & v) {
+        std::copy(v.m_data, v.m_data + S, m_data);
     }
 
     Vector& operator=(Vector const & v);
@@ -81,23 +81,23 @@ class Vector {
         return m_data[n];
     }
 
-    inline Vector<T, s> operator*(T const & t) const;
+    inline Vector< T, S > operator*(T const & t) const;
 
-    inline Vector<T, s> operator+(Vector<T, s> const & v) const;
+    inline Vector< T, S > operator+(Vector< T, S > const & v) const;
 
-    inline Vector<T, s> operator/(T const & t) const;
+    inline Vector< T, S > operator/(T const & t) const;
 
     template<typename U, int t>
     friend inline std::ostream & operator<<(std::ostream & o,
                                             Vector< U, t > const & v);
 
  private:
-    T m_data[s];  // NOLINT(runtime/arrays)
+    T m_data[S];
 };
 
 
-template< typename T, int s >
-Vector<T, s> & Vector<T, s>::operator=(Vector const& v) {
+template< typename T, int S >
+Vector< T, S > & Vector< T, S >::operator=(Vector const& v) {
     if (this != &v) {
         std::copy(v.m_data.begin(), v.m_data.end(), m_data.begin());
     }
@@ -105,8 +105,8 @@ Vector<T, s> & Vector<T, s>::operator=(Vector const& v) {
     return *this;
 }
 
-template< typename T, int s >
-Vector<T, s>& Vector<T, s>::operator=(Vector && vRvalue) {
+template< typename T, int S >
+Vector< T, S >& Vector< T, S >::operator=(Vector && vRvalue) {
     if (this != &vRvalue) {
         m_data(std::move(vRvalue.m_data));
     }
@@ -114,33 +114,33 @@ Vector<T, s>& Vector<T, s>::operator=(Vector && vRvalue) {
     return *this;
 }
 
-template< typename T, int s >
-Vector<T, s> Vector<T, s>::operator*(T const & t) const {
-    Vector<T, s> result(*this);
+template< typename T, int S >
+Vector< T, S > Vector< T, S >::operator*(T const & t) const {
+    Vector< T, S > result(*this);
 
-    for (int i = 0; i < s; ++i) {
+    for (int i = 0; i < S; ++i) {
         result[i] *= t;
     }
 
     return result;
 }
 
-template< typename T, int s >
-Vector<T, s> Vector<T, s>::operator/(T const & t) const {
-    Vector<T, s> result(*this);
+template< typename T, int S >
+Vector< T, S > Vector< T, S >::operator/(T const & t) const {
+    Vector< T, S > result(*this);
 
-    for (int i = 0; i < s; ++i) {
+    for (int i = 0; i < S; ++i) {
         result[i] /= t;
     }
 
     return result;
 }
 
-template< typename T, int s >
-Vector<T, s> Vector<T, s>::operator+(Vector<T, s> const & v) const {
-    Vector<T, s> result(*this);
+template< typename T, int S >
+Vector< T, S > Vector< T, S >::operator+(Vector< T, S > const & v) const {
+    Vector< T, S > result(*this);
 
-    for (int i = 0; i < s; ++i) {
+    for (int i = 0; i < S; ++i) {
         result[i] += v[i];
     }
 
@@ -149,11 +149,14 @@ Vector<T, s> Vector<T, s>::operator+(Vector<T, s> const & v) const {
 
 template<typename U, int t>
 std::ostream & operator<<(std::ostream & o, Vector< U, t > const & v) {
-    o << std::string("(");
-    for (int i = 0 ; i < t-1; ++i) {
+    o << "(";
+
+    for (int i = 0 ; i < t - 1; ++i) {
         o << v[i] << ", ";
     }
+
     o << v[t-1] << ")";
+
     return o;
 }
 
