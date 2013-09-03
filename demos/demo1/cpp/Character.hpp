@@ -10,7 +10,7 @@ class Character {
  public:
     Character();
     inline int getId() const {return m_id;}
-#if !defined(_MSC_VER) && !defined(__APPLE__)
+#if !defined(__APPLE__)
     inline Persona const & getActuelPersona() const {
         return *m_actualPersona;
     }
@@ -19,7 +19,7 @@ class Character {
     }
 #endif
  private:
-#if !defined(_MSC_VER) && !defined(__APPLE__)
+#if !defined(__APPLE__)
     std::list<Persona> m_personas;
     Persona*           m_actualPersona;
     Persona*           m_routinePersona;

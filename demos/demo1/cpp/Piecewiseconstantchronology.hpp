@@ -2,10 +2,7 @@
 #ifndef PIECEWISECONSTANTCHRONOLOGY_HPP_
 #define PIECEWISECONSTANTCHRONOLOGY_HPP_
 
-
 #include "Propertychronology.hpp"
-
-#ifndef _MSC_VER
 
 template< typename T >
 class PiecewiseConstantChronology : public PropertyChronology< T > {
@@ -30,7 +27,5 @@ T PiecewiseConstantChronology< T >::getValue(Time const & t) const {
             .lower_bound(static_cast<TemporalValue<T> >(t)))
             .getValue();
 }
-
-#endif  // _MSC_VER
 
 #endif  // PIECEWISECONSTANTCHRONOLOGY_HPP_

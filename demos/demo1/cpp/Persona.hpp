@@ -9,8 +9,6 @@
 #include "Piecewiselinearchronology.hpp"
 #include "Maths.hpp"
 
-
-
 class Character;
 
 class Persona {
@@ -21,7 +19,7 @@ class Persona {
         return m_character;
     }
 
-#if !defined(_MSC_VER) && !defined(__APPLE__)
+#if !defined(__APPLE__)
     inline PropertyChronology< std::string > const & getFirstName() const {
         return m_firstName;
     }
@@ -56,7 +54,7 @@ class Persona {
 #endif
 
  private:
-#if !defined(_MSC_VER) && !defined(__APPLE__)
+#if !defined(__APPLE__)
     PiecewiseConstantChronology< std::string >  m_firstName;
     PiecewiseConstantChronology< std::string >  m_middleName;
     PiecewiseConstantChronology< std::string >  m_lastName;
