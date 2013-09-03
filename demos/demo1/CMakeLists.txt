@@ -17,7 +17,7 @@ endif()
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	set(PYTHON python2)
 else()
-	set(PYTHON python)
+	set(PYTHON ppython)
 endif()
 
 # Dependencies
