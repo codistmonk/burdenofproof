@@ -28,20 +28,22 @@ Game::Game(std::string const & scriptPath, int const seed)
 //            m_updateThread = std::thread(&Game::update,
 //                                         this,
 //                                         Time_Duration(milliseconds(100)));
-    TemporalValue<string> tpStr(path("temporalValues/string.txt"));
-    std::cout << tpStr << std::endl;
-    TemporalValue<vec3f> tpVec3f(path("temporalValues/vec3f.txt"));
-    std::cout << tpVec3f << std::endl;
-    TemporalValue<Gender> tpG(path("temporalValues/gender.txt"));
-    std::cout << tpG << std::endl;
+    TemporalValue<string> tpStr(
+        path(pathJoin(scriptPath, "temporalValues/string.txt")));
+    SHOW(tpStr);
+    TemporalValue<vec3f> tpVec3f(
+        path(pathJoin(scriptPath, "temporalValues/vec3f.txt")));
+    SHOW(tpVec3f);
+    TemporalValue<Gender> tpG(
+        path(pathJoin(scriptPath, "temporalValues/gender.txt")));
+    SHOW(tpG);
     PiecewiseConstantChronology<string> pcStr(
-                path("propertyChronologies/strings.txt"));
-    std::cout << pcStr << std::endl;
+        path(pathJoin(scriptPath, "propertyChronologies/strings.txt")));
+    SHOW(pcStr);
     PiecewiseLinearChronology<float> pcFloats(
-                path("propertyChronologies/floats.txt"));
-    std::cout << pcFloats << std::endl;
-    std::cout << pcFloats.getValue(
-                     ptime(from_iso_string("20120903T060000")));
+        path(pathJoin(scriptPath, "propertyChronologies/floats.txt")));
+    SHOW(pcFloats);
+    SHOW(pcFloats.getValue(ptime(from_iso_string("20120903T060000"))));
 }
 
 void Game::update(const Time_Duration & duration) {

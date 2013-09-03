@@ -6,14 +6,14 @@
 #include "Maths.hpp"
 #include "Utils.hpp"
 
-
-using std::string;
 using boost::algorithm::split;
-using boost::is_any_of;
-using std::vector;
-using std::stof;
 using boost::algorithm::to_upper_copy;
+using boost::is_any_of;
+using boost::posix_time::to_simple_string;
 using maths::vec3f;
+using std::stof;
+using std::string;
+using std::vector;
 
 template<>
 std::int64_t TemporalValue<std::int64_t>::parseValue(std::string const & str) {
@@ -29,7 +29,7 @@ template<>
 Gender TemporalValue<Gender>::parseValue(std::string const & str) {
     static string const MALE("MALE");
     string STR = to_upper_copy(str);
-    return (STR == MALE)?Gender::MALE:Gender::FEMALE;
+    return (STR == MALE) ? Gender::MALE : Gender::FEMALE;
 }
 
 template<>
@@ -53,7 +53,17 @@ vec3f TemporalValue<vec3f>::parseValue(std::string const & str) {
 template<>
 std::ostream & operator<<(std::ostream & o,
                           TemporalValue< Gender > const & tp) {
-    o << "ptime : " << tp.getTime() << " , value = " <<
-         ((tp.getValue() == Gender::MALE)?"Male":"Female");
+    o << "ptime : " << to_simple_string(tp.getTime())
+      << " , value = " << burdenofproof::toString(tp.getValue());
+
+    return o;
+}
+
+template<>
+std::ostream & operator<<(std::ostream & o,
+                          TemporalValue< float > const & tp) {
+    o << "ptime : " << to_simple_string(tp.getTime())
+      << " , value = " << std::to_string(tp.getValue());
+
     return o;
 }

@@ -95,7 +95,6 @@ class Vector {
     T m_data[S];
 };
 
-
 template< typename T, int S >
 Vector< T, S > & Vector< T, S >::operator=(Vector const& v) {
     if (this != &v) {
@@ -152,10 +151,10 @@ std::ostream & operator<<(std::ostream & o, Vector< U, t > const & v) {
     o << "(";
 
     for (int i = 0 ; i < t - 1; ++i) {
-        o << v[i] << ", ";
+        o << std::to_string(v[i]) << ", ";
     }
 
-    o << v[t-1] << ")";
+    o << std::to_string(v[t - 1]) << ")";
 
     return o;
 }

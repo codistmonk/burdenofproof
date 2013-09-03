@@ -11,12 +11,12 @@
 #include <vector>
 #include <string>
 #include "Utils.hpp"
+#include "Gender.hpp"
 
 typedef boost::posix_time::ptime    Time;
 typedef boost::posix_time::time_duration    Time_Duration;
 typedef boost::filesystem::path     Path;
 
-enum class Gender : int8_t { MALE, FEMALE };
 class vec3f;
 
 template< typename T >
@@ -144,13 +144,23 @@ struct TemporalValueComparator {
 template< typename U >
 std::ostream & operator<<(std::ostream & o,
                           TemporalValue< U > const & tp) {
-    o << "ptime : " << tp.getTime() << " , value = " << tp.getValue();
+    using boost::posix_time::to_simple_string;
+
+    o << "ptime : " << to_simple_string(tp.getTime())
+      << " , value = " << tp.getValue();
+
     return o;
 }
+
+using burdenofproof::Gender;
 
 template<>
 std::ostream & operator<<(std::ostream & o,
                           TemporalValue< Gender > const & tp);
+
+template<>
+std::ostream & operator<<(std::ostream & o,
+                          TemporalValue< float > const & tp);
 
 template<>
 std::int64_t TemporalValue< std::int64_t >::parseValue(std::string const & str);
@@ -166,4 +176,5 @@ float TemporalValue< float >::parseValue(std::string const & str);
 
 template<>
 vec3f TemporalValue< vec3f >::parseValue(std::string const & str);
+
 #endif  // TEMPORALVALUE_HPP_

@@ -7,8 +7,12 @@
 #include <deque>
 #include <utility>
 
-#define DEBUG std::cout << __FILE__ << ":" << __LINE__ << std::endl
-#define SHOW(a) std::cout << #a << ": " << (a) << std::endl
+#define STR(x) #x
+#define STRINGIFY(x) STR(x)
+#define DEBUG std::cout << "(" __FILE__ << ":" << STRINGIFY(__LINE__) << ") "\
+                        << std::endl << std::flush
+#define SHOW(a) std::cout << "(" __FILE__ << ":" << STRINGIFY(__LINE__) << ") "\
+                          << #a << ": " << (a) << std::endl << std::flush
 
 namespace utils {
 
