@@ -70,7 +70,7 @@ class Vector {
     Vector& operator=(Vector && vRvalue);
 
     inline int size() const {
-        return s;
+        return S;
     }
 
     inline T const & operator[](int const n) const {
