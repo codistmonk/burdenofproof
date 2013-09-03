@@ -19,7 +19,6 @@ class Persona {
         return m_character;
     }
 
-#if !defined(__APPLE__)
     inline PropertyChronology< std::string > const & getFirstName() const {
         return m_firstName;
     }
@@ -51,10 +50,8 @@ class Persona {
     inline PropertyChronology< maths::vec3f > const & getPosition() const {
         return m_position;
     }
-#endif
 
  private:
-#if !defined(__APPLE__)
     PiecewiseConstantChronology< std::string >  m_firstName;
     PiecewiseConstantChronology< std::string >  m_middleName;
     PiecewiseConstantChronology< std::string >  m_lastName;
@@ -63,7 +60,6 @@ class Persona {
     PiecewiseConstantChronology< Gender >       m_gender;
     PiecewiseLinearChronology< float >          m_murderousInstinct;
     PiecewiseLinearChronology< maths::vec3f >   m_position;
-#endif
     Character const & m_character;
 };
 
