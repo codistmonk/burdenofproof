@@ -20,9 +20,13 @@ enum class Gender : int8_t { MALE, FEMALE };
 template< typename T >
 class TemporalValue {
  public:
-    TemporalValue() : m_value(nullptr), m_time(0LL) {}
+    TemporalValue() : m_value(nullptr), m_time() {}
 
     explicit TemporalValue(Path const & path);
+
+    explicit TemporalValue(std::string const & str) {
+        this->setTimeAndValueFromStr(str);
+    }
 
     TemporalValue(T const & value, Time const & time);
 
@@ -51,12 +55,15 @@ class TemporalValue {
     inline bool operator<(TemporalValue<T> const & tv) const {
         return (*m_value) < (*(tv.m_value));
     }
+
     template< typename U >
     friend std::ostream & operator<<(std::ostream & o,
                                      TemporalValue< U > const & tp);
 
  private:
     T parseValue(std::string const & str);
+
+    void setTimeAndValueFromStr(std::string const & str);
 
  private:
     std::shared_ptr< T > m_value;
@@ -72,25 +79,32 @@ template< typename T >
 TemporalValue<T>::TemporalValue(Path const & path) {
     using boost::filesystem::exists;
     using boost::filesystem::is_regular_file;
-    using boost::posix_time::from_iso_string;  // Parse time string of form YYYYMMDDThhmmss where T is delimeter between date and time NOLINT(whitespace/line_length)
-    using boost::algorithm::split;
-    using boost::is_any_of;
-    using std::vector;
     using std::string;
 
     if (exists(path)) {
         if (is_regular_file(path)) {
             string line;
-            vector<string> splitVec(2);
             std::ifstream file(path.string());
             std::getline(file, line);
-            split(splitVec, line, is_any_of(";"));
-            m_time = from_iso_string(splitVec[0]);
-            m_value = std::shared_ptr< T >(new T(parseValue(splitVec[1])));
+            this->setTimeAndValueFromStr(line);
         }
     }
 }
 
+template< typename T >
+void TemporalValue< T >::setTimeAndValueFromStr(std::string const & str) {
+    using boost::algorithm::split;
+    // Parse time string of form YYYYMMDDThhmmss where T is delimeter between date and time NOLINT(whitespace/line_length)
+    using boost::posix_time::from_iso_string;
+    using boost::is_any_of;
+    using std::vector;
+    using std::string;
+    using boost::posix_time::from_iso_string;
+    vector<string> splitVec(2);
+    split(splitVec, str, is_any_of(";"));
+    m_time = from_iso_string(splitVec[0]);
+    m_value = std::shared_ptr< T >(new T(parseValue(splitVec[1])));
+}
 
 template< typename T >
 TemporalValue< T > & TemporalValue< T >::operator=(TemporalValue const & tv) {
@@ -122,15 +136,19 @@ TemporalValue< T >::~TemporalValue() {}
 template< typename T >
 struct TemporalValueComparator {
     inline bool operator()(TemporalValue< T > const & tp1,
-        TemporalValue< T > const & tp2) const {
+                           TemporalValue< T > const & tp2) const {
         return tp1.getTime() < tp2.getTime();
     }
 };
 
 template< typename U >
-std::ostream & operator<<(std::ostream & o, TemporalValue< U > const & tp) {
-    o << "ptime : " << tp.m_time << " , value = " << tp.getValue();
+std::ostream & operator<<(std::ostream & o,
+                          TemporalValue< U > const & tp) {
+    o << "ptime : " << tp.getTime() << " , value = " << tp.getValue();
     return o;
 }
 
+template<>
+std::ostream & operator<<(std::ostream & o,
+                          TemporalValue< Gender > const & tp);
 #endif  // TEMPORALVALUE_HPP_

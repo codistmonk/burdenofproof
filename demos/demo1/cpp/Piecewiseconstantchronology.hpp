@@ -10,6 +10,9 @@ class PiecewiseConstantChronology : public PropertyChronology< T > {
  public:
     PiecewiseConstantChronology();
 
+    explicit PiecewiseConstantChronology(
+            boost::filesystem::path const & path) : Super(path) {}
+
     ~PiecewiseConstantChronology();
 
     virtual T getValue(boost::posix_time::ptime const & time) const override;

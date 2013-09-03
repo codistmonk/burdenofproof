@@ -27,17 +27,15 @@ Game::Game(std::string const & scriptPath, int const seed)
 //            m_updateThread = std::thread(&Game::update,
 //                                         this,
 //                                         Time_Duration(milliseconds(100)));
-#if !defined(_MSC_VER) && !defined(__APPLE__)
-    // XXX the files are not found on all systems
-    //     paths should be relative to script directory
-    //     and reference only what is in app/
-    TemporalValue<string> tpStr(path("../../../temporalValues/string.txt"));
+    TemporalValue<string> tpStr(path("temporalValues/string.txt"));
     std::cout << tpStr << std::endl;
-    TemporalValue<vec3f> tpVec3f(path("../../../temporalValues/vec3f.txt"));
+    TemporalValue<vec3f> tpVec3f(path("temporalValues/vec3f.txt"));
     std::cout << tpVec3f << std::endl;
-#endif
-//  TemporalValue<Gender> tpG(path("../../../temporalValues/gender.txt"));
-//  std::cout << tpG << std::endl;
+    TemporalValue<Gender> tpG(path("temporalValues/gender.txt"));
+    std::cout << tpG << std::endl;
+    PiecewiseConstantChronology<string> pcStr(
+                path("propertyChronologies/strings.txt"));
+    std::cout << pcStr << std::endl;
 }
 
 void Game::update(const Time_Duration & duration) {

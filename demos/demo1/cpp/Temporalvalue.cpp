@@ -50,10 +50,10 @@ vec3f TemporalValue<vec3f>::parseValue(std::string const & str) {
     return result;
 }
 
-// template<>
-// std::ostream & operator<<(std::ostream & o,
-//                          TemporalValue< Gender > const & tp) {
-//    o << "ptime : " << tp.m_time << " , value = " <<
-//         (tp.getValue() == Gender::MALE)?"Male":"Female";
-//    return o;
-// }
+template<>
+std::ostream & operator<<(std::ostream & o,
+                          TemporalValue< Gender > const & tp) {
+    o << "ptime : " << tp.getTime() << " , value = " <<
+         ((tp.getValue() == Gender::MALE)?"Male":"Female");
+    return o;
+}
