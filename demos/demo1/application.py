@@ -18,9 +18,7 @@ class Application(ShowBase):
 
 		self.useAdvancedVisualEffects = ConfigVariableBool("use-advanced-visual-effects", True)
 
-		self.scriptPath = os.path.dirname(sys.argv[0]).replace("\\", "/")
-
-		self.game = Game(self.scriptPath)
+		self.game = Game(scriptPath)
 
 		self.phoneState = PhoneState(self)
 		self.setupFilters()

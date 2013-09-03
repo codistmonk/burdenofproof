@@ -1,3 +1,4 @@
+import sys, os
 from panda3d.core import *
 from panda3d.egg import *
 
@@ -31,3 +32,5 @@ def newGroup(eggData):
 	eggData.addChild(group)
 
 	return group
+
+scriptPath = os.path.dirname(sys.argv[0]).replace("\\", "/")

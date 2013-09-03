@@ -82,9 +82,13 @@ file(COPY ${PROPERTYCHRONOLOGIES} DESTINATION ${CMAKE_BINARY_DIR}/app/propertyCh
 get_property(target_location TARGET bop PROPERTY LOCATION)
 install(FILES ${target_location} DESTINATION ${CMAKE_BINARY_DIR}/app)
 
-# CPPLINT
+# Target cpplint
 add_custom_target(cpplint ALL)
 file(GLOB SRC_ALL cpp/*)
 foreach (f ${SRC_ALL})
 	add_custom_command(TARGET cpplint COMMAND ${PYTHON} ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1/cpp ${f})
 endforeach()
+
+# Target testcpp
+add_custom_target(testcpp ALL)
+add_custom_command(TARGET testcpp COMMAND ${PYTHON} ${CMAKE_BINARY_DIR}/app/testcpp.py)
