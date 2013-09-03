@@ -21,7 +21,7 @@ find_package(Boost COMPONENTS python date_time filesystem REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-	set(Boost_LIBRARIES boost_python)
+	set(Boost_LIBRARIES boost_python boost_date_time boost_system boost_filesystem)
 
 	set(PYTHON_INCLUDE_DIRS "/System/Library/Frameworks/Python.framework/Versions/2.5/Headers")
 	set(PYTHON_LIBRARIES "/System/Library/Frameworks/Python.framework/Versions/2.5/Python")
