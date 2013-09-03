@@ -9,7 +9,7 @@
 #include "Piecewiselinearchronology.hpp"
 #include "Maths.hpp"
 
-enum class Gender : int8_t { MALE, FEMALE };
+
 
 class Character;
 

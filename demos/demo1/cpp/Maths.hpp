@@ -6,6 +6,8 @@
 #include <initializer_list>
 #endif
 #include <random>
+#include <iostream>  // NOLINT(readability/streams)
+#include <string>
 #include <memory>
 #include <algorithm>
 
@@ -62,7 +64,9 @@ class Vector {
     Vector() {}
 
     explicit Vector(std::initializer_list<T> const & il) {
-        std::copy_n(il.begin(), std::min(s, il.size()), m_data.begin());
+        std::copy_n(il.begin(),
+                    std::min(static_cast<size_t>(s), il.size()),
+                    m_data.begin());
     }
 
     Vector(Vector<T, s> const & v) {
@@ -92,6 +96,10 @@ class Vector {
     inline Vector<T, s> operator+(Vector<T, s> const & v) const;
 
     inline Vector<T, s> operator/(T const & t) const;
+
+    template<typename U, int t>
+    friend inline std::ostream & operator<<(std::ostream & o,
+                                            Vector< U, t > const & v);
 
  private:
     std::array<T, s>  m_data;
@@ -147,6 +155,16 @@ Vector<T, s> Vector<T, s>::operator+(Vector<T, s> const & v) const {
     }
 
     return result;
+}
+
+template<typename U, int t>
+std::ostream & operator<<(std::ostream & o, Vector< U, t > const & v) {
+    o << std::string("(");
+    for (int i = 0 ; i < t-1; ++i) {
+        o << v[i] << ", ";
+    }
+    o << v[t-1] << ")";
+    return o;
 }
 
 typedef Vector< float, 3 > vec3f;

@@ -1,12 +1,16 @@
 // NOLINT(legal/copyright)
 #include "Game.hpp"
 #include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/filesystem.hpp>
 #include <boost/python.hpp>
 #include <string>
 
 using boost::posix_time::ptime;
 using boost::posix_time::time_duration;
 using boost::posix_time::milliseconds;
+using boost::filesystem::path;
+using std::string;
+using maths::vec3f;
 
 namespace burdenofproof {
 
@@ -23,6 +27,12 @@ Game::Game(std::string const & scriptPath, int const seed)
 //            m_updateThread = std::thread(&Game::update,
 //                                         this,
 //                                         Time_Duration(milliseconds(100)));
+    TemporalValue<string> tpStr(path("../../../temporalValues/string.txt"));
+    std::cout << tpStr << std::endl;
+    TemporalValue<vec3f> tpVec3f(path("../../../temporalValues/vec3f.txt"));
+    std::cout << tpVec3f << std::endl;
+//  TemporalValue<Gender> tpG(path("../../../temporalValues/gender.txt"));
+//  std::cout << tpG << std::endl;
 }
 
 void Game::update(const Time_Duration & duration) {
