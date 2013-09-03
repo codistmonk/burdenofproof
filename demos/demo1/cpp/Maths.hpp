@@ -56,30 +56,20 @@ class RandomIntGenerator : public RandomGenerator< int,
     int m_max;
 };
 
-#ifndef _MSC_VER
-
 template< typename T, int s >
 class Vector {
  public:
     Vector() {}
 
-    explicit Vector(std::initializer_list<T> const & il) {
-        std::copy_n(il.begin(),
-                    std::min(static_cast<size_t>(s), il.size()),
-                    m_data.begin());
-    }
-
     Vector(Vector<T, s> const & v) {
-        std::copy(v.m_data.begin(), v.m_data.end(), m_data.begin());
+        std::copy(v.m_data, v.m_data + s, m_data);
     }
-
-    Vector(Vector<T, s> && vRvalue) : m_data(std::move(vRvalue.m_data)) {}
 
     Vector& operator=(Vector const & v);
 
     Vector& operator=(Vector && vRvalue);
 
-    constexpr int size() const {
+    inline int size() const {
         return s;
     }
 
@@ -102,7 +92,7 @@ class Vector {
                                             Vector< U, t > const & v);
 
  private:
-    std::array<T, s>  m_data;
+    T m_data[s];  // NOLINT(runtime/arrays)
 };
 
 
@@ -168,8 +158,6 @@ std::ostream & operator<<(std::ostream & o, Vector< U, t > const & v) {
 }
 
 typedef Vector< float, 3 > vec3f;
-
-#endif  // _MSC_VER
 
 }  // namespace maths
 

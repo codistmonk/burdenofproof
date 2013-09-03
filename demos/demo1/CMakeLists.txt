@@ -16,7 +16,7 @@ endif()
 set(Boost_USE_STATIC_LIBS    OFF)
 set(Boost_USE_MULTITHREADED  ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost COMPONENTS python date_time filesystem REQUIRED)
+find_package(Boost COMPONENTS python date_time system filesystem REQUIRED)
 #find_package(Panda3D REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
@@ -64,8 +64,12 @@ endif()
 get_property(target_location TARGET bop PROPERTY LOCATION)
 install(FILES ${target_location} DESTINATION ${CMAKE_BINARY_DIR}/app)
 
-if(NOT (CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Linux"))
-	file(GLOB dlls ${Boost_LIBRARY_DIRS}/*boost_python*${CMAKE_SHARED_LIBRARY_SUFFIX})
+if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	file(GLOB dlls
+		${Boost_LIBRARY_DIRS}/*boost_python*${CMAKE_SHARED_LIBRARY_SUFFIX}
+		${Boost_LIBRARY_DIRS}/*boost_date_time*${CMAKE_SHARED_LIBRARY_SUFFIX}
+		${Boost_LIBRARY_DIRS}/*boost_system*${CMAKE_SHARED_LIBRARY_SUFFIX}
+		${Boost_LIBRARY_DIRS}/*boost_filesystem*${CMAKE_SHARED_LIBRARY_SUFFIX})
 	file(COPY ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/app)
 endif()
 

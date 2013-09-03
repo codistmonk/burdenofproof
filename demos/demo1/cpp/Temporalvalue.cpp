@@ -41,7 +41,13 @@ template<>
 vec3f TemporalValue<vec3f>::parseValue(std::string const & str) {
     vector<string> splitVec(3);
     split(splitVec, str, is_any_of("|"));
-    return vec3f({stof(splitVec[0]), stof(splitVec[1]), stof(splitVec[2])});
+    vec3f result;
+
+    for (int i = 0; i < 3; ++i) {
+        result[i] = stof(splitVec[0]);
+    }
+
+    return result;
 }
 
 // template<>
