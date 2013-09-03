@@ -1,1 +1,1 @@
-use-advanced-visual-effects #t
+use-advanced-visual-effects #f

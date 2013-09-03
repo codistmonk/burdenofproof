@@ -1,32 +1,39 @@
-import sys
+import sys, os
 from math import *
 from panda3d.core import *
-from direct.showbase.ShowBase import ShowBase
-from direct.directnotify.DirectNotify import DirectNotify
+from panda3d.egg import *
 from direct.filter.CommonFilters import CommonFilters
-from direct.fsm.FSM import FSM
-from direct.interval.IntervalGlobal import *
+from direct.showbase.ShowBase import ShowBase
 from direct.task import Task
 
-from phonestate import *
+from bop import *
+from orbitalcameracontroller import *
 from utils import *
+from phonestate import *
 
-class MyApp(ShowBase):
+class Application(ShowBase):
 
 	def __init__(self):
 		ShowBase.__init__(self)
 
 		self.useAdvancedVisualEffects = ConfigVariableBool("use-advanced-visual-effects", True)
 
-		self.debug = DirectNotify().newCategory("Debug")
+		self.scriptPath = os.path.dirname(sys.argv[0]).replace("\\", "/")
+
+		self.game = Game(self.scriptPath)
 
 		self.phoneState = PhoneState(self)
 		self.setupFilters()
 		self.setupModels()
+		self.setupLighting()
 		self.setupKeyboardControl()
 		self.camera.setPos(0, 0, 2)
 		self.setupMouseControl()
 		self.phoneState.request("Hidden")
+		blockSize = 10.0
+		self.maxX = self.game.getCityBlueprint().getSizeWE() * blockSize / 2.0
+		self.maxY = self.game.getCityBlueprint().getSizeNS() * blockSize / 2.0
+		self.setBackgroundColor(0.2, 0.4, 1.0, 1.0)
 
 	def setupFilters(self):
 		if (self.useAdvancedVisualEffects):
@@ -49,13 +56,6 @@ class MyApp(ShowBase):
 
 		self.taskMgr.add(self.controlCamera, "cameraTask")
 
-	def setupModels(self):
-		self.setupLights()
-		self.loadSky()
-		self.loadTerrain()
-		self.setupBuildings()
-		self.phoneState.setupPhone()
-
 	def setupLights(self):
 		self.sunLight = self.render.attachNewNode(DirectionalLight("sunLight"))
 		self.sunLight.setColor(Vec4(0.8, 0.8, 0.8, 1))
@@ -73,85 +73,15 @@ class MyApp(ShowBase):
 		self.ambientLight.node().setColor(Vec4(0.2, 0.2, 0.2, 1))
 		self.render.setLight(self.ambientLight)
 
-	def loadSky(self):
-		self.sky = self.loader.loadModel("models/sky")
-		self.sky.reparentTo(self.camera)
-		self.sky.setScale(base.camLens.getNear() * 1.1)
-		self.sky.setBin("background", 0)
-		self.sky.setDepthWrite(False)
-		self.sky.setCompass()
-		self.sky.setLightOff()
+	def setupModels(self):
+		self.city = self.loader.loadModel("models/city")
+		self.city.reparentTo(self.render)
+		self.phoneState.setupPhone()
 
-	def loadTerrain(self):
-		self.terrain = self.loader.loadModel("models/terrain")
-		self.terrain.reparentTo(self.render)
-		self.teapot = self.loader.loadModel("teapot")
-
-	def setupBuildings(self):
-		# Load building prototypes
-		self.buildingPadPrototype = self.loader.loadModel("models/building_pad")
-		self.policeBuildingPrototype = self.loader.loadModel("models/police_building")
-		self.tribunalPrototype = self.loader.loadModel("models/tribunal")
-		self.officeBuildingPrototype = self.loader.loadModel("models/office_building")
-		self.housePrototype = self.loader.loadModel("models/House/CasaSimples")
-		self.housePrototype.setPos(5, 5, 2.1)
-
-		self.buildCity()
-
-	def buildCity(self):
-		# Define city blueprint
-		city = [
-			"PSOSHS_",
-			"SSSSSSS",
-			"OSHHHHH",
-			"_SSSSSS",
-			"_SHHHHH",
-			"_SSSSSS",
-			"_SHHHHH",
-			"_SSSSSS",
-			"_SHHHHH"
-		]
-		blockSize = 10
-		cityWESize = len(city[0]) * blockSize
-		cityNSSize = len(city) * blockSize
-		self.maxX = cityWESize / 2.0
-		self.maxY = cityNSSize / 2.0
-		buildingOutline = LineSegs("building")
-
-		buildingSize = 8
-		buildingPadding = 1
-		buildingOutline.setColor(0, 0, 0, 1)
-		buildingOutline.moveTo(buildingPadding, buildingPadding, 0)
-		buildingOutline.drawTo(buildingPadding + buildingSize, buildingPadding, 0)
-		buildingOutline.drawTo(buildingPadding + buildingSize, buildingPadding + buildingSize, 0)
-		buildingOutline.drawTo(buildingPadding, buildingPadding + buildingSize, 0)
-		buildingOutline.drawTo(buildingPadding, buildingPadding, 0)
-		buildingOutlinePrototype = NodePath(buildingOutline.create())
-
-		# Create buildings from city blueprint
-		for rowIndex, row in enumerate(city):
-			for columnIndex, buildingType in enumerate(row):
-				# Get building data from city blueprint
-				buildingInstanceName, buildingPrototype = self.buildingInstanceNameAndPrototypeFromType(buildingType)
-
-				if (not (buildingInstanceName is None or buildingPrototype is None)):
-					# Compute building position
-					buildingX, buildingY, buildingZ = columnIndex * blockSize - cityWESize / 2, cityNSSize / 2 - (rowIndex + 1) * blockSize, 0
-
-					# Create building pad
-					buildingPadInstance = self.render.attachNewNode("buildingPadInstance")
-					buildingPadInstance.setPos(buildingX, buildingY, buildingZ)
-					self.buildingPadPrototype.instanceTo(buildingPadInstance)
-
-					# Create building
-					buildingInstance = self.render.attachNewNode(buildingInstanceName)
-					buildingInstance.setPos(buildingX, buildingY, buildingZ)
-					buildingPrototype.instanceTo(buildingInstance)
-
-					# Create building outline in minimap
-					buildingOutlineInstance = self.phoneState.minimap.attachNewNode("buildingOutline")
-					buildingOutlineInstance.setPos(buildingX, buildingY, buildingZ)
-					buildingOutlinePrototype.instanceTo(buildingOutlineInstance)
+	def setupLighting(self):
+		self.ambientLight = self.render.attachNewNode(AmbientLight("ambientLight"))
+		self.ambientLight.node().setColor(Vec4(1, 1, 1, 1))
+		self.render.setLight(self.ambientLight)
 
 	def setMouseBtn(self, btn, value):
 		self.mousebtn[btn] = value
@@ -182,15 +112,6 @@ class MyApp(ShowBase):
 				self.camera.hprInterval(0.5, Vec3(heading, self.camera.getP(), self.camera.getR())),
 				self.phoneState.orientationTriangle.hprInterval(0.5, Vec3(heading, self.phoneState.orientationTriangle.getP(), self.phoneState.orientationTriangle.getR()))
 			).start()
-
-	def buildingInstanceNameAndPrototypeFromType(self, buildingType):
-		return {
-			'S' : ( None, None ),
-			'P' : ( "policeBuildingInstance", self.policeBuildingPrototype ),
-			'T' : ( "tribunalInstance", self.tribunalPrototype ),
-			'O' : ( "officeBuildingInstance", self.officeBuildingPrototype ),
-			'H' : ( "houseInstance", self.housePrototype ),
-		}.get(buildingType, ( None, None ))
 	
 	def setBlurSharpen(self, amount):
 		if (not self.useAdvancedVisualEffects):
@@ -246,4 +167,4 @@ class MyApp(ShowBase):
 
 loadPrcFile("myconfig.prc")
 
-MyApp().run()
+Application().run()
