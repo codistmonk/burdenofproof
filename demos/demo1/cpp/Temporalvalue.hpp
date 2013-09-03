@@ -10,12 +10,14 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include "Utils.hpp"
 
 typedef boost::posix_time::ptime    Time;
 typedef boost::posix_time::time_duration    Time_Duration;
 typedef boost::filesystem::path     Path;
 
 enum class Gender : int8_t { MALE, FEMALE };
+class vec3f;
 
 template< typename T >
 class TemporalValue {
@@ -62,7 +64,6 @@ class TemporalValue {
 
  private:
     T parseValue(std::string const & str);
-
     void setTimeAndValueFromStr(std::string const & str);
 
  private:
@@ -80,7 +81,6 @@ TemporalValue<T>::TemporalValue(Path const & path) {
     using boost::filesystem::exists;
     using boost::filesystem::is_regular_file;
     using std::string;
-
     if (exists(path)) {
         if (is_regular_file(path)) {
             string line;
@@ -151,4 +151,19 @@ std::ostream & operator<<(std::ostream & o,
 template<>
 std::ostream & operator<<(std::ostream & o,
                           TemporalValue< Gender > const & tp);
+
+template<>
+std::int64_t TemporalValue< std::int64_t >::parseValue(std::string const & str);
+
+template<>
+std::string TemporalValue< std::string >::parseValue(std::string const & str);
+
+template<>
+Gender TemporalValue< Gender >::parseValue(std::string const & str);
+
+template<>
+float TemporalValue< float >::parseValue(std::string const & str);
+
+template<>
+vec3f TemporalValue< vec3f >::parseValue(std::string const & str);
 #endif  // TEMPORALVALUE_HPP_
