@@ -43,7 +43,8 @@ Game::Game(std::string const & scriptPath, int const seed)
     PiecewiseLinearChronology<float> pcFloats(
         path(pathJoin(scriptPath, "propertyChronologies/floats.txt")));
     SHOW(pcFloats);
-    SHOW(pcFloats.getValue(ptime(from_iso_string("20120903T060000"))));
+    SHOW(std::to_string(pcFloats.getValue(
+        ptime(from_iso_string("20120903T060000")))));
 }
 
 void Game::update(const Time_Duration & duration) {

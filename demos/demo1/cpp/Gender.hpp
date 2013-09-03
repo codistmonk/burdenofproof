@@ -3,6 +3,7 @@
 #ifndef GENDER_HPP_
 #define GENDER_HPP_
 
+#include <cstdint>
 #include <string>
 
 namespace burdenofproof {
