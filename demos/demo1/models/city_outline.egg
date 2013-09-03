@@ -2,1070 +2,812 @@
   <Transform> {
     <Translate> { -35 0 -35 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 -35 }
   }
-  <File> road {
-    road
+  <File> sidewalk {
+    nwexteriorsidewalk_outline
   }
   <File> sidewalk {
-    nwexteriorsidewalk
+    neexteriorsidewalk_outline
   }
   <File> sidewalk {
-    neexteriorsidewalk
+    swhalf2sidewalk_outline
   }
   <File> sidewalk {
-    swhalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 -35 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 -35 }
   }
-  <File> road {
-    road
+  <File> sidewalk {
+    nwexteriorsidewalk_outline
   }
   <File> sidewalk {
-    nwexteriorsidewalk
+    neexteriorsidewalk_outline
   }
   <File> sidewalk {
-    neexteriorsidewalk
+    swhalf2sidewalk_outline
   }
   <File> sidewalk {
-    swhalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 -35 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 -35 }
   }
-  <File> road {
-    road
+  <File> sidewalk {
+    nwexteriorsidewalk_outline
   }
   <File> sidewalk {
-    nwexteriorsidewalk
+    neexteriorsidewalk_outline
   }
   <File> sidewalk {
-    neexteriorsidewalk
+    swhalf2sidewalk_outline
   }
   <File> sidewalk {
-    swhalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 -35 }
   }
-  <File> ground {
-    ground
+  <File> sidewalk {
+    swexteriorsidewalk_outline
   }
   <File> sidewalk {
-    swexteriorsidewalk
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -35 0 -25 }
   }
-  <File> road {
-    road
+  <File> sidewalk {
+    nwexteriorsidewalk_outline
   }
   <File> sidewalk {
-    nwexteriorsidewalk
+    swexteriorsidewalk_outline
   }
   <File> sidewalk {
-    swexteriorsidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 -25 }
   }
-  <File> road {
-    road
+  <File> sidewalk {
+    nwinteriorsidewalk_outline
   }
   <File> sidewalk {
-    nwinteriorsidewalk
+    neinteriorsidewalk_outline
   }
   <File> sidewalk {
-    neinteriorsidewalk
+    swinteriorsidewalk_outline
   }
   <File> sidewalk {
-    swinteriorsidewalk
-  }
-  <File> sidewalk {
-    seinteriorsidewalk
+    seinteriorsidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 -25 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 -25 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwinteriorsidewalk_outline
   }
   <File> sidewalk {
-    nwinteriorsidewalk
+    neinteriorsidewalk_outline
   }
   <File> sidewalk {
-    neinteriorsidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 -25 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 -25 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwinteriorsidewalk_outline
   }
   <File> sidewalk {
-    nwinteriorsidewalk
+    neinteriorsidewalk_outline
   }
   <File> sidewalk {
-    neinteriorsidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 -25 }
   }
-  <File> road {
-    road
+  <File> sidewalk {
+    neexteriorsidewalk_outline
   }
   <File> sidewalk {
-    neexteriorsidewalk
+    seexteriorsidewalk_outline
   }
   <File> sidewalk {
-    seexteriorsidewalk
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
-  }
-  <File> sidewalk {
-    swhalf1sidewalk
+    swhalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -35 0 -15 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 -15 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    nsmarking
+  <File> sidewalk {
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
+    swhalf2sidewalk_outline
   }
   <File> sidewalk {
-    swhalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 -15 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 -15 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 -15 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 -15 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 -15 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -35 0 -5 }
   }
-  <File> ground {
-    ground
+  <File> sidewalk {
+    neexteriorsidewalk_outline
   }
   <File> sidewalk {
-    neexteriorsidewalk
+    sehalf1sidewalk_outline
   }
   <File> sidewalk {
-    sehalf1sidewalk
-  }
-  <File> sidewalk {
-    nwhalf2sidewalk
+    nwhalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 -5 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    nsmarking
+  <File> sidewalk {
+    neinteriorsidewalk_outline
   }
   <File> sidewalk {
-    neinteriorsidewalk
+    seinteriorsidewalk_outline
   }
   <File> sidewalk {
-    seinteriorsidewalk
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
-  }
-  <File> sidewalk {
-    swhalf2sidewalk
+    swhalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 -5 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 -5 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 -5 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 -5 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 -5 }
   }
-  <File> road {
-    road
+  <File> sidewalk {
+    neexteriorsidewalk_outline
   }
   <File> sidewalk {
-    neexteriorsidewalk
+    seexteriorsidewalk_outline
   }
   <File> sidewalk {
-    seexteriorsidewalk
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
-  }
-  <File> sidewalk {
-    swhalf1sidewalk
+    swhalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -35 0 5 }
   }
-  <File> ground {
-    ground
+  <File> sidewalk {
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 5 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    nsmarking
+  <File> sidewalk {
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
+    swhalf2sidewalk_outline
   }
   <File> sidewalk {
-    swhalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 5 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 5 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 5 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 5 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 5 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -35 0 15 }
   }
-  <File> ground {
-    ground
+  <File> sidewalk {
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 15 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    nsmarking
+  <File> sidewalk {
+    neinteriorsidewalk_outline
   }
   <File> sidewalk {
-    neinteriorsidewalk
+    seinteriorsidewalk_outline
   }
   <File> sidewalk {
-    seinteriorsidewalk
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
-  }
-  <File> sidewalk {
-    swhalf2sidewalk
+    swhalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 15 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 15 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 15 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 15 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    nemarking
+  <File> sidewalk {
+    neexteriorsidewalk_outline
   }
   <File> sidewalk {
-    neexteriorsidewalk
+    swinteriorsidewalk_outline
   }
   <File> sidewalk {
-    swinteriorsidewalk
+    sehalf1sidewalk_outline
   }
   <File> sidewalk {
-    sehalf1sidewalk
-  }
-  <File> sidewalk {
-    nwhalf2sidewalk
+    nwhalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 15 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -35 0 25 }
   }
-  <File> ground {
-    ground
+  <File> sidewalk {
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 25 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    nsmarking
+  <File> sidewalk {
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
+    swhalf2sidewalk_outline
   }
   <File> sidewalk {
-    swhalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 25 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 25 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 25 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 25 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    nsmarking
+  <File> sidewalk {
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
+    swhalf2sidewalk_outline
   }
   <File> sidewalk {
-    swhalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 25 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -35 0 35 }
   }
-  <File> ground {
-    ground
+  <File> sidewalk {
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
-  }
-  <File> sidewalk {
-    sehalf1sidewalk
+    sehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 35 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    swmarking
+  <File> sidewalk {
+    swexteriorsidewalk_outline
   }
   <File> sidewalk {
-    swexteriorsidewalk
+    neinteriorsidewalk_outline
   }
   <File> sidewalk {
-    neinteriorsidewalk
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 35 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    swinteriorsidewalk_outline
   }
   <File> sidewalk {
-    swinteriorsidewalk
+    seinteriorsidewalk_outline
   }
   <File> sidewalk {
-    seinteriorsidewalk
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
-  }
-  <File> sidewalk {
-    nehalf1sidewalk
+    nehalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 35 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 35 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    wemarking
+  <File> sidewalk {
+    nwhalf2sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf2sidewalk
+    nehalf1sidewalk_outline
   }
   <File> sidewalk {
-    nehalf1sidewalk
+    swhalf1sidewalk_outline
   }
   <File> sidewalk {
-    swhalf1sidewalk
-  }
-  <File> sidewalk {
-    sehalf2sidewalk
+    sehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 35 }
   }
-  <File> road {
-    road
-  }
-  <File> marking {
-    semarking
+  <File> sidewalk {
+    seexteriorsidewalk_outline
   }
   <File> sidewalk {
-    seexteriorsidewalk
+    nwinteriorsidewalk_outline
   }
   <File> sidewalk {
-    nwinteriorsidewalk
+    nehalf2sidewalk_outline
   }
   <File> sidewalk {
-    nehalf2sidewalk
-  }
-  <File> sidewalk {
-    swhalf1sidewalk
+    swhalf1sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 35 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -35 0 45 }
   }
-  <File> ground {
-    ground
-  }
   <File> sidewalk {
-    neinteriorsidewalk
+    neinteriorsidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -25 0 45 }
   }
-  <File> ground {
-    ground
+  <File> sidewalk {
+    neexteriorsidewalk_outline
   }
   <File> sidewalk {
-    neexteriorsidewalk
+    sehalf1sidewalk_outline
   }
   <File> sidewalk {
-    sehalf1sidewalk
-  }
-  <File> sidewalk {
-    nwhalf2sidewalk
+    nwhalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -15 0 45 }
   }
-  <File> road {
-    road
+  <File> sidewalk {
+    swexteriorsidewalk_outline
   }
   <File> sidewalk {
-    swexteriorsidewalk
+    seexteriorsidewalk_outline
   }
   <File> sidewalk {
-    seexteriorsidewalk
+    nwhalf1sidewalk_outline
   }
   <File> sidewalk {
-    nwhalf1sidewalk
-  }
-  <File> sidewalk {
-    nehalf2sidewalk
+    nehalf2sidewalk_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { -5 0 45 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 5 0 45 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 15 0 45 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }
 <Instance> {
   <Transform> {
     <Translate> { 25 0 45 }
   }
-  <File> building {
-    building
-  }
   <File> buildingPad {
-    buildingpad
+    buildingpad_outline
   }
 }

@@ -1,0 +1,33 @@
+<Instance> {
+  <Transform> {
+    <RotX> { -90 }
+    <Scale> { 10 }
+    <Translate> { 0 0.1 0 }
+  }
+  <Line> {
+    <RGBA> { 0 0 0 1 }
+    <VertexRef> { 0 1 2 3 4 <Ref> { buildingpadVertices } }
+  }
+}
+<VertexPool> buildingpadVertices {
+  <Vertex> 0 {
+    0.1 0.1 0
+    <UV> { 0.1 0.1 }
+  }
+  <Vertex> 1 {
+    0.9 0.1 0
+    <UV> { 0.9 0.1 }
+  }
+  <Vertex> 2 {
+    0.9 0.9 0
+    <UV> { 0.9 0.9 }
+  }
+  <Vertex> 3 {
+    0.1 0.9 0
+    <UV> { 0.1 0.9 }
+  }
+  <Vertex> 4 {
+    0.1 0.1 0
+    <UV> { 0.1 0.1 }
+  }
+}

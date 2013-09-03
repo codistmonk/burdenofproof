@@ -1,0 +1,21 @@
+<Instance> {
+  <Transform> {
+    <RotX> { -90 }
+    <Scale> { 10 }
+    <Translate> { 0 0.1 0 }
+  }
+  <Line> {
+    <RGBA> { 0 0 0 1 }
+    <VertexRef> { 0 1 <Ref> { nehalf2sidewalkVertices } }
+  }
+}
+<VertexPool> nehalf2sidewalkVertices {
+  <Vertex> 0 {
+    0.9 1 0
+    <UV> { 0.9 1 }
+  }
+  <Vertex> 1 {
+    0.9 0.5 0
+    <UV> { 0.9 0.5 }
+  }
+}

@@ -80,15 +80,13 @@ def generateTexturedQuad(name, size, textureName, useTextureNormal = False, text
 	finishEgg(egg)
 	egg.writeEgg("models/" + name + ".egg")
 
-def newFlatPolygon(eggVertices, uvs, quarterTurns = 0):
-	polygon = EggPolygon()
-
+def newFlat(result, eggVertices, uvs, quarterTurns = 0):
 	for i in range(0, len(uvs), 2):
 		u, v = uvs[i], uvs[i + 1]
 		x, y = xyFromUv(u, v, quarterTurns)
-		polygon.addVertex(addEggVertex(eggVertices, x, y, 0.0, x, y))
+		result.addVertex(addEggVertex(eggVertices, x, y, 0.0, x, y))
 
-	return polygon
+	return result
 
 def newEggAndGroup():
 	egg = EggData()
@@ -98,6 +96,18 @@ def newEggAndGroup():
 	group.setGroupType(EggGroup.GTInstance)
 
 	return egg, group
+
+def generateOutline(name, size, uvs, quarterTurns = 0):
+	outlineVertices = EggVertexPool(name + "Vertices")
+	outlineEgg, outlineGroup = newEggAndGroup()
+	outlineEgg.addChild(outlineVertices)
+	line = newFlat(EggLine(), outlineVertices, uvs, quarterTurns)
+	line.setColor(Vec4(0.0, 0.0, 0.0, 1.0))
+	outlineGroup.addChild(line)
+	outlineGroup.addRotx(-90.0)
+	outlineGroup.addUniformScale(size)
+	outlineGroup.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
+	outlineEgg.writeEgg("models/" + name + "_outline.egg")
 
 def generateBuildingPad(size):
 	name = "buildingpad"
@@ -114,7 +124,7 @@ def generateBuildingPad(size):
 	]
 
 	for quarterTurns in range(4):
-		polygon = newFlatPolygon(vertices, uvs, quarterTurns)
+		polygon = newFlat(EggPolygon(), vertices, uvs, quarterTurns)
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 		group.addChild(polygon)
@@ -125,6 +135,14 @@ def generateBuildingPad(size):
 
 	finishEgg(egg)
 	egg.writeEgg("models/" + name + ".egg")
+
+	generateOutline(name, size, [
+		0.1, 0.1,
+		0.9, 0.1,
+		0.9, 0.9,
+		0.1, 0.9,
+		0.1, 0.1
+	])
 
 def arc(centerX, centerY, radius, angleBegin, angleEnd, angleCount, includeEnd = False, rounding = 4):
 	uvs = []
@@ -199,7 +217,7 @@ def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
 		vertices = EggVertexPool(name + "Vertices")
 		egg.addChild(vertices)
 
-		polygon = newFlatPolygon(vertices, walkUvs, quarterTurns)
+		polygon = newFlat(EggPolygon(), vertices, walkUvs, quarterTurns)
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETUnspecified, textureScale))
 		polygon.addTexture(retrieveTexture(name, textureName, EggTexture.ETNormal, textureScale))
 		group.addChild(polygon)
@@ -218,6 +236,8 @@ def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
 
 		finishEgg(egg)
 		egg.writeEgg("models/" + name + ".egg")
+
+		generateOutline(name, size, curbUvs[1], quarterTurns)
 
 def generateExteriorSidewalks(size, smoothness = 16):
 	connectUvs = [
@@ -280,7 +300,7 @@ def generateHalf2Sidewalks(size):
 	generateSidewalks("half2", size, connectUvs, curbUvs)
 
 def newMarking(eggVertices):
-	return newFlatPolygon(eggVertices, [
+	return newFlat(EggPolygon(), eggVertices, [
 		0.0, 0.0,
 		1.0, 0.0,
 		1.0, 1.0,

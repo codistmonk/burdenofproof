@@ -24,6 +24,12 @@ def getItem(blueprint, nsIndex, weIndex):
 
 	return blueprintRow[weIndex]
 
+def addExternalReference(nodeName, fileName, block, outlineBlock = None):
+	block.addChild(EggExternalReference(nodeName, fileName))
+
+	if not outlineBlock is None:
+		outlineBlock.addChild(EggExternalReference(nodeName, fileName + "_outline"))
+
 blueprintPath = "models/cityblueprint.txt"
 
 blueprint = [line.strip() for line in open(blueprintPath)]
@@ -37,6 +43,7 @@ citySizeWE = len(max(blueprint, key = len)) * blockSize
 print "citySize:", citySizeNS, citySizeWE
 
 city = EggData()
+cityOuline = EggData()
 
 for nsIndex, blueprintRow in enumerate(blueprint):
 	blockZ = -(citySizeNS / 2 - (nsIndex + 1) * blockSize)
@@ -44,15 +51,17 @@ for nsIndex, blueprintRow in enumerate(blueprint):
 	for weIndex, blueprintItem in enumerate(blueprintRow):
 		blockX = weIndex * blockSize - citySizeWE / 2
 		block = newGroup(city)
+		outlineBlock = newGroup(cityOuline)
 		block.addTranslate3d(Vec3D(blockX, 0.0, blockZ))
+		outlineBlock.addTranslate3d(Vec3D(blockX, 0.0, blockZ))
 
 		if isBuilding(blueprintItem):
-			block.addChild(EggExternalReference("building", "building"))
-			block.addChild(EggExternalReference("buildingpad", "buildingpad"))
+			addExternalReference("building", "building", block)
+			addExternalReference("buildingPad", "buildingpad", block, outlineBlock)
 		elif isRoad(blueprintItem):
-			block.addChild(EggExternalReference("road", "road"))
+			addExternalReference("road", "road", block)
 		else:
-			block.addChild(EggExternalReference("ground", "ground"))
+			addExternalReference("ground", "ground", block)
 
 		if not isBuilding(blueprintItem):
 			nwItem = getItem(blueprint, nsIndex - 1, weIndex - 1)
@@ -65,52 +74,53 @@ for nsIndex, blueprintRow in enumerate(blueprint):
 			seItem = getItem(blueprint, nsIndex + 1, weIndex + 1)
 
 			if isRoad(nItem) and isRoad(blueprintItem) and isRoad(eItem) and not isRoad(wItem) and not isRoad(sItem):
-				block.addChild(EggExternalReference("marking", "swmarking"))
+				addExternalReference("marking", "swmarking", block)
 			if isRoad(wItem) and isRoad(blueprintItem) and isRoad(nItem) and not isRoad(sItem) and not isRoad(eItem):
-				block.addChild(EggExternalReference("marking", "semarking"))
+				addExternalReference("marking", "semarking", block)
 			if isRoad(sItem) and isRoad(blueprintItem) and isRoad(wItem) and not isRoad(eItem) and not isRoad(nItem):
-				block.addChild(EggExternalReference("curvedRoadMarking", "nemarking"))
+				addExternalReference("marking", "nemarking", block)
 			if isRoad(eItem) and isRoad(blueprintItem) and isRoad(sItem) and not isRoad(nItem) and not isRoad(wItem):
-				block.addChild(EggExternalReference("curvedRoadMarking", "nwmarking"))
+				addExternalReference("marking", "nwmarking", block)
 
 			if isRoad(wItem) and isRoad(blueprintItem) and isRoad(eItem) and (not isRoad(nItem) or not isRoad(sItem)):
-				block.addChild(EggExternalReference("marking", "wemarking"))
+				addExternalReference("marking", "wemarking", block)
 			if isRoad(nItem) and isRoad(blueprintItem) and isRoad(sItem) and (not isRoad(wItem) or not isRoad(eItem)):
-				block.addChild(EggExternalReference("marking", "nsmarking"))
+				addExternalReference("marking", "nsmarking", block)
 
 			if wItem != blueprintItem and nItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "nwexteriorsidewalk"))
+				addExternalReference("sidewalk", "nwexteriorsidewalk", block, outlineBlock)
 			if eItem != blueprintItem and nItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "neexteriorsidewalk"))
+				addExternalReference("sidewalk", "neexteriorsidewalk", block, outlineBlock)
 			if wItem != blueprintItem and sItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "swexteriorsidewalk"))
+				addExternalReference("sidewalk", "swexteriorsidewalk", block, outlineBlock)
 			if eItem != blueprintItem and sItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "seexteriorsidewalk"))
+				addExternalReference("sidewalk", "seexteriorsidewalk", block, outlineBlock)
 
 			if wItem == blueprintItem and nItem == blueprintItem and nwItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "nwinteriorsidewalk"))
+				addExternalReference("sidewalk", "nwinteriorsidewalk", block, outlineBlock)
 			if eItem == blueprintItem and nItem == blueprintItem and neItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "neinteriorsidewalk"))
+				addExternalReference("sidewalk", "neinteriorsidewalk", block, outlineBlock)
 			if wItem == blueprintItem and sItem == blueprintItem and swItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "swinteriorsidewalk"))
+				addExternalReference("sidewalk", "swinteriorsidewalk", block, outlineBlock)
 			if eItem == blueprintItem and sItem == blueprintItem and seItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "seinteriorsidewalk"))
+				addExternalReference("sidewalk", "seinteriorsidewalk", block, outlineBlock)
 
 			if wItem != blueprintItem and nItem == blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "nwhalf1sidewalk"))
+				addExternalReference("sidewalk", "nwhalf1sidewalk", block, outlineBlock)
 			if eItem != blueprintItem and nItem == blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "nehalf2sidewalk"))
+				addExternalReference("sidewalk", "nehalf2sidewalk", block, outlineBlock)
 			if wItem != blueprintItem and sItem == blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "swhalf2sidewalk"))
+				addExternalReference("sidewalk", "swhalf2sidewalk", block, outlineBlock)
 			if eItem != blueprintItem and sItem == blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "sehalf1sidewalk"))
+				addExternalReference("sidewalk", "sehalf1sidewalk", block, outlineBlock)
 			if wItem == blueprintItem and nItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "nwhalf2sidewalk"))
+				addExternalReference("sidewalk", "nwhalf2sidewalk", block, outlineBlock)
 			if eItem == blueprintItem and nItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "nehalf1sidewalk"))
+				addExternalReference("sidewalk", "nehalf1sidewalk", block, outlineBlock)
 			if wItem == blueprintItem and sItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "swhalf1sidewalk"))
+				addExternalReference("sidewalk", "swhalf1sidewalk", block, outlineBlock)
 			if eItem == blueprintItem and sItem != blueprintItem:
-				block.addChild(EggExternalReference("sidewalk", "sehalf2sidewalk"))
+				addExternalReference("sidewalk", "sehalf2sidewalk", block, outlineBlock)
 
 city.writeEgg("models/city.egg")
+cityOuline.writeEgg("models/city_outline.egg")

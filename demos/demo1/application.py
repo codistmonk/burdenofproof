@@ -27,7 +27,7 @@ class Application(ShowBase):
 		self.setupModels()
 		self.setupLighting()
 		self.setupKeyboardControl()
-		self.camera.setPos(0, 0, 2)
+		self.camera.setPos(0.0, 0.0, 1.7)
 		self.setupMouseControl()
 		self.phoneState.request("Hidden")
 		blockSize = 10.0
@@ -77,6 +77,8 @@ class Application(ShowBase):
 		self.city = self.loader.loadModel("models/city")
 		self.city.reparentTo(self.render)
 		self.phoneState.setupPhone()
+		self.cityOutline = self.loader.loadModel("models/city_outline")
+		self.cityOutline.reparentTo(self.phoneState.minimap)
 
 	def setupLighting(self):
 		self.ambientLight = self.render.attachNewNode(AmbientLight("ambientLight"))
