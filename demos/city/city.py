@@ -21,14 +21,14 @@ class MyApp(ShowBase):
 		self.debug = DirectNotify().newCategory("Debug")
 
 		self.phoneState = PhoneState(self)
-		self.setupeFilters()
+		self.setupFilters()
 		self.setupModels()
 		self.setupKeyboardControl()
 		self.camera.setPos(0, 0, 2)
 		self.setupMouseControl()
 		self.phoneState.request("Hidden")
 
-	def setupeFilters(self):
+	def setupFilters(self):
 		if (self.useAdvancedVisualEffects):
 			self.filters = CommonFilters(self.win, self.cam)
 			self.filters.setBloom()
@@ -157,10 +157,10 @@ class MyApp(ShowBase):
 		self.mousebtn[btn] = value
 
 		if (btn == 0 and value == 1 and self.phoneState.state == "Center"):
-			phoneDisplayRegionCenterX = self.win.getXSize() * (self.phoneDisplayRegion.getLeft() + self.phoneDisplayRegion.getRight()) / 2.0
-			phoneDisplayRegionCenterY = self.win.getYSize() * (1.0 - (self.phoneDisplayRegion.getBottom() + self.phoneDisplayRegion.getTop()) / 2.0)
+			phoneDisplayRegionCenterX = self.win.getXSize() * (self.phoneState.phoneDisplayRegion.getLeft() + self.phoneState.phoneDisplayRegion.getRight()) / 2.0
+			phoneDisplayRegionCenterY = self.win.getYSize() * (1.0 - (self.phoneState.phoneDisplayRegion.getBottom() + self.phoneState.phoneDisplayRegion.getTop()) / 2.0)
 			mouse = self.win.getPointer(0)
-			s = 2 ** self.minimapZoom
+			s = 2 ** self.phoneState.minimapZoom
 			x = clamp(self.camera.getX() + (mouse.getX() - phoneDisplayRegionCenterX) / s, -self.maxX, self.maxX)
 			y = clamp(self.camera.getY() + (phoneDisplayRegionCenterY - mouse.getY()) / s, -self.maxY, self.maxY)
 			previousHeading = self.camera.getH() % 360.0
@@ -173,14 +173,14 @@ class MyApp(ShowBase):
 					heading += 360.0
 
 			self.camera.setH(previousHeading)
-			self.orientationTriangle.setH(previousHeading)
+			self.phoneState.orientationTriangle.setH(previousHeading)
 
 			Parallel(
 				self.camera.posInterval(0.5, Vec3(x, y, self.camera.getZ())),
-				self.minimapCamera.posInterval(0.5, Vec3(x, y, self.minimapCamera.getZ())),
-				self.orientationTriangle.posInterval(0.5, Vec3(x, y, self.orientationTriangle.getZ())),
+				self.phoneState.minimapCamera.posInterval(0.5, Vec3(x, y, self.phoneState.minimapCamera.getZ())),
+				self.phoneState.orientationTriangle.posInterval(0.5, Vec3(x, y, self.phoneState.orientationTriangle.getZ())),
 				self.camera.hprInterval(0.5, Vec3(heading, self.camera.getP(), self.camera.getR())),
-				self.orientationTriangle.hprInterval(0.5, Vec3(heading, self.orientationTriangle.getP(), self.orientationTriangle.getR()))
+				self.phoneState.orientationTriangle.hprInterval(0.5, Vec3(heading, self.phoneState.orientationTriangle.getP(), self.phoneState.orientationTriangle.getR()))
 			).start()
 
 	def buildingInstanceNameAndPrototypeFromType(self, buildingType):
