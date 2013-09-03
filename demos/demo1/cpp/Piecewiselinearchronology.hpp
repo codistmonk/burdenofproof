@@ -11,6 +11,9 @@ class PiecewiseLinearChronology : public PropertyChronology< T > {
  public:
     PiecewiseLinearChronology();
 
+    explicit PiecewiseLinearChronology(
+            boost::filesystem::path const & path) : Super(path) {}
+
     ~PiecewiseLinearChronology();
 
     inline T getValue(boost::posix_time::ptime const & time) const override;
@@ -49,8 +52,11 @@ T PiecewiseLinearChronology< T >::getValue(Time const & t) const {
     T const & v1 = (*it1).getValue();
     T const & v2 = (*it2).getValue();
 
-    // TODO(DaleCooper) WARNING INTEGER DIVISION
-    return (v1*(length-deltaT)+v2*deltaT)/static_cast<double>(length);
+    if (length != 0LL) {
+        return (v1*(length-deltaT)+v2*deltaT)/static_cast<double>(length);
+    } else {
+        return v1;
+    }
 }
 
 #endif  // PIECEWISELINEARCHRONOLOGY_HPP_

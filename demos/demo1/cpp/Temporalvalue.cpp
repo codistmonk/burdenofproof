@@ -4,7 +4,7 @@
 #include <vector>
 #include "Temporalvalue.hpp"
 #include "Maths.hpp"
-
+#include "Utils.hpp"
 
 
 using std::string;

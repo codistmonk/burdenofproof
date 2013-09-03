@@ -9,6 +9,7 @@ using boost::posix_time::ptime;
 using boost::posix_time::time_duration;
 using boost::posix_time::milliseconds;
 using boost::filesystem::path;
+using boost::posix_time::from_iso_string;
 using std::string;
 using maths::vec3f;
 
@@ -36,6 +37,11 @@ Game::Game(std::string const & scriptPath, int const seed)
     PiecewiseConstantChronology<string> pcStr(
                 path("propertyChronologies/strings.txt"));
     std::cout << pcStr << std::endl;
+    PiecewiseLinearChronology<float> pcFloats(
+                path("propertyChronologies/floats.txt"));
+    std::cout << pcFloats << std::endl;
+    std::cout << pcFloats.getValue(
+                     ptime(from_iso_string("20120903T060000")));
 }
 
 void Game::update(const Time_Duration & duration) {
