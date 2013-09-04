@@ -1,1 +1,1 @@
-cmake ..\.. && nmake install
+cmake ..\.. && nmake

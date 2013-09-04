@@ -1,4 +1,4 @@
 #!/bin/bash
 
-cmake ../.. && make install
+cmake ../.. && make
 

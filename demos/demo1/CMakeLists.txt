@@ -80,7 +80,9 @@ file(COPY ${PROPERTYCHRONOLOGIES} DESTINATION ${CMAKE_BINARY_DIR}/app/propertyCh
 
 # Copy main target
 get_property(target_location TARGET bop PROPERTY LOCATION)
-install(FILES ${target_location} DESTINATION ${CMAKE_BINARY_DIR}/app)
+add_custom_command(TARGET bop POST_BUILD
+	COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/app
+	COMMAND ${CMAKE_COMMAND} -E copy ${target_location} ${PROJECT_BINARY_DIR}/app/)
 
 # Target cpplint
 add_custom_target(cpplint ALL)
@@ -90,7 +92,5 @@ foreach (f ${SRC_ALL})
 endforeach()
 
 # Target testcpp
-if(!CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    add_custom_target(testcpp ALL)
-    add_custom_command(TARGET testcpp COMMAND ${PYTHON} ${CMAKE_BINARY_DIR}/app/testcpp.py)
-endif()
+add_custom_target(testcpp ALL DEPENDS bop)
+add_custom_command(TARGET testcpp COMMAND ${PYTHON} ${CMAKE_BINARY_DIR}/app/testcpp.py)
