@@ -16,9 +16,8 @@ class Persona {
  public:
     explicit Persona(Character const * character);
     explicit Persona(Persona const &);
-    inline Character const &  getCharacter() const {
-        assert(m_character != nullptr);
-        return *m_character;
+    inline Character const *  getCharacter() const {
+        return m_character;
     }
 
     inline PropertyChronology< std::string > const & getFirstName() const {

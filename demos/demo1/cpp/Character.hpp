@@ -2,8 +2,8 @@
 #ifndef CHARACTER_HPP_
 #define CHARACTER_HPP_
 
+#include <cassert>
 #include <list>
-
 #include "Persona.hpp"
 
 class Character {
@@ -17,9 +17,11 @@ class Character {
     inline void setId(int n) {m_id = n;}
 #if !defined(__APPLE__)
     inline Persona const & getActualPersona() const {
+        assert(m_actualPersona != nullptr);
         return *m_actualPersona;
     }
     inline Persona const & getRoutinePersona() const {
+        assert(m_routinePersona != nullptr);
         return *m_routinePersona;
     }
 #endif

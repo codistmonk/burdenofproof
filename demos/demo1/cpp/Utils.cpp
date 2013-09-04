@@ -1,6 +1,10 @@
 // NOLINT(legal/copyright)
+#include <boost/filesystem.hpp>
+#include <cassert>
 #include <fstream>  // NOLINT(readability/streams)
 #include <string>
+#include <sstream>
+#include <vector>
 #include "Utils.hpp"
 #include "Maths.hpp"
 
@@ -64,4 +68,26 @@ std::string const & NameFactory::randomLastName() {
     static maths::RandomIntGenerator rnd(0, m_NameCount - 1);
 
     return m_lastNames[rnd()];
+}
+
+
+std::string utils::fileToStdString(
+        const boost::filesystem::path &path) {
+    using boost::filesystem::exists;
+    using boost::filesystem::is_regular_file;
+
+    assert(exists(path));
+    assert(is_regular_file(path));
+    std::ifstream file(path.string(),
+                       std::ifstream::binary);
+    assert(file.is_open());
+    file.seekg(0, file.end);
+    std::int64_t length = file.tellg();
+    file.seekg(0, file.beg);
+    file.clear();
+    std::vector<char> buffer(length);
+    file.read(&buffer[0], length);
+    assert(file);
+    std::string RES(&buffer[0], length);
+    return RES;
 }

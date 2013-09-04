@@ -3,9 +3,12 @@
 #define PROPERTYCHRONOLOGY_HPP_
 
 #include <boost/filesystem.hpp>
+#include <boost/algorithm/string.hpp>
 #include <cstdint>
 #include <string>
+#include <sstream>
 #include <set>
+#include <list>
 #include "Temporalvalue.hpp"
 #include "Utils.hpp"
 
@@ -15,6 +18,9 @@ class PropertyChronology {
     PropertyChronology() {}
 
     explicit PropertyChronology(boost::filesystem::path const & file);
+
+    explicit PropertyChronology(
+            std::string const & str) { this->constructFromString(str);}
 
     explicit PropertyChronology(PropertyChronology< T > const & pc) :
         m_temporalValues(pc.m_temporalValues) {}
@@ -35,8 +41,11 @@ class PropertyChronology {
                               PropertyChronology< U > const & pc);
 
  protected:
-    std::set< TemporalValue< T >, TemporalValueComparator< T > >
-    m_temporalValues;
+    std::set< TemporalValue< T >,
+              TemporalValueComparator< T > > m_temporalValues;
+
+ private:
+    void constructFromString(std::string const & str);
 };
 
 template< typename T >
@@ -46,17 +55,22 @@ PropertyChronology< T >::PropertyChronology(
     using boost::filesystem::is_regular_file;
     using std::string;
 
-    if (exists(path)) {
-        if (is_regular_file(path)) {
-            string line;
-            std::ifstream file(path.string());
-            while (!file.eof()) {
-                std::getline(file, line);
-                if (!line.empty()) {
-                    m_temporalValues.insert(TemporalValue< T >(line));
-                }
-            }
-        }
+    this->constructFromString(utils::fileToStdString(path));
+}
+
+template<typename T>
+void PropertyChronology< T >::constructFromString(
+        const std::string & str) {
+    using std::string;
+    using std::vector;
+    using boost::algorithm::split;
+    using boost::algorithm::is_any_of;
+    std::list<string> strList;
+
+    split(strList, str, is_any_of("\n"));
+    strList.remove_if([&](string const &str) { return str.empty();});
+    for (string const & str : strList) {
+        m_temporalValues.insert(TemporalValue< T >(str));
     }
 }
 

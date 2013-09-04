@@ -1,11 +1,12 @@
 // NOLINT(legal/copyright)
 #ifndef UTILS_HPP_
 #define UTILS_HPP_
-
+#include <boost/filesystem.hpp>
 #include <iostream>  // NOLINT(readability/streams)
 #include <string>
 #include <deque>
 #include <utility>
+
 
 #define STR(x) #x
 #define STRINGIFY(x) STR(x)
@@ -41,6 +42,8 @@ class NameFactory {
 
     unsigned int m_NameCount;
 };
+
+std::string fileToStdString(boost::filesystem::path const &);
 
 }  // namespace utils
 

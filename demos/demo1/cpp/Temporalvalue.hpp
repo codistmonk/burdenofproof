@@ -6,6 +6,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
 #include <cstdint>
+#include <cassert>
 #include <fstream>  // NOLINT(readability/streams)
 #include <memory>
 #include <vector>
@@ -33,7 +34,7 @@ class TemporalValue {
     explicit TemporalValue(Path const & path);
 
     explicit TemporalValue(std::string const & str) {
-        this->setTimeAndValueFromStr(str);
+        this->constructFromString(str);
     }
 
     explicit TemporalValue(TemporalValue<T> const & tv)
@@ -66,7 +67,7 @@ class TemporalValue {
 
  private:
     T parseValue(std::string const & str);
-    void setTimeAndValueFromStr(std::string const & str);
+    void constructFromString(std::string const & str);
 
  private:
     std::shared_ptr< T > m_value;
@@ -83,18 +84,18 @@ TemporalValue<T>::TemporalValue(Path const & path) {
     using boost::filesystem::exists;
     using boost::filesystem::is_regular_file;
     using std::string;
-    if (exists(path)) {
-        if (is_regular_file(path)) {
-            string line;
-            std::ifstream file(path.string());
-            std::getline(file, line);
-            this->setTimeAndValueFromStr(line);
-        }
-    }
+
+    assert(exists(path));
+    assert(is_regular_file(path));
+
+    string line;
+    std::ifstream file(path.string());
+    std::getline(file, line);
+    this->constructFromString(line);
 }
 
 template< typename T >
-void TemporalValue< T >::setTimeAndValueFromStr(std::string const & str) {
+void TemporalValue< T >::constructFromString(std::string const & str) {
     using boost::algorithm::split;
     // Parse time string of form YYYYMMDDThhmmss where T is delimeter between date and time NOLINT(whitespace/line_length)
     using boost::posix_time::from_iso_string;

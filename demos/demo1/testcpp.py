@@ -87,7 +87,7 @@ for test in [
 	initializeTests,
 	testCityBlueprint,
 	testPopulation,
-	testUpdate
+#	testUpdate
 # Insert more test names before this line
 ]:
 	try:
