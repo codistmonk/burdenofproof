@@ -24,7 +24,7 @@ endif()
 set(Boost_USE_STATIC_LIBS    OFF)
 set(Boost_USE_MULTITHREADED  ON)
 set(Boost_USE_STATIC_RUNTIME OFF)
-find_package(Boost COMPONENTS python date_time system filesystem REQUIRED)
+find_package(Boost COMPONENTS python date_time system filesystem regex REQUIRED)
 #find_package(Panda3D REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
@@ -62,7 +62,8 @@ if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
 		${Boost_LIBRARY_DIRS}/*boost_python*${CMAKE_SHARED_LIBRARY_SUFFIX}
 		${Boost_LIBRARY_DIRS}/*boost_date_time*${CMAKE_SHARED_LIBRARY_SUFFIX}
 		${Boost_LIBRARY_DIRS}/*boost_system*${CMAKE_SHARED_LIBRARY_SUFFIX}
-		${Boost_LIBRARY_DIRS}/*boost_filesystem*${CMAKE_SHARED_LIBRARY_SUFFIX})
+                ${Boost_LIBRARY_DIRS}/*boost_filesystem*${CMAKE_SHARED_LIBRARY_SUFFIX}
+                ${Boost_LIBRARY_DIRS}/*boost_regex*${CMAKE_SHARED_LIBRARY_SUFFIX})
 	file(COPY ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/app)
 endif()
 
@@ -77,6 +78,9 @@ file(COPY ${TEMPORALVALUES} DESTINATION ${CMAKE_BINARY_DIR}/app/temporalValues)
 
 file(GLOB PROPERTYCHRONOLOGIES propertyChronologies/*)
 file(COPY ${PROPERTYCHRONOLOGIES} DESTINATION ${CMAKE_BINARY_DIR}/app/propertyChronologies)
+
+file(GLOB PERSONAS personas/*)
+file(COPY ${PERSONAS} DESTINATION ${CMAKE_BINARY_DIR}/app/personas)
 
 # Copy main target
 get_property(target_location TARGET bop PROPERTY LOCATION)

@@ -2,25 +2,28 @@
 #ifndef PIECEWISELINEARCHRONOLOGY_HPP_
 #define PIECEWISELINEARCHRONOLOGY_HPP_
 
+#include <string>
 #include "Propertychronology.hpp"
+
 
 template< typename T >
 class PiecewiseLinearChronology : public PropertyChronology< T > {
     typedef PropertyChronology< T > Super;
 
  public:
-    PiecewiseLinearChronology();
+    PiecewiseLinearChronology() : Super() {}
 
     explicit PiecewiseLinearChronology(
             boost::filesystem::path const & path) : Super(path) {}
+
+    explicit PiecewiseLinearChronology(
+            std::string const & s) : Super(s) {}
 
     ~PiecewiseLinearChronology();
 
     inline T getValue(boost::posix_time::ptime const & time) const override;
 };
 
-template< typename T >
-PiecewiseLinearChronology< T >::PiecewiseLinearChronology() {}
 
 template< typename T >
 PiecewiseLinearChronology< T >::~PiecewiseLinearChronology() {}

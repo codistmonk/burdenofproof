@@ -16,8 +16,8 @@ using std::string;
 using std::vector;
 
 template<>
-std::int64_t TemporalValue<std::int64_t>::parseValue(std::string const & str) {
-    return std::stoll(str);
+Time TemporalValue< Time >::parseValue(std::string const & str) {
+    return boost::posix_time::from_iso_string(str);
 }
 
 template<>

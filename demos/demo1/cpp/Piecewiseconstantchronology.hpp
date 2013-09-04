@@ -2,13 +2,19 @@
 #ifndef PIECEWISECONSTANTCHRONOLOGY_HPP_
 #define PIECEWISECONSTANTCHRONOLOGY_HPP_
 
+#include <string>
 #include "Propertychronology.hpp"
+
 
 template< typename T >
 class PiecewiseConstantChronology : public PropertyChronology< T > {
     typedef PropertyChronology< T > Super;
  public:
-    PiecewiseConstantChronology();
+    PiecewiseConstantChronology() :
+        Super() {}
+
+    explicit PiecewiseConstantChronology(
+            std::string const & s) : Super(s) {}
 
     explicit PiecewiseConstantChronology(
             boost::filesystem::path const & path) : Super(path) {}
@@ -18,8 +24,6 @@ class PiecewiseConstantChronology : public PropertyChronology< T > {
     virtual T getValue(boost::posix_time::ptime const & time) const override;
 };
 
-template< typename T >
-PiecewiseConstantChronology<T>::PiecewiseConstantChronology() {}
 
 template< typename T >
 PiecewiseConstantChronology<T>::~PiecewiseConstantChronology() {}

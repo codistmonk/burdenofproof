@@ -4,6 +4,7 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/algorithm/string.hpp>
+#include <boost/date_time/posix_time/ptime.hpp>
 #include <cstdint>
 #include <string>
 #include <sstream>
@@ -61,6 +62,7 @@ PropertyChronology< T >::PropertyChronology(
 template<typename T>
 void PropertyChronology< T >::constructFromString(
         const std::string & str) {
+    SHOW(str);
     using std::string;
     using std::vector;
     using boost::algorithm::split;

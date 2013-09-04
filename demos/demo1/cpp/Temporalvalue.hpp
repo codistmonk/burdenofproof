@@ -162,7 +162,7 @@ std::ostream & operator<<(std::ostream & o,
                           TemporalValue< float > const & tp);
 
 template<>
-std::int64_t TemporalValue< std::int64_t >::parseValue(std::string const & str);
+Time TemporalValue< Time >::parseValue(std::string const & str);
 
 template<>
 std::string TemporalValue< std::string >::parseValue(std::string const & str);

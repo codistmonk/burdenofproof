@@ -45,6 +45,10 @@ Game::Game(std::string const & scriptPath, int const seed)
     SHOW(pcFloats);
     SHOW(std::to_string(pcFloats.getValue(
         ptime(from_iso_string("20120903T060000")))));
+    Persona personaLambda(
+                path(pathJoin(m_scriptPath, "personas/p1.txt")),
+                nullptr);
+    SHOW(personaLambda);
 }
 
 void Game::update(const Time_Duration & duration) {

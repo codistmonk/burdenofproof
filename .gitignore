@@ -2,3 +2,6 @@
 *.cbp
 *.kdev4
 *.orig
+testcpp.error
+testcpp.cmake
+testcpp.output
