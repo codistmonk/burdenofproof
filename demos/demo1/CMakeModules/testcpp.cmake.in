@@ -1,0 +1,3 @@
+execute_process(COMMAND ${PYTHON_COMMAND} ${CMAKE_BINARY_DIR}/app/testcpp.py
+	OUTPUT_FILE ${CMAKE_BINARY_DIR}/testcpp.output
+	ERROR_FILE ${CMAKE_BINARY_DIR}/testcpp.error)
