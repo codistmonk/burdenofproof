@@ -22,17 +22,19 @@ class vec3f;
 template< typename T >
 class TemporalValue {
  public:
-    TemporalValue() : m_value(nullptr), m_time() {}
+    TemporalValue() : m_value(new T()), m_time() {}
+
+    explicit TemporalValue(Time const &  time) :
+        m_value(nullptr),
+        m_time(time) {}
+
+    TemporalValue(T const & value, Time const & time);
 
     explicit TemporalValue(Path const & path);
 
     explicit TemporalValue(std::string const & str) {
         this->setTimeAndValueFromStr(str);
     }
-
-    TemporalValue(T const & value, Time const & time);
-
-    explicit TemporalValue(Time const &  time);
 
     explicit TemporalValue(TemporalValue<T> const & tv)
         : m_value(tv.m_value), m_time(tv.m_time) {}
@@ -125,10 +127,6 @@ TemporalValue< T > & TemporalValue< T >::operator=(TemporalValue && tvRvalue) {
 
     return *this;
 }
-
-template< typename T >
-TemporalValue< T >::TemporalValue(Time const & time)
-    : m_value(nullptr) , m_time(time) {}
 
 template< typename T >
 TemporalValue< T >::~TemporalValue() {}

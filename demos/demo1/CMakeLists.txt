@@ -90,5 +90,7 @@ foreach (f ${SRC_ALL})
 endforeach()
 
 # Target testcpp
-add_custom_target(testcpp ALL)
-add_custom_command(TARGET testcpp COMMAND ${PYTHON} ${CMAKE_BINARY_DIR}/app/testcpp.py)
+if(!CMAKE_SYSTEM_NAME STREQUAL "Linux")
+    add_custom_target(testcpp ALL)
+    add_custom_command(TARGET testcpp COMMAND ${PYTHON} ${CMAKE_BINARY_DIR}/app/testcpp.py)
+endif()

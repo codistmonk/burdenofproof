@@ -65,19 +65,51 @@ BOOST_PYTHON_MODULE(bop) {
             .value("ROAD", CityCell::ROAD)
             .value("HOUSE", CityCell::HOUSE)
             .value("POLICE_BUILDING", CityCell::POLICE_BUILDING)
-            .value("OFFICE_BUILDING", CityCell::OFFICE_BUILDING);
+            .value("OFFICE_BUILDING", CityCell::OFFICE_BUILDING)
+            ;  // NOLINT(whitespace/semicolon)
+
     class_<CityBlueprint>("CityBlueprint")
             .def("getSizeNS", &CityBlueprint::getSizeNS)
             .def("getSizeWE", &CityBlueprint::getSizeWE)
             .def("getCell", &CityBlueprint::getCell)
-            .def(boost::python::self_ns::str(self));
+            .def(boost::python::self_ns::str(self))
+            ;  // NOLINT(whitespace/semicolon)
+
+    class_<Character>("Character")
+            .def(init<>())
+            .def("getRoutinePersona",
+                 &Character::getRoutinePersona,
+                 return_internal_reference<1>())
+            .def("getActualPersona",
+                 &Character::getActualPersona,
+                 return_internal_reference<1>())
+            ;  // NOLINT(whitespace/semicolon)
+
+    class_<Persona>("Persona", init<Character*>())
+            .def("getPosition",
+                 &Persona::getPosition,
+                 return_internal_reference<1>())
+           ;  // NOLINT(whitespace/semicolon)
+
+    class_<Population>("Population")
+            .def(init<>())
+            .def("getCharacterCount", &Population::getCharacterCount)
+            .def("getCharacter",
+                 &Population::getCharacter,
+                 return_internal_reference<1>())
+            ;  // NOLINT(whitespace/semicolon)
+
     class_<Game, boost::noncopyable>("Game")
             .def(init< std::string >())
             .def("getTime", &Game::getTime)
             .def("update", &Game::update)
             .def("getCityBlueprint",
-                &Game::getCityBlueprint,
-                return_internal_reference<1>());
+                 &Game::getCityBlueprint,
+                 return_internal_reference<1>())
+            .def("getPopulation",
+                 &Game::getPopulation,
+                 return_internal_reference<1>())
+            ;  // NOLINT(whitespace/semicolon)
 }
 
 }  // namespace burdenofproof

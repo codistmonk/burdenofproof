@@ -43,6 +43,10 @@ class Game {
     inline CityBlueprint const & getCityBlueprint() const {
         return m_cityBlueprint;
     }
+
+    inline Population const & getPopulation() const {
+        return m_population;
+    }
 };  // class Game
 
 }  // namespace burdenofproof

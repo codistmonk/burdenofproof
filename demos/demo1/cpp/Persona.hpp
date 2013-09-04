@@ -3,6 +3,7 @@
 #define PERSONA_HPP_
 
 #include <cstdint>
+#include <cassert>
 #include <string>
 #include "Propertychronology.hpp"
 #include "Piecewiseconstantchronology.hpp"
@@ -13,10 +14,11 @@ class Character;
 
 class Persona {
  public:
-    explicit Persona(Character const & character);
-
+    explicit Persona(Character const * character);
+    explicit Persona(Persona const &);
     inline Character const &  getCharacter() const {
-        return m_character;
+        assert(m_character != nullptr);
+        return *m_character;
     }
 
     inline PropertyChronology< std::string > const & getFirstName() const {
@@ -52,6 +54,7 @@ class Persona {
     }
 
  private:
+    Persona();
     PiecewiseConstantChronology< std::string >  m_firstName;
     PiecewiseConstantChronology< std::string >  m_middleName;
     PiecewiseConstantChronology< std::string >  m_lastName;
@@ -60,7 +63,7 @@ class Persona {
     PiecewiseConstantChronology< Gender >       m_gender;
     PiecewiseLinearChronology< float >          m_murderousInstinct;
     PiecewiseLinearChronology< maths::vec3f >   m_position;
-    Character const & m_character;
+    Character const * m_character;
 };
 
 #endif  // PERSONA_HPP_
