@@ -1,7 +1,4 @@
-import sys
-import os
-import struct
-import shutil
+import sys, os, struct, shutil
 
 print sys.argv
 

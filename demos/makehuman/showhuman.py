@@ -1,9 +1,23 @@
-import sys
+import sys, os, struct
 from direct.showbase.ShowBase import ShowBase
+from panda3d.core import *
 
 from orbitalcameracontroller import *
 from objparser import *
 from objloader import *
+
+def readMakehumanTarget(path):
+	result = []
+
+	with open(path, "rb") as inputFile:
+		bytes = inputFile.read(16)
+
+		while bytes:
+			vertexIndex, deltaX, deltaY, deltaZ = struct.unpack("<ifff", bytes)
+			result.append((vertexIndex, Vec3(deltaX, deltaY, deltaZ)))
+			bytes = inputFile.read(16)
+
+	return result
 
 class ShowHuman(ShowBase):
 
@@ -20,7 +34,19 @@ class ShowHuman(ShowBase):
 	def setupModels(self):
 #		self.human = self.loader.loadModel("data/3dobjs/base")
 #		self.human.reparentTo(self.render)
-		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", ObjLoader("human")).listener.node)
+		self.humanObjLoader = ObjLoader("human")
+		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", self.humanObjLoader).listener.node)
+		target = readMakehumanTarget("data/targets/measure/measure-bust-increase.targetb")
+
+		# TODO(codistmonk) consider that there may be multiple vdatas
+		# for general objs, although Makehuman only has one
+		vertices = GeomVertexRewriter(self.humanObjLoader.vdata, 'vertex')
+		amount = 4.0
+
+		for vertexObjIndex, delta in target:
+			for vertexIndex in self.humanObjLoader.vertexCopies[vertexObjIndex]:
+				vertices.setRow(vertexIndex)
+				vertices.setData3f(vertices.getData3f() + delta * amount)
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
