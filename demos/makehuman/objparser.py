@@ -36,7 +36,7 @@ class ObjListener:
 	def curve(self, cs):
 		pass
 
-	def finish():
+	def finishGroup():
 		pass
 
 def parsePoints(tokens):
@@ -60,7 +60,7 @@ class ObjParser:
 			for line in infile:
 				self.parseLine(line)
 
-		listener.finish()
+		listener.finishGroup()
 
 	def parseLine(self, line):
 		tokens = line.split()
