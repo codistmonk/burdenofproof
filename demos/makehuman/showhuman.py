@@ -1,6 +1,7 @@
 import sys, os, struct
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
+from direct.task import Task
 
 from orbitalcameracontroller import *
 from objparser import *
@@ -52,20 +53,27 @@ class ShowHuman(ShowBase):
 		self.accept("escape", sys.exit)
 
 	def setupLights(self):
-		self.sunLight = self.render.attachNewNode(DirectionalLight("sunLight"))
-		self.sunLight.setColor(Vec4(0.8, 0.8, 0.8, 1))
-		self.sunLight.node().getLens().setFilmSize(32, 32)
-		self.sunLight.node().getLens().setNearFar(75,95)
-		self.sunLight.setPos(60, 30, 50)
-		self.sunLight.lookAt(0, 0, 0)
-		self.render.setLight(self.sunLight)
-		self.sunLight.node().showFrustum()
+		self.sunlight = self.render.attachNewNode(DirectionalLight("sunlight"))
+		self.sunlight.setColor(Vec4(0.8, 0.8, 0.8, 1))
+		self.sunlight.node().getLens().setFilmSize(32, 32)
+		self.sunlight.node().getLens().setNearFar(75,95)
+		self.sunlight.setPos(60, 30, 50)
+		self.sunlight.lookAt(0, 0, 0)
+		self.render.setLight(self.sunlight)
+		self.sunlight.node().showFrustum()
 		if (self.useAdvancedVisualEffects and base.win.getGsg().getSupportsBasicShaders() != 0 and base.win.getGsg().getSupportsDepthTexture() != 0):
-			self.sunLight.node().setShadowCaster(True, 256, 256)
+			self.sunlight.node().setShadowCaster(True, 256, 256)
 			self.render.setShaderAuto()
 
 		self.ambientLight = self.render.attachNewNode(AmbientLight("ambientLight"))
 		self.ambientLight.node().setColor(Vec4(0.2, 0.2, 0.2, 1))
 		self.render.setLight(self.ambientLight)
+
+		self.taskMgr.add(self.sunlightConrol, "sunlightControl")
+
+	def sunlightConrol(self, task):
+		setOrbiterHeading(self.sunlight, self.camera.getH() + 60.0, self.cameraController.target)
+
+		return Task.cont
 
 ShowHuman().run()

@@ -26,3 +26,10 @@ def addData(writer, values):
 
 def vec3(floats):
 	return Vec3(floats[0], floats[1], floats[2])
+
+def setOrbiterHeading(orbiter, heading, target, distanceFromTarget = None):
+	if distanceFromTarget == None:
+		distanceFromTarget = (orbiter.getPos() - target).length()
+
+	orbiter.setH(heading)
+	orbiter.setPos(target - orbiter.getMat().getRow3(1) * distanceFromTarget)
