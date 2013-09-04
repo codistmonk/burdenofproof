@@ -15,7 +15,6 @@ class Character {
 
     inline int getId() const {return m_id;}
     inline void setId(int n) {m_id = n;}
-#if !defined(__APPLE__)
     inline Persona const & getActualPersona() const {
         assert(m_actualPersona != nullptr);
         return *m_actualPersona;
@@ -24,14 +23,11 @@ class Character {
         assert(m_routinePersona != nullptr);
         return *m_routinePersona;
     }
-#endif
 
  private:
-#if !defined(__APPLE__)
     std::list<Persona*>m_personas;
     Persona*           m_actualPersona;
     Persona*           m_routinePersona;
-#endif
     static int m_counter;
     int m_id;
 };
