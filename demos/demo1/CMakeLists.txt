@@ -15,9 +15,9 @@ endif()
 
 # Python command
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-	set(PYTHON python2)
+	set(PYTHON_COMMAND python2)
 else()
-	set(PYTHON ppython)
+	set(PYTHON_COMMAND ppython)
 endif()
 
 # Dependencies
@@ -88,9 +88,18 @@ add_custom_command(TARGET bop POST_BUILD
 add_custom_target(cpplint ALL)
 file(GLOB SRC_ALL cpp/*)
 foreach (f ${SRC_ALL})
-	add_custom_command(TARGET cpplint COMMAND ${PYTHON} ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1/cpp ${f})
+	add_custom_command(TARGET cpplint COMMAND ${PYTHON_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1/cpp ${f})
 endforeach()
 
 # Target testcpp
 add_custom_target(testcpp ALL DEPENDS bop)
-add_custom_command(TARGET testcpp COMMAND ${PYTHON} ${CMAKE_BINARY_DIR}/app/testcpp.py)
+
+# Old version: build process stops if the program ends abruptly (eg failed C assert)
+#add_custom_command(TARGET testcpp COMMAND ${PYTHON} ${CMAKE_BINARY_DIR}/app/testcpp.py)
+
+# New version: standard and error outputs are written in testcpp.output and testcpp.error
+configure_file(
+  ${CMAKE_MODULE_PATH}/testcpp.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/testcpp.cmake
+)
+add_custom_command(TARGET testcpp COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/testcpp.cmake)
