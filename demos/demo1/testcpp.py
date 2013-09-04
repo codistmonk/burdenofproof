@@ -6,14 +6,29 @@ totalErrorCount = None
 
 def checkEquals(expected, actual):
 	if expected != actual:
+		global totalErrorCount
+
+		totalErrorCount += 1
+		
 		print "Failure: expected", expected, "but was", actual
 
 # Tests definitions
 
-def testCityBlueprintAndPopulation():
-	print "testCityBlueprintAndPopulation..."
+oneSecond = 1000L
+oneHour = 3600L * oneSecond
+midnight = 0L * oneHour
+noon = 12L * oneHour
+game = None
+
+def initializeTests():
+	print "initializeTests..."
+
+	global game
 
 	game = Game(scriptPath)
+
+def testCityBlueprint():
+	print "testCityBlueprint..."
 
 	blueprint = game.getCityBlueprint()
 
@@ -26,16 +41,19 @@ def testCityBlueprintAndPopulation():
 	checkEquals(CityCell.HOUSE, blueprint.getCell(0, 4))
 	checkEquals(CityCell.GROUND, blueprint.getCell(0, 6))
 
+def testPopulation():
+	print "testPopulation..."
+
 	population = game.getPopulation()
 
 	checkEquals(21, population.getCharacterCount())
 
-	oneSecond = 1000L
-	oneHour = 3600L * oneSecond
-	midnight = 0L * oneHour
-	noon = 12L * oneHour
+def testUpdate():
+	print "testUpdate..."
 
-	game.setTime(0L)
+	checkEquals(midnight, game.getTime())
+
+	population = game.getPopulation()
 
 	# character0 is player
 	for i in range(1, 21):
@@ -43,18 +61,18 @@ def testCityBlueprintAndPopulation():
 		routinePosition = character.getRoutinePersona().getPosition()
 		actualPosition = character.getActualPersona().getPosition()
 
-		checkEquals(midnight, game.getTime())
 		checkEquals(routinePosition.getValue(midnight), actualPosition.getValue(game.getTime()))
 
 	for i in range(12 * oneHour * oneSecond):
 		game.update(oneSecond)
+
+	checkEquals(noon, game.getTime())
 
 	for i in range(1, 21):
 		character = population.getCharacter(i)
 		routinePosition = character.getRoutinePersona().getPosition()
 		actualPosition = character.getActualPersona().getPosition()
 		
-		checkEquals(noon, game.getTime())
 		checkEquals(routinePosition.getValue(noon), actualPosition.getValue(game.getTime()))
 
 # Insert more test definitions before this line
@@ -64,7 +82,10 @@ def testCityBlueprintAndPopulation():
 totalErrorCount = 0
 
 for test in [
-	testCityBlueprintAndPopulation
+	initializeTests,
+	testCityBlueprint,
+	testPopulation,
+	testUpdate
 # Insert more test names before this line
 ]:
 	try:
