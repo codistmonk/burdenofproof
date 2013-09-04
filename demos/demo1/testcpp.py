@@ -46,7 +46,7 @@ def testCityBlueprintAndPopulation():
 		checkEquals(midnight, game.getTime())
 		checkEquals(routinePosition.getValue(midnight), actualPosition.getValue(game.getTime()))
 
-	for i in range(12 * oneHour * oneSecond)
+	for i in range(12 * oneHour * oneSecond):
 		game.update(oneSecond)
 
 	for i in range(1, 21):
