@@ -1,6 +1,13 @@
 from utils import *
 from bop import *
 
+totalErrorCount = None
+
+def checkEquals(expected, actual):
+	if expected != actual:
+		totalErrorCount += 1
+		print "Failure: expected", expected, "but was", actual
+
 # Tests definitions
 
 def testCityBlueprint():
@@ -9,17 +16,26 @@ def testCityBlueprint():
 	game = Game(scriptPath)
 	blueprint = game.getCityBlueprint()
 
-	assert 9 == blueprint.getSizeNS()
-	assert 7 == blueprint.getSizeWE()
+	checkEquals(9, blueprint.getSizeNS())
+	checkEquals(7, blueprint.getSizeWE())
 
-	assert CityCell.POLICE_BUILDING == blueprint.getCell(0, 0)
-	assert CityCell.ROAD == blueprint.getCell(0, 1)
-	assert CityCell.OFFICE_BUILDING == blueprint.getCell(0, 2)
-	assert CityCell.HOUSE == blueprint.getCell(0, 4)
-	assert CityCell.GROUND == blueprint.getCell(0, 6)
+	checkEquals(CityCell.POLICE_BUILDING, blueprint.getCell(0, 0))
+	checkEquals(CityCell.ROAD, blueprint.getCell(0, 1))
+	checkEquals(CityCell.OFFICE_BUILDING, blueprint.getCell(0, 2))
+	checkEquals(CityCell.HOUSE, blueprint.getCell(0, 4))
+	checkEquals(CityCell.GROUND, blueprint.getCell(0, 6))
 
-	print "testCityBlueprint: OK"
+# Insert more test definitions before this line
 
 # Tests execution
 
+totalErrorCount = 0
+
 testCityBlueprint()
+
+# Insert more test calls before this line
+
+if 0 == totalErrorCount:
+	print "All tests PASS"
+else:
+	print "Some tests FAIL:", totalErrorCount, "failures detected"
