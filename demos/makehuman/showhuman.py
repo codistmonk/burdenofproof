@@ -2,6 +2,7 @@ import sys, os, struct
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
 from direct.task import Task
+from direct.gui.DirectGui import *
 
 from orbitalcameracontroller import *
 from objparser import *
@@ -30,24 +31,19 @@ class ShowHuman(ShowBase):
 		self.setupKeyboardControl()
 		self.setupModels()
 		self.setupLights()
+		self.setupGUI()
 		self.cameraController = OrbitalCameraController(self)
 
 	def setupModels(self):
-#		self.human = self.loader.loadModel("data/3dobjs/base")
-#		self.human.reparentTo(self.render)
-		self.humanObjLoader = ObjLoader("human")
-		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", self.humanObjLoader).listener.node)
-		target = readMakehumanTarget("data/targets/measure/measure-bust-increase.targetb")
+		self.staticHumanObjLoader = ObjLoader("human")
+		self.dynamicHumanObjLoader = ObjLoader("human")
+		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", [self.staticHumanObjLoader, self.dynamicHumanObjLoader]).listeners[1].node)
+		self.target = readMakehumanTarget("data/targets/measure/measure-bust-increase.targetb")
 
 		# TODO(codistmonk) consider that there may be multiple vdatas
 		# for general objs, although Makehuman only has one
-		vertices = GeomVertexRewriter(self.humanObjLoader.vdata, 'vertex')
-		amount = 4.0
-
-		for vertexObjIndex, delta in target:
-			for vertexIndex in self.humanObjLoader.vertexCopies[vertexObjIndex]:
-				vertices.setRow(vertexIndex)
-				vertices.setData3f(vertices.getData3f() + delta * amount)
+		self.staticVertices = GeomVertexRewriter(self.staticHumanObjLoader.vdata, 'vertex')
+		self.dynamicVertices = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'vertex')
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
@@ -75,5 +71,18 @@ class ShowHuman(ShowBase):
 		setOrbiterHeading(self.sunlight, self.camera.getH() + 60.0, self.cameraController.target)
 
 		return Task.cont
+
+	def setupGUI(self):
+		self.slider = DirectSlider(range = (-50, 50), value = 0, pageSize = 5, command = lambda : self.sliderChanged())
+		self.slider.setPos(0.0, 0.0, -0.9)
+
+	def sliderChanged(self):
+		amount = self.slider["value"] / 10.0
+
+		for vertexObjIndex, delta in self.target:
+			for vertexIndex in self.staticHumanObjLoader.vertexCopies[vertexObjIndex]:
+				self.staticVertices.setRow(vertexIndex)
+				self.dynamicVertices.setRow(vertexIndex)
+				self.dynamicVertices.setData3f(self.staticVertices.getData3f() + delta * amount)
 
 ShowHuman().run()
