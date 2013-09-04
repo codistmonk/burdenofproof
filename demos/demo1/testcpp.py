@@ -30,6 +30,33 @@ def testCityBlueprintAndPopulation():
 
 	checkEquals(21, population.getCharacterCount())
 
+	oneSecond = 1000L
+	oneHour = 3600L * oneSecond
+	midnight = 0L * oneHour
+	noon = 12L * oneHour
+
+	game.setTime(0L)
+
+	# character0 is player
+	for i in range(1, 21):
+		character = population.getCharacter(i)
+		routinePosition = character.getRoutinePersona().getPosition()
+		actualPosition = character.getActualPersona().getPosition()
+
+		checkEquals(midnight, game.getTime())
+		checkEquals(routinePosition.getValue(midnight), actualPosition.getValue(game.getTime()))
+
+	for i in range(12 * oneHour * oneSecond)
+		game.update(oneSecond)
+
+	for i in range(1, 21):
+		character = population.getCharacter(i)
+		routinePosition = character.getRoutinePersona().getPosition()
+		actualPosition = character.getActualPersona().getPosition()
+		
+		checkEquals(noon, game.getTime())
+		checkEquals(routinePosition.getValue(noon), actualPosition.getValue(game.getTime()))
+
 # Insert more test definitions before this line
 
 # Tests execution
