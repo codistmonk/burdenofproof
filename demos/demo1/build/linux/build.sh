@@ -2,7 +2,7 @@
 
 cmake ../.. && make
 
-echo ========== BEGIN(testcpp output) ==========
+echo "========== BEGIN(testcpp output) =========="
 cat testcpp.output
 cat testcpp.error
-echo ==========  END(testcpp output)  ==========
+echo "==========  END(testcpp output)  =========="
