@@ -9,12 +9,14 @@ def checkEquals(expected, actual):
 		global totalErrorCount
 
 		totalErrorCount += 1
-		
+
 		print "Failure: expected", expected, "but was", actual
 
 # Tests definitions
 
+framerate = 40
 oneSecond = 1000L
+millisecondsPerFrame = oneSecond / framerate
 oneHour = 3600L * oneSecond
 midnight = 0L * oneHour
 noon = 12L * oneHour
@@ -63,8 +65,8 @@ def testUpdate():
 
 		checkEquals(routinePosition.getValue(midnight), actualPosition.getValue(game.getTime()))
 
-	for i in range(12 * oneHour * oneSecond):
-		game.update(oneSecond)
+	for i in range(12 * oneHour * oneSecond / millisecondsPerFrame):
+		game.update(millisecondsPerFrame)
 
 	checkEquals(noon, game.getTime())
 
