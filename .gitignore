@@ -5,3 +5,5 @@
 testcpp.error
 testcpp.cmake
 testcpp.output
+*.pyc
+.DS_Store

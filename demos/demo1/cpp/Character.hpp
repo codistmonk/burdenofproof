@@ -9,9 +9,9 @@
 class Character {
  public:
     Character();
-    explicit Character(int id) : m_id(id),
-                                 m_actualPersona(nullptr),
-                                 m_routinePersona(nullptr) {}
+    explicit Character(int id) : m_actualPersona(nullptr),
+                                 m_routinePersona(nullptr),
+                                 m_id(id) {}
 
     inline int getId() const {return m_id;}
     inline void setId(int n) {m_id = n;}

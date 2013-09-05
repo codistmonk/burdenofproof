@@ -1,4 +1,5 @@
 bop.so
+bop.pyd
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake

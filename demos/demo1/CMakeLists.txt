@@ -1,8 +1,15 @@
 cmake_minimum_required (VERSION 2.8)
 project (BurdenOfProof_demo1)
 
+set(CMAKE_VERBOSE_MAKEFILE OFF CACHE BOOL "Verbose Makefile : ON or OFF" FORCE)
+set(CMAKE_BUILD_TYPE  Debug CACHE STRING "Build type : Release or Debug" FORCE)
+
 # Support custom cmake modules
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/CMakeModules/")
+
+
+#warnings
+add_definitions("-Wall -Wextra -Wpedantic")
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	set(CMAKE_CXX_FLAGS "-std=c++11")
