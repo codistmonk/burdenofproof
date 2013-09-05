@@ -108,6 +108,17 @@ class ShowHuman(ShowBase):
 				self.dynamicVertices.setRow(vertexIndex)
 				self.dynamicVertices.setData3f(self.staticVertices[vertexIndex] + delta * amount)
 
+	def show(self, nodePattern):
+		for nodePath in self.find(nodePattern):
+			nodePath.show()
+
+	def hide(self, nodePattern):
+		for nodePath in self.find(nodePattern):
+			nodePath.hide()
+
+	def find(self, nodePattern):
+		return self.human.findAllMatches(nodePattern)
+
 	def help(self):
 		print
 		print "self.help()"
@@ -125,6 +136,15 @@ class ShowHuman(ShowBase):
 		print "self.setStaticVertices()"
 		print "     Save the current deformation into the static model"
 		print "     staticModel = dynamicModel"
+		print
+		print "self.find(nodePattern)"
+		print "     Return a list of NodePath objects matching nodePattern"
+		print "     Example: print self.find(\"helper*\")"
+		print
+		print "self.show(nodePattern)"
+		print "self.hide(nodePattern)"
+		print "     Show / hide the NodePath objects matching nodePattern"
+		print "     Example: self.hide(\"joint*\")"
 		print
 
 loadPrcFile("myconfig.prc")
