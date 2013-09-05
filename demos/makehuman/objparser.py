@@ -55,10 +55,13 @@ class ObjParser:
 	def __init__(self, path, listeners):
 		self.cs = None
 		self.listeners = listeners
+		inputFile = open(path)
 
-		with open(path) as infile:
-			for line in infile:
+		try:
+			for line in inputFile:
 				self.parseLine(line)
+		finally:
+			inputFile.close()
 
 		for listener in self.listeners:
 			listener.finishGroup()

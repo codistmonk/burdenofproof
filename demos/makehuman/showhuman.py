@@ -10,14 +10,17 @@ from objloader import *
 
 def readMakehumanTarget(path):
 	result = []
+	inputFile = open(path, "rb")
 
-	with open(path, "rb") as inputFile:
+	try:
 		bytes = inputFile.read(16)
 
 		while bytes:
 			vertexIndex, deltaX, deltaY, deltaZ = struct.unpack("<ifff", bytes)
 			result.append((vertexIndex, Vec3(deltaX, deltaY, deltaZ)))
 			bytes = inputFile.read(16)
+	finally:
+		inputFile.close()
 
 	return result
 
@@ -84,5 +87,7 @@ class ShowHuman(ShowBase):
 				self.staticVertices.setRow(vertexIndex)
 				self.dynamicVertices.setRow(vertexIndex)
 				self.dynamicVertices.setData3f(self.staticVertices.getData3f() + delta * amount)
+
+loadPrcFile("myconfig.prc")
 
 ShowHuman().run()

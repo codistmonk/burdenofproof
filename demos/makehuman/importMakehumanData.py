@@ -39,13 +39,14 @@ def importMakehumanData(path):
 				lines = inputFile.readlines()
 
 				for line in lines:
-					values = line.split()
-					outputFile.write(struct.pack("<i", int(values[0])))
-					outputFile.write(struct.pack("<f", float(values[1])))
-					outputFile.write(struct.pack("<f", float(values[2])))
-					outputFile.write(struct.pack("<f", float(values[3])))
+					if not line.startswith("#"):
+						values = line.split()
+						outputFile.write(struct.pack("<i", int(values[0])))
+						outputFile.write(struct.pack("<f", float(values[1])))
+						outputFile.write(struct.pack("<f", float(values[2])))
+						outputFile.write(struct.pack("<f", float(values[3])))
 			except:
-				print "Unexpected error:", sys.exc_info()[0]
+				print "Unexpected error:", sys.exc_info()
 			finally:
 				inputFile.close()
 				outputFile.close()
