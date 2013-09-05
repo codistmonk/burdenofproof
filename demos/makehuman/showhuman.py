@@ -40,7 +40,7 @@ class ShowHuman(ShowBase):
 	def setupModels(self):
 		self.dynamicHumanObjLoader = ObjLoader("human")
 		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", [self.dynamicHumanObjLoader]).listeners[0].node)
-		self.target = readMakehumanTarget("data/targets/measure/measure-bust-increase.targetb")
+		self.setTarget("data/targets/measure/measure-bust-increase")
 
 		# TODO(codistmonk) consider that there may be multiple vdatas
 		# for general objs, although Makehuman only has one
@@ -78,8 +78,22 @@ class ShowHuman(ShowBase):
 		return Task.cont
 
 	def setupGUI(self):
-		self.slider = DirectSlider(range = (-50, 50), value = 0, pageSize = 5, command = lambda : self.sliderChanged())
-		self.slider.setPos(0.0, 0.0, -0.9)
+		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "self.help()",
+			width = 20, numLines = 2, focus = 1)
+		self.userEntry.setPos(-1.3, 0.0, -0.9)
+
+	def userEntryChanged(self, command):
+		try:
+			print command
+			exec command
+		except:
+			print sys.exc_info()
+		finally:
+			self.userEntry["focus"] = True
+
+	def setTarget(self, path):
+		self.targetPath = path
+		self.target = readMakehumanTarget(path + ".targetb")
 
 	def setStaticVertices(self):
 		self.staticVertices = []
@@ -88,13 +102,30 @@ class ShowHuman(ShowBase):
 		while not self.dynamicVertices.isAtEnd():
 			self.staticVertices.append(Vec3(self.dynamicVertices.getData3f()))
 
-	def sliderChanged(self):
-		amount = self.slider["value"] / 10.0
-
+	def applyTarget(self, amount):
 		for vertexObjIndex, delta in self.target:
 			for vertexIndex in self.dynamicHumanObjLoader.vertexCopies[vertexObjIndex]:
 				self.dynamicVertices.setRow(vertexIndex)
 				self.dynamicVertices.setData3f(self.staticVertices[vertexIndex] + delta * amount)
+
+	def help(self):
+		print
+		print "self.help()"
+		print "     Print this message"
+		print
+		print "self.setTarget(path)"
+		print "     Load the target specified by path"
+		print "     Example: self.setTarget(\"data/targets/measure/measure-bust-increase\")"
+		print
+		print "self.applyTarget(amount)"
+		print "     Deform the dynamic model using the current target modulated by the specified amount"
+		print "     dynamicModel = staticModel + target * amount"
+		print "     The static model is not affected"
+		print
+		print "self.setStaticVertices()"
+		print "     Save the current deformation into the static model"
+		print "     staticModel = dynamicModel"
+		print
 
 loadPrcFile("myconfig.prc")
 
