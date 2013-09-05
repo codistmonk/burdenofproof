@@ -116,6 +116,10 @@ class ShowHuman(ShowBase):
 		for nodePath in self.find(nodePattern):
 			nodePath.hide()
 
+	def setColor(self, r, g, b, nodePattern):
+		for nodePath in self.find(nodePattern):
+			nodePath.setColor(r, g, b)
+
 	def find(self, nodePattern):
 		return self.human.findAllMatches(nodePattern)
 
@@ -145,6 +149,10 @@ class ShowHuman(ShowBase):
 		print "self.hide(nodePattern)"
 		print "     Show / hide the NodePath objects matching nodePattern"
 		print "     Example: self.hide(\"joint*\")"
+		print
+		print "self.setColor(r, g, b, nodePattern)"
+		print "     Set the color of the NodePath objects matching nodePattern"
+		print "     Example: self.setColor(0, 0, 1, \"*cornea*\")"
 		print
 
 loadPrcFile("myconfig.prc")
