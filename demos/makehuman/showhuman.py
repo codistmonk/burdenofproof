@@ -38,15 +38,14 @@ class ShowHuman(ShowBase):
 		self.cameraController = OrbitalCameraController(self)
 
 	def setupModels(self):
-		self.staticHumanObjLoader = ObjLoader("human")
 		self.dynamicHumanObjLoader = ObjLoader("human")
-		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", [self.staticHumanObjLoader, self.dynamicHumanObjLoader]).listeners[1].node)
+		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", [self.dynamicHumanObjLoader]).listeners[0].node)
 		self.target = readMakehumanTarget("data/targets/measure/measure-bust-increase.targetb")
 
 		# TODO(codistmonk) consider that there may be multiple vdatas
 		# for general objs, although Makehuman only has one
-		self.staticVertices = GeomVertexRewriter(self.staticHumanObjLoader.vdata, 'vertex')
 		self.dynamicVertices = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'vertex')
+		self.setStaticVertices()
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
@@ -59,7 +58,10 @@ class ShowHuman(ShowBase):
 		self.sunlight.setPos(60, 30, 50)
 		self.sunlight.lookAt(0, 0, 0)
 		self.render.setLight(self.sunlight)
-		self.sunlight.node().showFrustum()
+
+		if ConfigVariableBool("show-sunlight-frustum", True):
+			self.sunlight.node().showFrustum()
+
 		if (self.useAdvancedVisualEffects and base.win.getGsg().getSupportsBasicShaders() != 0 and base.win.getGsg().getSupportsDepthTexture() != 0):
 			self.sunlight.node().setShadowCaster(True, 256, 256)
 			self.render.setShaderAuto()
@@ -79,14 +81,20 @@ class ShowHuman(ShowBase):
 		self.slider = DirectSlider(range = (-50, 50), value = 0, pageSize = 5, command = lambda : self.sliderChanged())
 		self.slider.setPos(0.0, 0.0, -0.9)
 
+	def setStaticVertices(self):
+		self.staticVertices = []
+		self.dynamicVertices.setRow(0)
+
+		while not self.dynamicVertices.isAtEnd():
+			self.staticVertices.append(Vec3(self.dynamicVertices.getData3f()))
+
 	def sliderChanged(self):
 		amount = self.slider["value"] / 10.0
 
 		for vertexObjIndex, delta in self.target:
-			for vertexIndex in self.staticHumanObjLoader.vertexCopies[vertexObjIndex]:
-				self.staticVertices.setRow(vertexIndex)
+			for vertexIndex in self.dynamicHumanObjLoader.vertexCopies[vertexObjIndex]:
 				self.dynamicVertices.setRow(vertexIndex)
-				self.dynamicVertices.setData3f(self.staticVertices.getData3f() + delta * amount)
+				self.dynamicVertices.setData3f(self.staticVertices[vertexIndex] + delta * amount)
 
 loadPrcFile("myconfig.prc")
 
