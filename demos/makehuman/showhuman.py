@@ -25,6 +25,17 @@ def readMakehumanTarget(path):
 
 	return result
 
+def forEachVisiblePrimitiveIn(nodePath, process = lambda primitive : None):
+	for geomNodePath in nodePath.findAllMatches('**/+GeomNode'):
+		if not geomNodePath.isHidden():
+			geomNode = geomNodePath.node()
+
+			for geomIndex in range(geomNode.getNumGeoms()):
+				geom = geomNode.getGeom(geomIndex)
+
+				for primitiveIndex in range(geom.getNumPrimitives()):
+					process(geom.getPrimitive(primitiveIndex))
+
 class ShowHuman(ShowBase):
 
 	def __init__(self):
@@ -149,35 +160,29 @@ class ShowHuman(ShowBase):
 
 		return center
 
+	def exportPrimitiveToEgg(self, primitive, eggVertices):
+		egg = eggVertices.getParent()
+
+		if isinstance(primitive, GeomTriangles):
+			for faceIndex in range(primitive.getNumFaces()):
+				eggPolygon = EggPolygon()
+
+				egg.addChild(eggPolygon)
+
+				for vertexIndex in range(primitive.getPrimitiveStart(faceIndex), primitive.getPrimitiveEnd(faceIndex)):
+					self.dynamicVertices.setRow(primitive.getVertex(vertexIndex))
+					vertex = self.dynamicVertices.getData3f()
+					eggPolygon.addVertex(newEggVertex(eggVertices, vertex.getX(), vertex.getY(), vertex.getZ()))
+		else:
+			print "Warning: ignoring", type(primitive)
+
 	def exportEgg(self, path):
 		egg = EggData()
 		eggVertices = EggVertexPool("humanVertices")
 
 		egg.addChild(eggVertices)
 
-		for geomNodePath in self.human.findAllMatches('**/+GeomNode'):
-			if not geomNodePath.isHidden():
-				print geomNodePath
-				geomNode = geomNodePath.node()
-
-				for geomIndex in range(geomNode.getNumGeoms()):
-					geom = geomNode.getGeom(geomIndex)
-
-					for primitiveIndex in range(geom.getNumPrimitives()):
-						primitive = geom.getPrimitive(primitiveIndex)
-
-						if isinstance(primitive, GeomTriangles):
-							for faceIndex in range(primitive.getNumFaces()):
-								eggPolygon = EggPolygon()
-
-								egg.addChild(eggPolygon)
-
-								for vertexIndex in range(primitive.getPrimitiveStart(faceIndex), primitive.getPrimitiveEnd(faceIndex)):
-									self.dynamicVertices.setRow(primitive.getVertex(vertexIndex))
-									vertex = self.dynamicVertices.getData3f()
-									eggPolygon.addVertex(newEggVertex(eggVertices, vertex.getX(), vertex.getY(), vertex.getZ()))
-						else:
-							print "Warning: ignoring", type(primitive)
+		forEachVisiblePrimitiveIn(self.human, lambda primitive : self.exportPrimitiveToEgg(primitive, eggVertices))
 
 		print "Finishing", path + "..."
 
