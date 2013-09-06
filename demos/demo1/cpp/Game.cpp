@@ -3,7 +3,9 @@
 #include <boost/date_time/posix_time/posix_time.hpp>
 #include <boost/filesystem.hpp>
 #include <boost/python.hpp>
+#include <boost/python/suite/indexing/vector_indexing_suite.hpp>
 #include <string>
+#include <vector>
 
 using boost::posix_time::ptime;
 using boost::posix_time::time_duration;
@@ -24,7 +26,7 @@ Game::Game(std::string const & scriptPath, int const seed)
     : m_scriptPath(scriptPath),
       m_time(),
       m_cityBlueprint(pathJoin(scriptPath, BLUEPRINTPATH)),
-      m_population() {
+      m_population(m_cityBlueprint) {
 //            m_updateThread = std::thread(&Game::update,
 //                                         this,
 //                                         Time_Duration(milliseconds(100)));
@@ -62,8 +64,13 @@ using boost::python::enum_;
 using boost::python::self;
 using boost::python::init;
 using boost::python::return_internal_reference;
+using boost::python::vector_indexing_suite;
 
 BOOST_PYTHON_MODULE(bop) {
+    class_<std::vector<float> >("Vecf")
+            .def(vector_indexing_suite<std::vector<float> >())
+            ;  // NOLINT(whitespace/semicolon)
+
     enum_<CityCell>("CityCell")
             .value("GROUND", CityCell::GROUND)
             .value("ROAD", CityCell::ROAD)
@@ -86,6 +93,9 @@ BOOST_PYTHON_MODULE(bop) {
                  return_internal_reference<1>())
             .def("getActualPersona",
                  &Character::getActualPersona,
+                 return_internal_reference<1>())
+            .def("getPosition",
+                 &Character::getPosition,
                  return_internal_reference<1>())
             ;  // NOLINT(whitespace/semicolon)
 

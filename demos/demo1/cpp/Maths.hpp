@@ -9,6 +9,7 @@
 #include <iostream>  // NOLINT(readability/streams)
 #include <string>
 #include <memory>
+#include <vector>
 #include <algorithm>
 
 namespace maths {
@@ -59,10 +60,10 @@ class RandomIntGenerator : public RandomGenerator< int,
 template< typename T, int S >
 class Vector {
  public:
-    Vector() {}
+    Vector() : m_data(S) {}
 
     Vector(Vector< T, S > const & v) {
-        std::copy(v.m_data, v.m_data + S, m_data);
+        std::copy(v.m_data.begin(), v.m_data.end(), m_data.begin());
     }
 
     Vector& operator=(Vector const & v);
@@ -73,13 +74,15 @@ class Vector {
         return S;
     }
 
-    inline T const & operator[](int const n) const {
+    inline T const & operator[](std::size_t const n) const {
         return m_data[n];
     }
 
-    inline T & operator[](int const n) {
+    inline T & operator[](std::size_t const n) {
         return m_data[n];
     }
+
+    inline std::vector<float> const & getData() const {return m_data;}
 
     inline Vector< T, S > operator*(T const & t) const;
 
@@ -92,7 +95,7 @@ class Vector {
                                             Vector< U, t > const & v);
 
  private:
-    T m_data[S];
+    std::vector< T > m_data;
 };
 
 template< typename T, int S >

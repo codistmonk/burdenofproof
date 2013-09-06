@@ -45,6 +45,8 @@ class CityBlueprint {
         return m_cityCells[i][j];
     }
 
+    inline CityCells const & getCityCells() const {return m_cityCells;}
+
  private:
     BluePrint m_blueprint;
 

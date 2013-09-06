@@ -30,8 +30,10 @@ PiecewiseConstantChronology<T>::~PiecewiseConstantChronology() {}
 
 template< typename T >
 T PiecewiseConstantChronology< T >::getValue(Time const & t) const {
+    static TemporalValue< T > TPForFastGetValue;
+    TPForFastGetValue.setTime(t);
     return (*Super::m_temporalValues
-            .lower_bound(static_cast<TemporalValue<T> >(t)))
+            .lower_bound(TPForFastGetValue))
             .getValue();
 }
 

@@ -57,6 +57,10 @@ class TemporalValue {
         return *m_value;
     }
 
+    inline void setTime(Time const & t) {
+        m_time = t;
+    }
+
     inline bool operator<(TemporalValue<T> const & tv) const {
         return (*m_value) < (*(tv.m_value));
     }
