@@ -14,11 +14,13 @@ def clampY(target, minY, maxY):
 def clampZ(target, minZ, maxZ):
 	target.setZ(clamp(target.getZ(), minZ, maxZ))
 
-def addEggVertex(eggVertexPool, x, y, z, u = 0, v = 0):
+def addEggVertex(eggVertexPool, x, y, z, u = 0, v = 0, useUv = True):
 	vertex = EggVertex()
 
 	vertex.setPos(Point3D(x, y, z))
-	vertex.setUv(Point2D(u, v))
+
+	if useUv:
+		vertex.setUv(Point2D(u, v))
 
 	eggVertexPool.addVertex(vertex)
 
@@ -32,5 +34,10 @@ def newGroup(eggData):
 	eggData.addChild(group)
 
 	return group
+
+def finishEgg(eggData):
+	eggData.recomputeVertexNormals(0.0)
+	eggData.recomputeTangentBinormalAuto()
+	eggData.removeUnusedVertices(True)
 
 scriptPath = os.path.dirname(sys.argv[0]).replace("\\", "/")

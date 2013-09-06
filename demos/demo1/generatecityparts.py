@@ -30,11 +30,6 @@ def retrieveTexture(textureName, textureFolderName, textureEnvType = EggTexture.
 
 	return texture
 
-def finishEgg(eggData):
-	eggData.recomputeVertexNormals(0.0)
-	eggData.recomputeTangentBinormalAuto()
-	eggData.removeUnusedVertices(True)
-
 def xyFromUv(u, v, quarterTurns):
 	if quarterTurns == 1:
 		return 1.0 - v, u

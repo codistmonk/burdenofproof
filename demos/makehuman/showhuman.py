@@ -1,6 +1,7 @@
 import sys, os, struct
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
+from panda3d.egg import *
 from direct.task import Task
 from direct.gui.DirectGui import *
 
@@ -79,7 +80,7 @@ class ShowHuman(ShowBase):
 
 	def setupGUI(self):
 		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "self.help()",
-			width = 20, numLines = 2, focus = 1)
+			width = 40, numLines = 2, focus = 1)
 		self.userEntry.setPos(-1.3, 0.0, -0.9)
 
 	def userEntryChanged(self, command):
@@ -124,23 +125,69 @@ class ShowHuman(ShowBase):
 		return self.human.findAllMatches(nodePattern)
 
 	def center(self, nodePattern):
+		self.cameraController.target = self.computeCenter(self.human.find(nodePattern).node())
+
+	def computeCenter(self, pandaNode):
 		center = Vec3()
 		vertexCount = 0
-		geom = self.human.find(nodePattern).node().getGeom(0)
-		vertices = GeomVertexReader(geom.getVertexData(), "vertex")
 
-		for i in range(geom.getNumPrimitives()):
-			primitive = geom.getPrimitive(i)
+		for i in range(pandaNode.getNumGeoms()):
+			geom = pandaNode.getGeom(i)
 
-			for j in range(primitive.getNumVertices()):
-				vertices.setRow(primitive.getVertex(j))
-				center += vertices.getData3f()
-				vertexCount += 1
+			for j in range(geom.getNumPrimitives()):
+				primitive = geom.getPrimitive(j)
+
+				for k in range(primitive.getNumVertices()):
+					self.dynamicVertices.setRow(primitive.getVertex(k))
+					center += self.dynamicVertices.getData3f()
+					vertexCount += 1
+
+		if 0 < vertexCount:
+			center /= vertexCount
 
 		print "center:", center, "computed using", vertexCount, "vertices"
 
-		if 0 < vertexCount:
-			self.cameraController.target = center / vertexCount
+		return center
+
+	def exportEgg(self, path):
+		egg = EggData()
+		eggVertices = EggVertexPool("humanVertices")
+
+		egg.addChild(eggVertices)
+
+		for geomNodePath in self.human.findAllMatches('**/+GeomNode'):
+			if not geomNodePath.isHidden():
+				print geomNodePath
+				geomNode = geomNodePath.node()
+
+				for geomIndex in range(geomNode.getNumGeoms()):
+					geom = geomNode.getGeom(geomIndex)
+
+					for primitiveIndex in range(geom.getNumPrimitives()):
+						primitive = geom.getPrimitive(primitiveIndex)
+
+						if isinstance(primitive, GeomTriangles):
+							for faceIndex in range(primitive.getNumFaces()):
+								eggPolygon = EggPolygon()
+
+								egg.addChild(eggPolygon)
+
+								for vertexIndex in range(primitive.getPrimitiveStart(faceIndex), primitive.getPrimitiveEnd(faceIndex)):
+									self.dynamicVertices.setRow(primitive.getVertex(vertexIndex))
+									vertex = self.dynamicVertices.getData3f()
+									eggPolygon.addVertex(newEggVertex(eggVertices, vertex.getX(), vertex.getY(), vertex.getZ()))
+						else:
+							print "Warning: ignoring", type(primitive)
+
+		print "Finishing", path + "..."
+
+		finishEgg(egg, 180.0)
+
+		print "Writing", path + "..."
+
+		egg.writeEgg(path + ".egg")
+
+		print "Export EGG", path + ": OK"
 
 	def help(self):
 		print
@@ -176,6 +223,10 @@ class ShowHuman(ShowBase):
 		print "self.setCenter(nodePattern)"
 		print "     Center the view on the NodePath object matching nodePattern"
 		print "     Example: self.center(\"*head\")"
+		print
+		print "self.setExportEgg(path)"
+		print "     Export the visible geometry to the specified path"
+		print "     Example: self.export(\"model\")"
 		print
 
 loadPrcFile("myconfig.prc")

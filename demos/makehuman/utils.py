@@ -1,4 +1,5 @@
 from panda3d.core import *
+from panda3d.egg import *
 
 def clamp(value, minValue, maxValue):
 	return min(max(minValue, value), maxValue)
@@ -33,3 +34,33 @@ def setOrbiterHeading(orbiter, heading, target, distanceFromTarget = None):
 
 	orbiter.setH(heading)
 	orbiter.setPos(target - orbiter.getMat().getRow3(1) * distanceFromTarget)
+
+def newGroup(eggData):
+	group = EggGroup()
+
+	group.setGroupType(EggGroup.GTInstance)
+
+	eggData.addChild(group)
+
+	return group
+
+def newEggVertex(eggVertexPool, x, y, z, uv = None, normal = None):
+	vertex = EggVertex()
+
+	vertex.setPos(Point3D(x, y, z))
+
+	if not uv is None:
+		vertex.setUv(uv)
+
+	if not normal is None:
+		vertex.setNormal(normal)
+
+	eggVertexPool.addVertex(vertex)
+
+	return vertex
+
+def finishEgg(eggData, smoothingThresholdDegrees):
+	eggData.recomputePolygonNormals()
+	eggData.recomputeVertexNormals(smoothingThresholdDegrees)
+	eggData.recomputeTangentBinormalAuto()
+	eggData.removeUnusedVertices(True)
