@@ -123,6 +123,25 @@ class ShowHuman(ShowBase):
 	def find(self, nodePattern):
 		return self.human.findAllMatches(nodePattern)
 
+	def center(self, nodePattern):
+		center = Vec3()
+		vertexCount = 0
+		geom = self.human.find(nodePattern).node().getGeom(0)
+		vertices = GeomVertexReader(geom.getVertexData(), "vertex")
+
+		for i in range(geom.getNumPrimitives()):
+			primitive = geom.getPrimitive(i)
+
+			for j in range(primitive.getNumVertices()):
+				vertices.setRow(primitive.getVertex(j))
+				center += vertices.getData3f()
+				vertexCount += 1
+
+		print "center:", center, "computed using", vertexCount, "vertices"
+
+		if 0 < vertexCount:
+			self.cameraController.target = center / vertexCount
+
 	def help(self):
 		print
 		print "self.help()"
@@ -153,6 +172,10 @@ class ShowHuman(ShowBase):
 		print "self.setColor(r, g, b, nodePattern)"
 		print "     Set the color of the NodePath objects matching nodePattern"
 		print "     Example: self.setColor(0, 0, 1, \"*cornea*\")"
+		print
+		print "self.setCenter(nodePattern)"
+		print "     Center the view on the NodePath object matching nodePattern"
+		print "     Example: self.center(\"*head\")"
 		print
 
 loadPrcFile("myconfig.prc")
