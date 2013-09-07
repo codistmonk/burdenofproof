@@ -195,6 +195,25 @@ class ShowHuman(ShowBase):
 
 		print "Export EGG", path + ": OK"
 
+	def exportTexture(self):
+		textureMap = NodePath("textureMap")
+		# TODO(codistmonk) create a model with triangles using self.human uvs as 3D vertices
+		model = self.loader.loadModel("models/teapot")
+		model.reparentTo(textureMap)
+		model.setPos(0, 0, -1)
+		offscreen = self.win.makeTextureBuffer("offscreen", 1024, 1024, Texture(), True)
+		offscreenCamera = self.makeCamera(offscreen)
+		offscreenCamera.reparentTo(textureMap)
+		offscreenCamera.setPos(0, -10, 0)
+		light = AmbientLight('light')
+		light.setColor(Vec4(0.9, 0.2, 0.9, 1))
+		textureMap.setLight(textureMap.attachNewNode(light))
+		self.win.getEngine().renderFrame()
+
+		texture = offscreen.getTexture()
+		print texture
+		print texture.write("test.png")
+
 	def help(self):
 		print
 		print "self.help()"
