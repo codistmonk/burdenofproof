@@ -30,32 +30,30 @@ Game::Game(std::string const & scriptPath, int const seed)
 //            m_updateThread = std::thread(&Game::update,
 //                                         this,
 //                                         Time_Duration(milliseconds(100)));
-    TemporalValue<string> tpStr(
-        path(pathJoin(scriptPath, "temporalValues/string.txt")));
-    SHOW(tpStr);
-    TemporalValue<vec3f> tpVec3f(
-        path(pathJoin(scriptPath, "temporalValues/vec3f.txt")));
-    SHOW(tpVec3f);
-    TemporalValue<Gender> tpG(
-        path(pathJoin(scriptPath, "temporalValues/gender.txt")));
-    SHOW(tpG);
-    PiecewiseConstantChronology<string> pcStr(
-        path(pathJoin(scriptPath, "propertyChronologies/strings.txt")));
-    SHOW(pcStr);
-    PiecewiseLinearChronology<float> pcFloats(
-        path(pathJoin(scriptPath, "propertyChronologies/floats.txt")));
-    SHOW(pcFloats);
-    SHOW(std::to_string(pcFloats.getValue(
-        ptime(from_iso_string("20120903T060000")))));
-    Persona personaLambda(
-                path(pathJoin(m_scriptPath, "personas/p1.txt")),
-                nullptr);
-    SHOW(personaLambda);
+//    TemporalValue<string> tpStr(
+//        path(pathJoin(scriptPath, "temporalValues/string.txt")));
+//    SHOW(tpStr);
+//    TemporalValue<vec3f> tpVec3f(
+//        path(pathJoin(scriptPath, "temporalValues/vec3f.txt")));
+//    SHOW(tpVec3f);
+//    TemporalValue<Gender> tpG(
+//        path(pathJoin(scriptPath, "temporalValues/gender.txt")));
+//    SHOW(tpG);
+//    PiecewiseConstantChronology<string> pcStr(
+//        path(pathJoin(scriptPath, "propertyChronologies/strings.txt")));
+//    SHOW(pcStr);
+//    PiecewiseLinearChronology<float> pcFloats(
+//        path(pathJoin(scriptPath, "propertyChronologies/floats.txt")));
+//    SHOW(pcFloats);
+//    SHOW(std::to_string(pcFloats.getValue(
+//        ptime(from_iso_string("20120903T060000")))));
+//    Persona personaLambda(
+//                path(pathJoin(m_scriptPath, "personas/p1.txt")),
+//                nullptr);
 }
-
+boost::posix_time::min_date_time t;
 void Game::update(const Time_Duration & duration) {
     m_time += duration;
-
     // TODO(?) update population
 }
 

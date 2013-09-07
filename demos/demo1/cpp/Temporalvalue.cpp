@@ -44,7 +44,7 @@ vec3f TemporalValue<vec3f>::parseValue(std::string const & str) {
     vec3f result;
 
     for (int i = 0; i < 3; ++i) {
-        result[i] = stof(splitVec[0]);
+        result[i] = stof(splitVec[i]);
     }
 
     return result;

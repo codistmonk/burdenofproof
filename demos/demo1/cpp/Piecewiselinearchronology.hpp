@@ -29,7 +29,6 @@ template< typename T >
 PiecewiseLinearChronology< T >::~PiecewiseLinearChronology() {}
 
 template< typename T >
-// TODO(DaleCooper): think about this method
 T PiecewiseLinearChronology< T >::getValue(Time const & t) const {
     TemporalValue<T> const& timeAsTV
             = static_cast<TemporalValue<T> >(t);

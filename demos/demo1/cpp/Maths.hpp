@@ -37,6 +37,8 @@ class RandomNormalFloatGenerator : public RandomGenerator< float,
         m_mean(mean), m_stddev(stddev) {
             m_distribution = std::normal_distribution< float >(mean, stddev);
         }
+    float getMean() const {return m_mean;}
+    float getStdDev() const {return m_stddev;}
  private:
     float m_mean;
 
@@ -52,26 +54,46 @@ class RandomIntGenerator : public RandomGenerator< int,
         m_max(max) {
             m_distribution = std::uniform_int_distribution< int >(min, max);
         }
+    int getMin() const {return m_min;}
+    int getMax() const {return m_max;}
+
  private:
     int m_min;
     int m_max;
 };
 
-template< typename T, int S >
+template< typename T, size_t size >
 class Vector {
  public:
-    Vector() : m_data(S) {}
+    Vector() : m_data(size) {}
 
-    Vector(Vector< T, S > const & v) {
+    Vector(Vector< T, size > const & v) {
         std::copy(v.m_data.begin(), v.m_data.end(), m_data.begin());
     }
+
+    #ifndef _MSC_VER
+    explicit Vector(std::initializer_list< T > const & il) {
+        std::copy_n(il.begin(),
+                    std::min(size, il.size()),
+                    m_data.begin());
+        std::abort();
+    }
+
+    Vector< T, size > & operator=(std::initializer_list< T > const & il) {
+        std::copy_n(il.begin(),
+                    std::min(size, il.size()),
+                    m_data.begin());
+        std::abort();
+    }
+
+    #endif
 
     Vector& operator=(Vector const & v);
 
     Vector& operator=(Vector && vRvalue);
 
-    inline int size() const {
-        return S;
+    inline int getSize() const {
+        return size;
     }
 
     inline T const & operator[](std::size_t const n) const {
@@ -84,13 +106,13 @@ class Vector {
 
     inline std::vector<float> const & getData() const {return m_data;}
 
-    inline Vector< T, S > operator*(T const & t) const;
+    inline Vector< T, size > operator*(T const & t) const;
 
-    inline Vector< T, S > operator+(Vector< T, S > const & v) const;
+    inline Vector< T, size > operator+(Vector< T, size > const & v) const;
 
-    inline Vector< T, S > operator/(T const & t) const;
+    inline Vector< T, size > operator/(T const & t) const;
 
-    template<typename U, int t>
+    template<typename U, size_t t>
     friend inline std::ostream & operator<<(std::ostream & o,
                                             Vector< U, t > const & v);
 
@@ -98,8 +120,8 @@ class Vector {
     std::vector< T > m_data;
 };
 
-template< typename T, int S >
-Vector< T, S > & Vector< T, S >::operator=(Vector const& v) {
+template< typename T, size_t size >
+Vector< T, size > & Vector< T, size >::operator=(Vector const& v) {
     if (this != &v) {
         std::copy(v.m_data.begin(), v.m_data.end(), m_data.begin());
     }
@@ -107,8 +129,8 @@ Vector< T, S > & Vector< T, S >::operator=(Vector const& v) {
     return *this;
 }
 
-template< typename T, int S >
-Vector< T, S >& Vector< T, S >::operator=(Vector && vRvalue) {
+template< typename T, size_t size >
+Vector< T, size >& Vector< T, size >::operator=(Vector && vRvalue) {
     if (this != &vRvalue) {
         m_data(std::move(vRvalue.m_data));
     }
@@ -116,44 +138,45 @@ Vector< T, S >& Vector< T, S >::operator=(Vector && vRvalue) {
     return *this;
 }
 
-template< typename T, int S >
-Vector< T, S > Vector< T, S >::operator*(T const & t) const {
-    Vector< T, S > result(*this);
+template< typename T, size_t size >
+Vector< T, size > Vector< T, size >::operator*(T const & t) const {
+    Vector< T, size > result(*this);
 
-    for (int i = 0; i < S; ++i) {
+    for (int i = 0; i < this->getSize(); ++i) {
         result[i] *= t;
     }
 
     return result;
 }
 
-template< typename T, int S >
-Vector< T, S > Vector< T, S >::operator/(T const & t) const {
-    Vector< T, S > result(*this);
+template< typename T, size_t size >
+Vector< T, size > Vector< T, size >::operator/(T const & t) const {
+    Vector< T, size > result(*this);
 
-    for (int i = 0; i < S; ++i) {
+    for (int i = 0; i < this->getSize(); ++i) {
         result[i] /= t;
     }
 
     return result;
 }
 
-template< typename T, int S >
-Vector< T, S > Vector< T, S >::operator+(Vector< T, S > const & v) const {
-    Vector< T, S > result(*this);
+template< typename T, size_t size >
+Vector< T, size > Vector< T, size >::operator+(
+        Vector< T, size > const & v) const {
+    Vector< T, size > result(*this);
 
-    for (int i = 0; i < S; ++i) {
+    for (int i = 0; i < this->getSize(); ++i) {
         result[i] += v[i];
     }
 
     return result;
 }
 
-template<typename U, int t>
+template<typename U, size_t t>
 std::ostream & operator<<(std::ostream & o, Vector< U, t > const & v) {
     o << "(";
 
-    for (int i = 0 ; i < t - 1; ++i) {
+    for (int i = 0 ; i < v.getSize()-1; ++i) {
         o << std::to_string(v[i]) << ", ";
     }
 

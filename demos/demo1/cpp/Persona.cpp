@@ -19,8 +19,6 @@ void Persona::buildFromStringVector(
         std::vector<std::string> const & voc) {
     using std::string;
     assert(voc.size() == 8);
-    for (int i =0 ; i < 8 ; ++i)
-        SHOW(voc[i]);
     m_firstName = PiecewiseConstantChronology< string >(voc[0]);
     m_middleName = PiecewiseConstantChronology< string >(voc[1]);
     m_lastName = PiecewiseConstantChronology< string >(voc[2]);
