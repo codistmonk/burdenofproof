@@ -44,16 +44,16 @@ def newGroup(eggData):
 
 	return group
 
-def newEggVertex(eggVertexPool, x, y, z, uv = None, normal = None):
+def newEggVertex(eggVertexPool, xyz, uv = None, normal = None):
 	vertex = EggVertex()
 
-	vertex.setPos(Point3D(x, y, z))
+	vertex.setPos(Point3D(xyz[0], xyz[1], xyz[2]))
 
 	if not uv is None:
-		vertex.setUv(uv)
+		vertex.setUv(Point2D(uv[0], uv[1]))
 
 	if not normal is None:
-		vertex.setNormal(normal)
+		vertex.setNormal(Point3D(normal[0], normal[1], normal[2]))
 
 	eggVertexPool.addVertex(vertex)
 

@@ -27,29 +27,29 @@ def readMakehumanTarget(path):
 	return result
 
 def forEachPrimitiveIn(node, process = lambda stack : None, stack = []):
-	stack.insert(0, None)
-	stack.insert(0, None)
+	stack.append(None)
+	stack.append(None)
 
 	for geomIndex in range(node.getNumGeoms()):
 		geom = node.getGeom(geomIndex)
-		stack[1] = geom
+		stack[-2] = geom
 
 		for primitiveIndex in range(geom.getNumPrimitives()):
-			stack[0] = geom.getPrimitive(primitiveIndex)
+			stack[-1] = geom.getPrimitive(primitiveIndex)
 			process(stack)
 
-	stack.pop(0)
-	stack.pop(0)
+	stack.pop()
+	stack.pop()
 
 def forEachVisiblePrimitiveIn(nodePath, process = lambda stack : None, stack = []):
-	stack.insert(0, None)
+	stack.append(None)
 
 	for geomNodePath in nodePath.findAllMatches('**/+GeomNode'):
 		if not geomNodePath.isHidden():
-			stack[0] = geomNodePath
-			forEachPrimitiveIn(geomNodePath.node(), process)
+			stack[-1] = geomNodePath
+			forEachPrimitiveIn(geomNodePath.node(), process, stack)
 
-	stack.pop(0)
+	stack.pop()
 
 class ShowHuman(ShowBase):
 
@@ -107,8 +107,10 @@ class ShowHuman(ShowBase):
 		return Task.cont
 
 	def setupGUI(self):
-		# self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "NodePath(self.makeUvModel()).reparentTo(self.render)",
-		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "self.exportTexture()",
+		self.setColor("*", 1, 0, 0)
+		self.setColor("helper*", 0, 1, 0)
+		self.setColor("*hair", 0, 0, 1)
+		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "self.help()",
 			width = 40, numLines = 2, focus = 1)
 		self.userEntry.setPos(-1.3, 0.0, -0.9)
 
@@ -147,7 +149,7 @@ class ShowHuman(ShowBase):
 		for nodePath in self.find(nodePattern):
 			nodePath.hide()
 
-	def setColor(self, r, g, b, nodePattern):
+	def setColor(self, nodePattern, r, g, b):
 		for nodePath in self.find(nodePattern):
 			nodePath.setColor(r, g, b)
 
@@ -167,7 +169,7 @@ class ShowHuman(ShowBase):
 		center = Vec3()
 		vertexCount = [0]
 
-		forEachPrimitiveIn(pandaNode, lambda stack : self.sumVertices(stack[0], center, vertexCount))
+		forEachPrimitiveIn(pandaNode, lambda stack : self.sumVertices(stack[-1], center, vertexCount))
 
 		vertexCount = vertexCount[0]
 
@@ -178,31 +180,38 @@ class ShowHuman(ShowBase):
 
 		return center
 
-	def exportPrimitiveToEgg(self, primitive, eggVertices):
+	def exportPrimitiveToEgg(self, primitive, eggVertices, texture):
 		egg = eggVertices.getParent()
 
 		if isinstance(primitive, GeomTriangles):
 			for faceIndex in range(primitive.getNumFaces()):
 				eggPolygon = EggPolygon()
 
+				eggPolygon.addTexture(texture)
 				egg.addChild(eggPolygon)
 
 				for vertexIndex in range(primitive.getPrimitiveStart(faceIndex), primitive.getPrimitiveEnd(faceIndex)):
-					self.dynamicVertices.setRow(primitive.getVertex(vertexIndex))
+					vdataVertexIndex = primitive.getVertex(vertexIndex)
+					self.dynamicVertices.setRow(vdataVertexIndex)
+					self.dynamicUvs.setRow(vdataVertexIndex)
 					vertex = self.dynamicVertices.getData3f()
-					eggPolygon.addVertex(newEggVertex(eggVertices, vertex.getX(), vertex.getY(), vertex.getZ()))
+					uv = self.dynamicUvs.getData2f()
+					eggPolygon.addVertex(newEggVertex(eggVertices, vertex, uv))
 		else:
 			print "Warning: ignoring", type(primitive)
 
 	def exportEgg(self, path):
+		print "Creating EGG..."
+
 		egg = EggData()
 		eggVertices = EggVertexPool("humanVertices")
+		texture = EggTexture("humanTexture", path + "_diffuse.png")
 
 		egg.addChild(eggVertices)
 
-		forEachVisiblePrimitiveIn(self.human, lambda stack : self.exportPrimitiveToEgg(stack[0], eggVertices))
+		forEachVisiblePrimitiveIn(self.human, lambda stack : self.exportPrimitiveToEgg(stack[-1], eggVertices, texture))
 
-		print "Finishing", path + "..."
+		print "Finishing EGG..."
 
 		finishEgg(egg, 180.0)
 
@@ -212,7 +221,12 @@ class ShowHuman(ShowBase):
 
 		print "Export EGG", path + ": OK"
 
-	def makeUvTriangle(self, primitive, triangles, vdataVertex, vdataColor):
+		self.exportTexture(path)
+
+	def makeUvTriangle(self, stack, triangles, vdataVertex, vdataColor):
+		primitive = stack[-1]
+		color = stack[-3].getColor()
+
 		if isinstance(primitive, GeomTriangles):
 			for faceIndex in range(primitive.getNumFaces()):
 				for vertexIndex in range(primitive.getPrimitiveStart(faceIndex), primitive.getPrimitiveEnd(faceIndex)):
@@ -220,7 +234,7 @@ class ShowHuman(ShowBase):
 					uv = self.dynamicUvs.getData2f()
 					triangles.addVertex(vdataVertex.getWriteRow())
 					addData(vdataVertex, Vec3(uv[0] - 0.5, 0.0, uv[1] - 0.5))
-					addData(vdataColor, Vec4(1, 0, 0, 1))
+					addData(vdataColor, color)
 		else:
 			print "Warning: ignoring", type(primitive)
 
@@ -230,7 +244,7 @@ class ShowHuman(ShowBase):
 		vdataColor = GeomVertexWriter(vdata, 'color')
 		triangles = GeomTriangles(Geom.UHDynamic)
 
-		forEachVisiblePrimitiveIn(self.human, lambda stack : self.makeUvTriangle(stack[0], triangles, vdataVertex, vdataColor))
+		forEachVisiblePrimitiveIn(self.human, lambda stack : self.makeUvTriangle(stack, triangles, vdataVertex, vdataColor))
 
 		triangles.closePrimitive()
 		geometry = Geom(vdata)
@@ -242,12 +256,17 @@ class ShowHuman(ShowBase):
 
 		return node
 
-	def exportTexture(self):
+	def exportTexture(self, path):
+		print "Creating texture..."
+
 		textureMap = NodePath("textureMap")
 		model = NodePath(self.makeUvModel())
 		model.reparentTo(textureMap)
-		offscreen = self.win.makeTextureBuffer("offscreen", 1024, 1024, Texture(), True)
+		model.setTwoSided(True)
+		offscreen = self.win.makeTextureBuffer("offscreen", 2048, 2048, Texture(), True)
 		offscreenCamera = self.makeCamera(offscreen)
+		offscreenCamera.node().setLens(OrthographicLens())
+		offscreenCamera.node().getLens().setNearFar(1, 3)
 		offscreenCamera.reparentTo(textureMap)
 		offscreenCamera.setPos(0, -2, 0)
 		light = AmbientLight('light')
@@ -255,9 +274,12 @@ class ShowHuman(ShowBase):
 		textureMap.setLight(textureMap.attachNewNode(light))
 		self.win.getEngine().renderFrame()
 
-		texture = offscreen.getTexture()
-		print texture
-		print texture.write("test.png")
+		print "Writing", path + "..."
+
+		if offscreen.getTexture().write(path + "_diffuse.png"):
+			print "Export texture", path + ": OK"
+		else:
+			print "Export texture", path + ": KO"
 
 	def help(self):
 		print
@@ -286,7 +308,7 @@ class ShowHuman(ShowBase):
 		print "     Show / hide the NodePath objects matching nodePattern"
 		print "     Example: self.hide(\"joint*\")"
 		print
-		print "self.setColor(r, g, b, nodePattern)"
+		print "self.setColor(nodePattern, r, g, b)"
 		print "     Set the color of the NodePath objects matching nodePattern"
 		print "     Example: self.setColor(0, 0, 1, \"*cornea*\")"
 		print
