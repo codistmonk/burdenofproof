@@ -26,18 +26,30 @@ def readMakehumanTarget(path):
 
 	return result
 
-def forEachPrimitiveIn(node, process = lambda primitive : None):
+def forEachPrimitiveIn(node, process = lambda stack : None, stack = []):
+	stack.insert(0, None)
+	stack.insert(0, None)
+
 	for geomIndex in range(node.getNumGeoms()):
 		geom = node.getGeom(geomIndex)
+		stack[1] = geom
 
 		for primitiveIndex in range(geom.getNumPrimitives()):
-			process(geom.getPrimitive(primitiveIndex))
+			stack[0] = geom.getPrimitive(primitiveIndex)
+			process(stack)
 
-def forEachVisiblePrimitiveIn(nodePath, process = lambda stack : None):
+	stack.pop(0)
+	stack.pop(0)
+
+def forEachVisiblePrimitiveIn(nodePath, process = lambda stack : None, stack = []):
+	stack.insert(0, None)
+
 	for geomNodePath in nodePath.findAllMatches('**/+GeomNode'):
-
 		if not geomNodePath.isHidden():
+			stack[0] = geomNodePath
 			forEachPrimitiveIn(geomNodePath.node(), process)
+
+	stack.pop(0)
 
 class ShowHuman(ShowBase):
 
@@ -155,7 +167,7 @@ class ShowHuman(ShowBase):
 		center = Vec3()
 		vertexCount = [0]
 
-		forEachPrimitiveIn(pandaNode, lambda primitive : self.sumVertices(primitive, center, vertexCount))
+		forEachPrimitiveIn(pandaNode, lambda stack : self.sumVertices(stack[0], center, vertexCount))
 
 		vertexCount = vertexCount[0]
 
@@ -188,7 +200,7 @@ class ShowHuman(ShowBase):
 
 		egg.addChild(eggVertices)
 
-		forEachVisiblePrimitiveIn(self.human, lambda primitive : self.exportPrimitiveToEgg(primitive, eggVertices))
+		forEachVisiblePrimitiveIn(self.human, lambda stack : self.exportPrimitiveToEgg(stack[0], eggVertices))
 
 		print "Finishing", path + "..."
 
@@ -218,7 +230,7 @@ class ShowHuman(ShowBase):
 		vdataColor = GeomVertexWriter(vdata, 'color')
 		triangles = GeomTriangles(Geom.UHDynamic)
 
-		forEachVisiblePrimitiveIn(self.human, lambda primitive : self.makeUvTriangle(primitive, triangles, vdataVertex, vdataColor))
+		forEachVisiblePrimitiveIn(self.human, lambda stack : self.makeUvTriangle(stack[0], triangles, vdataVertex, vdataColor))
 
 		triangles.closePrimitive()
 		geometry = Geom(vdata)
