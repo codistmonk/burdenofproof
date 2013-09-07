@@ -25,16 +25,17 @@ def readMakehumanTarget(path):
 
 	return result
 
+def forEachPrimitiveIn(node, process = lambda primitive : None):
+	for geomIndex in range(node.getNumGeoms()):
+		geom = node.getGeom(geomIndex)
+
+		for primitiveIndex in range(geom.getNumPrimitives()):
+			process(geom.getPrimitive(primitiveIndex))
+
 def forEachVisiblePrimitiveIn(nodePath, process = lambda primitive : None):
 	for geomNodePath in nodePath.findAllMatches('**/+GeomNode'):
 		if not geomNodePath.isHidden():
-			geomNode = geomNodePath.node()
-
-			for geomIndex in range(geomNode.getNumGeoms()):
-				geom = geomNode.getGeom(geomIndex)
-
-				for primitiveIndex in range(geom.getNumPrimitives()):
-					process(geom.getPrimitive(primitiveIndex))
+			forEachPrimitiveIn(geomNodePath.node(), process)
 
 class ShowHuman(ShowBase):
 
@@ -58,6 +59,7 @@ class ShowHuman(ShowBase):
 		# for general objs, although Makehuman only has one
 		self.dynamicVertices = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'vertex')
 		self.setStaticVertices()
+		self.hide("joint*")
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
@@ -138,20 +140,19 @@ class ShowHuman(ShowBase):
 	def center(self, nodePattern):
 		self.cameraController.target = self.computeCenter(self.human.find(nodePattern).node())
 
+	def sumVertices(self, primitive, result = Vec3(), vertexCount = [0]):
+		for k in range(primitive.getNumVertices()):
+			self.dynamicVertices.setRow(primitive.getVertex(k))
+			result += self.dynamicVertices.getData3f()
+			vertexCount[0] += 1
+
 	def computeCenter(self, pandaNode):
 		center = Vec3()
-		vertexCount = 0
+		vertexCount = [0]
 
-		for i in range(pandaNode.getNumGeoms()):
-			geom = pandaNode.getGeom(i)
+		forEachPrimitiveIn(pandaNode, lambda primitive : self.sumVertices(primitive, center, vertexCount))
 
-			for j in range(geom.getNumPrimitives()):
-				primitive = geom.getPrimitive(j)
-
-				for k in range(primitive.getNumVertices()):
-					self.dynamicVertices.setRow(primitive.getVertex(k))
-					center += self.dynamicVertices.getData3f()
-					vertexCount += 1
+		vertexCount = vertexCount[0]
 
 		if 0 < vertexCount:
 			center /= vertexCount
