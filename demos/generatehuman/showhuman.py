@@ -1,4 +1,5 @@
 import sys, os, struct
+from traceback import *
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
 from panda3d.egg import *
@@ -32,8 +33,9 @@ def forEachPrimitiveIn(node, process = lambda primitive : None):
 		for primitiveIndex in range(geom.getNumPrimitives()):
 			process(geom.getPrimitive(primitiveIndex))
 
-def forEachVisiblePrimitiveIn(nodePath, process = lambda primitive : None):
+def forEachVisiblePrimitiveIn(nodePath, process = lambda stack : None):
 	for geomNodePath in nodePath.findAllMatches('**/+GeomNode'):
+
 		if not geomNodePath.isHidden():
 			forEachPrimitiveIn(geomNodePath.node(), process)
 
@@ -58,6 +60,7 @@ class ShowHuman(ShowBase):
 		# TODO(codistmonk) consider that there may be multiple vdatas
 		# for general objs, although Makehuman only has one
 		self.dynamicVertices = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'vertex')
+		self.dynamicUvs = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'texcoord')
 		self.setStaticVertices()
 		self.hide("joint*")
 
@@ -92,7 +95,8 @@ class ShowHuman(ShowBase):
 		return Task.cont
 
 	def setupGUI(self):
-		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "self.help()",
+		# self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "NodePath(self.makeUvModel()).reparentTo(self.render)",
+		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "self.exportTexture()",
 			width = 40, numLines = 2, focus = 1)
 		self.userEntry.setPos(-1.3, 0.0, -0.9)
 
@@ -102,6 +106,7 @@ class ShowHuman(ShowBase):
 			exec command
 		except:
 			print sys.exc_info()
+			print_tb(sys.exc_info()[2])
 		finally:
 			self.userEntry["focus"] = True
 
@@ -195,18 +200,46 @@ class ShowHuman(ShowBase):
 
 		print "Export EGG", path + ": OK"
 
+	def makeUvTriangle(self, primitive, triangles, vdataVertex, vdataColor):
+		if isinstance(primitive, GeomTriangles):
+			for faceIndex in range(primitive.getNumFaces()):
+				for vertexIndex in range(primitive.getPrimitiveStart(faceIndex), primitive.getPrimitiveEnd(faceIndex)):
+					self.dynamicUvs.setRow(primitive.getVertex(vertexIndex))
+					uv = self.dynamicUvs.getData2f()
+					triangles.addVertex(vdataVertex.getWriteRow())
+					addData(vdataVertex, Vec3(uv[0] - 0.5, 0.0, uv[1] - 0.5))
+					addData(vdataColor, Vec4(1, 0, 0, 1))
+		else:
+			print "Warning: ignoring", type(primitive)
+
+	def makeUvModel(self):
+		vdata = GeomVertexData("uvModelVertices", GeomVertexFormat.getV3cp(), Geom.UHDynamic)
+		vdataVertex = GeomVertexWriter(vdata, 'vertex')
+		vdataColor = GeomVertexWriter(vdata, 'color')
+		triangles = GeomTriangles(Geom.UHDynamic)
+
+		forEachVisiblePrimitiveIn(self.human, lambda primitive : self.makeUvTriangle(primitive, triangles, vdataVertex, vdataColor))
+
+		triangles.closePrimitive()
+		geometry = Geom(vdata)
+		geometry.addPrimitive(triangles)
+		geomNode = GeomNode("uvModel")
+		geomNode.addGeom(geometry)
+		node = PandaNode("uvModel")
+		node.addChild(geomNode)
+
+		return node
+
 	def exportTexture(self):
 		textureMap = NodePath("textureMap")
-		# TODO(codistmonk) create a model with triangles using self.human uvs as 3D vertices
-		model = self.loader.loadModel("models/teapot")
+		model = NodePath(self.makeUvModel())
 		model.reparentTo(textureMap)
-		model.setPos(0, 0, -1)
 		offscreen = self.win.makeTextureBuffer("offscreen", 1024, 1024, Texture(), True)
 		offscreenCamera = self.makeCamera(offscreen)
 		offscreenCamera.reparentTo(textureMap)
-		offscreenCamera.setPos(0, -10, 0)
+		offscreenCamera.setPos(0, -2, 0)
 		light = AmbientLight('light')
-		light.setColor(Vec4(0.9, 0.2, 0.9, 1))
+		light.setColor(Vec4(1.0, 1.0, 1.0, 1.0))
 		textureMap.setLight(textureMap.attachNewNode(light))
 		self.win.getEngine().renderFrame()
 
