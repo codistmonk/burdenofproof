@@ -67,7 +67,7 @@ class ShowHuman(ShowBase):
 	def setupModels(self):
 		self.dynamicHumanObjLoader = ObjLoader("human")
 		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", [self.dynamicHumanObjLoader]).listeners[0].node)
-		self.setTarget("data/targets/measure/measure-bust-increase")
+		self.setTarget("data/targets/bust-increase-measure")
 
 		# TODO(codistmonk) consider that there may be multiple vdatas
 		# for general objs, although Makehuman only has one

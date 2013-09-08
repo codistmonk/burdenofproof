@@ -1,4 +1,4 @@
-import sys, os, struct, shutil
+import sys, os, struct, shutil, re
 
 print sys.argv
 
@@ -27,6 +27,9 @@ def importMakehumanData(path):
 			shutil.copyfile(path, newPath)
 		elif path.endswith(".target"):
 			newPath = os.path.join("data", path[len(data) + 1:] + "b")
+			dimensions = list(set(re.split("[/\-\.]", newPath.replace("\\", "/"))) - set(["data", "targets", "targetb"]))
+			dimensions.sort()
+			newPath = os.path.join("data", "targets", "-".join(dimensions) + ".targetb")
 
 			print newPath
 
