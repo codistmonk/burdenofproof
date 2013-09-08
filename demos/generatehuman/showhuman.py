@@ -73,6 +73,13 @@ def loadAllTargets():
 
 	return result
 
+def addTarget(source, factor, destination):
+	for objVertexIndex, delta in source:
+		if not objVertexIndex in destination:
+			destination[objVertexIndex] = delta * factor
+		else:
+			destination[objVertexIndex] += delta * factor
+
 class ShowHuman(ShowBase):
 
 	def __init__(self):
@@ -82,11 +89,11 @@ class ShowHuman(ShowBase):
 
 		self.targets = loadAllTargets()
 
+		self.cameraController = OrbitalCameraController(self)
 		self.setupKeyboardControl()
+		self.setupGUI()
 		self.setupModels()
 		self.setupLights()
-		self.setupGUI()
-		self.cameraController = OrbitalCameraController(self)
 
 	def setupModels(self):
 		self.dynamicHumanObjLoader = ObjLoader("human")
@@ -98,7 +105,16 @@ class ShowHuman(ShowBase):
 		self.dynamicVertices = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'vertex')
 		self.dynamicUvs = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'texcoord')
 		self.setStaticVertices()
+
 		self.hide("joint*")
+		self.setColor("*", 246.0 / 255.0, 202 / 255.0, 185 / 255.0)
+		self.setColor("helper-tights", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
+		self.setColor("helper-skirt", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
+		self.setColor("*hair", 52.0 / 255.0, 44.0 / 255.0, 40.0 / 255.0)
+		self.hide("*genital")
+
+		self.hide("*hair")
+		self.center("*head")
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
@@ -131,12 +147,8 @@ class ShowHuman(ShowBase):
 		return Task.cont
 
 	def setupGUI(self):
-		self.setColor("*", 246.0 / 255.0, 202 / 255.0, 185 / 255.0)
-		self.setColor("helper-tights", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
-		self.setColor("helper-skirt", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
-		self.setColor("*hair", 52.0 / 255.0, 44.0 / 255.0, 40.0 / 255.0)
-		self.hide("*genital")
-		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "self.applyTargets({'head':1.0, 'round':0.1, 'square':0.9})",
+		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command),
+			initialText = "self.applyTargets({'head':1.0, 'round':0.1, 'square':0.9}, 2)",
 			width = 40, numLines = 2, focus = 1)
 		self.userEntry.setPos(-1.3, 0.0, -0.9)
 
@@ -177,12 +189,16 @@ class ShowHuman(ShowBase):
 		print dimensions
 
 		mul = lambda x, y : x * y
+		deltas = {}
 
 		for key, value in self.targets.items():
 			if key.issubset(dimensions):
 				factor = amount * reduce(mul, [factors[k] for k in key])
 				print key, factor
-				# TODO(codistmonk) dynamic = static + factor * value
+				addTarget(value, factor, deltas)
+
+		self.target = deltas.items()
+		self.applyTarget(1.0)
 
 	def show(self, nodePattern):
 		for nodePath in self.find(nodePattern):
