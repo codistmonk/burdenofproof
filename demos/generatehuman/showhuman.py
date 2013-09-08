@@ -204,8 +204,10 @@ class ShowHuman(ShowBase):
 		print "Creating EGG..."
 
 		egg = EggData()
+		name = os.path.basename(path)
+		textureRelativePath = os.path.join("textures", name)
 		eggVertices = EggVertexPool("humanVertices")
-		texture = EggTexture("humanTexture", path + "_diffuse.png")
+		texture = EggTexture("humanTexture",  textureRelativePath + "_diffuse.png")
 
 		egg.addChild(eggVertices)
 
@@ -217,11 +219,13 @@ class ShowHuman(ShowBase):
 
 		print "Writing", path + "..."
 
+		ensureDirectory(path)
+
 		egg.writeEgg(path + ".egg")
 
 		print "Export EGG", path + ": OK"
 
-		self.exportTexture(path)
+		self.exportTexture(os.path.join(os.path.dirname(path), textureRelativePath))
 
 	def makeUvTriangle(self, stack, triangles, vdataVertex, vdataColor):
 		primitive = stack[-1]
@@ -275,6 +279,8 @@ class ShowHuman(ShowBase):
 		self.win.getEngine().renderFrame()
 
 		print "Writing", path + "..."
+
+		ensureDirectory(path)
 
 		if offscreen.getTexture().write(path + "_diffuse.png"):
 			print "Export texture", path + ": OK"

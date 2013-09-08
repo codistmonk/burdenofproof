@@ -1,3 +1,4 @@
+import os
 from panda3d.core import *
 from panda3d.egg import *
 
@@ -24,6 +25,12 @@ def addData(writer, values):
 		writer.addData4f(values[0], values[1], values[2], values[3])
 	else:
 		raise Exception("Invalid vector size: %d" % n)
+
+def ensureDirectory(path):
+	directory = os.path.dirname(path)
+
+	if not os.path.exists(directory):
+		os.makedirs(directory)
 
 def vec3(floats):
 	return Vec3(floats[0], floats[1], floats[2])
