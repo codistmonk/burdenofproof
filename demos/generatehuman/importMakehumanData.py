@@ -18,7 +18,7 @@ def importMakehumanData(path):
 		for sub in os.listdir(path):
 			importMakehumanData(os.path.join(path, sub))
 	else:
-		if path.endswith(".obj"):
+		if path.endswith(".obj") or path.endswith(".png"):
 			newPath = os.path.join("data", path[len(data) + 1:])
 
 			print newPath
