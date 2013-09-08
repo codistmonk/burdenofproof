@@ -92,7 +92,7 @@ class ShowHuman(ShowBase):
 			self.sunlight.node().showFrustum()
 
 		if (self.useAdvancedVisualEffects and base.win.getGsg().getSupportsBasicShaders() != 0 and base.win.getGsg().getSupportsDepthTexture() != 0):
-			self.sunlight.node().setShadowCaster(True, 256, 256)
+			self.sunlight.node().setShadowCaster(True, 512, 512)
 			self.render.setShaderAuto()
 
 		self.ambientLight = self.render.attachNewNode(AmbientLight("ambientLight"))
@@ -107,9 +107,11 @@ class ShowHuman(ShowBase):
 		return Task.cont
 
 	def setupGUI(self):
-		self.setColor("*", 1, 0, 0)
-		self.setColor("helper*", 0, 1, 0)
-		self.setColor("*hair", 0, 0, 1)
+		self.setColor("*", 246.0 / 255.0, 202 / 255.0, 185 / 255.0)
+		self.setColor("helper-tights", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
+		self.setColor("helper-skirt", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
+		self.setColor("*hair", 52.0 / 255.0, 44.0 / 255.0, 40.0 / 255.0)
+		self.hide("*genital")
 		self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command), initialText = "self.help()",
 			width = 40, numLines = 2, focus = 1)
 		self.userEntry.setPos(-1.3, 0.0, -0.9)
