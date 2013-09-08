@@ -13,6 +13,12 @@ def ensureDirectory(path):
 	if not os.path.exists(directory):
 		os.makedirs(directory)
 
+def extractTargetDimensionsFromPath(path):
+	dimensions = list(set(re.split("[/\-\.]", path.replace("\\", "/"))) - set(["data", "targets", "targetb"]))
+	dimensions.sort()
+
+	return dimensions
+
 def importMakehumanData(path):
 	if os.path.isdir(path):
 		for sub in os.listdir(path):
@@ -26,9 +32,7 @@ def importMakehumanData(path):
 			ensureDirectory(newPath)
 			shutil.copyfile(path, newPath)
 		elif path.endswith(".target"):
-			newPath = os.path.join("data", path[len(data) + 1:] + "b")
-			dimensions = list(set(re.split("[/\-\.]", newPath.replace("\\", "/"))) - set(["data", "targets", "targetb"]))
-			dimensions.sort()
+			dimensions = extractTargetDimensionsFromPath(os.path.join("data", path[len(data) + 1:] + "b"))
 			newPath = os.path.join("data", "targets", "-".join(dimensions) + ".targetb")
 
 			print newPath

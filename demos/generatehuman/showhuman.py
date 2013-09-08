@@ -1,4 +1,4 @@
-import sys, os, struct
+import sys, os, struct, re
 from traceback import *
 from direct.showbase.ShowBase import ShowBase
 from panda3d.core import *
@@ -10,7 +10,7 @@ from orbitalcameracontroller import *
 from objparser import *
 from objloader import *
 
-def readMakehumanTarget(path):
+def readBinaryTarget(path):
 	result = []
 	inputFile = open(path, "rb")
 
@@ -51,12 +51,36 @@ def forEachVisiblePrimitiveIn(nodePath, process = lambda stack : None, stack = [
 
 	stack.pop()
 
+def extractTargetDimensionsFromPath(path):
+	dimensions = list(set(re.split("[/\-\.]", path.replace("\\", "/"))) - set(["data", "targets", "targetb"]))
+	dimensions.sort()
+
+	return dimensions
+
+def loadAllTargets():
+	print "loadAllTargets..."
+
+	result = {}
+
+	for root, dirs, files in os.walk("data"):
+		for f in files:
+			if f.endswith(".targetb"):
+				path = os.path.join(root, f)
+				dimensions = frozenset(extractTargetDimensionsFromPath(path))
+				result[dimensions] = readBinaryTarget(path)
+
+	print "loadAllTargets: OK"
+
+	return result
+
 class ShowHuman(ShowBase):
 
 	def __init__(self):
 		ShowBase.__init__(self)
 
 		self.useAdvancedVisualEffects = ConfigVariableBool("use-advanced-visual-effects", True)
+
+		self.targets = loadAllTargets()
 
 		self.setupKeyboardControl()
 		self.setupModels()
@@ -128,7 +152,7 @@ class ShowHuman(ShowBase):
 
 	def setTarget(self, path):
 		self.targetPath = path
-		self.target = readMakehumanTarget(path + ".targetb")
+		self.target = readBinaryTarget(path + ".targetb")
 
 	def setStaticVertices(self):
 		self.staticVertices = []
