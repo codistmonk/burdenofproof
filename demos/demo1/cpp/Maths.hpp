@@ -11,6 +11,7 @@
 #include <memory>
 #include <vector>
 #include <algorithm>
+#include "Utils.hpp"
 
 namespace maths {
 
@@ -65,25 +66,26 @@ class RandomIntGenerator : public RandomGenerator< int,
 template< typename T, size_t size >
 class Vector {
  public:
-    Vector() : m_data(size) {}
+    Vector() :
+        m_data(size) {}
 
-    Vector(Vector< T, size > const & v) {
+    Vector(Vector< T, size > const & v) :
+        m_data(size) {
         std::copy(v.m_data.begin(), v.m_data.end(), m_data.begin());
     }
 
     #ifndef _MSC_VER
-    explicit Vector(std::initializer_list< T > const & il) {
+    explicit Vector(std::initializer_list< T > const & il) :
+        m_data(size) {
         std::copy_n(il.begin(),
                     std::min(size, il.size()),
                     m_data.begin());
-        std::abort();
     }
 
     Vector< T, size > & operator=(std::initializer_list< T > const & il) {
         std::copy_n(il.begin(),
                     std::min(size, il.size()),
                     m_data.begin());
-        std::abort();
     }
 
     #endif
@@ -116,7 +118,7 @@ class Vector {
     friend inline std::ostream & operator<<(std::ostream & o,
                                             Vector< U, t > const & v);
 
- private:
+ protected:
     std::vector< T > m_data;
 };
 
@@ -132,9 +134,8 @@ Vector< T, size > & Vector< T, size >::operator=(Vector const& v) {
 template< typename T, size_t size >
 Vector< T, size >& Vector< T, size >::operator=(Vector && vRvalue) {
     if (this != &vRvalue) {
-        m_data(std::move(vRvalue.m_data));
+        m_data = std::move(vRvalue.m_data);
     }
-
     return *this;
 }
 
@@ -185,8 +186,22 @@ std::ostream & operator<<(std::ostream & o, Vector< U, t > const & v) {
     return o;
 }
 
-typedef Vector< float, 3 > vec3f;
+class Vec3f : public Vector< float, 3 > {
+    typedef Vector< float, 3 > Super;
+ public:
+    Vec3f() : Super() {}
+    Vec3f(Vector< float, 3 > const & v) : Super() {
+        m_data[0] = v[0];
+        m_data[1] = v[1];
+        m_data[2] = v[2];
+    }
+
+    Vec3f(float a, float b, float c)  : Super() {
+        m_data[0] = a;
+        m_data[1] = b;
+        m_data[2] = c;
+    }
+};
 
 }  // namespace maths
-
 #endif  // MATHS_HPP_

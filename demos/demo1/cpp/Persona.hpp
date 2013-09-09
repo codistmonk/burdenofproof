@@ -4,84 +4,77 @@
 #include <boost/filesystem.hpp>
 #include <boost/date_time/posix_time/ptime.hpp>
 #include <cstdint>
+#include <memory>
 #include <cassert>
 #include <vector>
 #include <string>
 #include "Propertychronology.hpp"
 #include "Piecewiseconstantchronology.hpp"
 #include "Piecewiselinearchronology.hpp"
+#include "Gender.hpp"
 #include "Maths.hpp"
 
-class Character;
+
+
+namespace burdenofproof {
+
+    class Character;
 
 class Persona {
  public:
     explicit Persona(Character const * character);
-    explicit Persona(boost::filesystem::path const & path,
-                     Character const * character) :
-        m_character(character) {
-        this->buildFromString(utils::fileToStdString(path));
-    }
-
-    explicit Persona(std::string const & str,
-                     Character const * character) :
-        m_character(character) {
-        this->buildFromString(str);
-    }
 
     explicit Persona(Persona const &);
-    inline Character const *  getCharacter() const {
-        return m_character;
+
+    inline Character const &  getCharacter() const {
+        assert(m_character != nullptr);
+        return *m_character;
     }
 
-    inline PropertyChronology< std::string > const & getFirstName() const {
-        return m_firstName;
+    inline PropertyChronology< maths::Vec3f > const & getPosition() const {
+        assert(m_position);
+        return *m_position;
     }
 
-    inline PropertyChronology< std::string > const & getMiddleName() const {
-        return m_middleName;
+    inline PropertyChronology< maths::Vec3f > const & getHome() const {
+        assert(m_home);
+        return *m_home;
     }
 
-    inline PropertyChronology< std::string > const & getLastName() const {
-        return m_lastName;
+    inline PropertyChronology< maths::Vec3f > const & getWorkPlace() const {
+        assert(m_workPlace);
+        return *m_workPlace;
     }
 
-    inline PropertyChronology< Time > const & getBirthDay() const {
-        return m_birthDay;
-    }
+    void setHome(const Time &time,
+                    const maths::Vec3f &pos);
 
-    inline PropertyChronology< Time > const & getDeathDay() const {
-        return m_deathDay;
-    }
+    void setPosition(const Time &time,
+                     const maths::Vec3f &pos);
 
-    inline PropertyChronology< Gender > const & getGender() const {
-        return m_gender;
-    }
-
-    inline PropertyChronology< float > const & getMurderousInstinct() const {
-        return m_murderousInstinct;
-    }
-
-    inline PropertyChronology< maths::vec3f > const & getPosition() const {
-        return m_position;
-    }
+    void setWorkPlace(const Time &time,
+                     const maths::Vec3f &pos);
 
  private:
     Persona();
-    void buildFromString(std::string const & str);
-    void buildFromStringVector(std::vector<std::string> const & strVec);
     friend std::ostream & operator<<(std::ostream & o, Persona const & p);
 
- private:
-    PiecewiseConstantChronology< std::string >  m_firstName;
-    PiecewiseConstantChronology< std::string >  m_middleName;
-    PiecewiseConstantChronology< std::string >  m_lastName;
-    PiecewiseConstantChronology< Time > m_birthDay;
-    PiecewiseConstantChronology< Time > m_deathDay;
-    PiecewiseConstantChronology< Gender >       m_gender;
-    PiecewiseLinearChronology< float >          m_murderousInstinct;
-    PiecewiseLinearChronology< maths::vec3f >   m_position;
+ protected:
+    std::shared_ptr< PropertyChronology< maths::Vec3f > >   m_position;
+    std::shared_ptr< PropertyChronology< maths::Vec3f > >   m_home;
+    std::shared_ptr< PropertyChronology< maths::Vec3f > >   m_workPlace;
     Character const * m_character;
 };
 
+class RoutinePersona : public Persona {
+    typedef Persona Super;
+ public:
+    explicit RoutinePersona(Character const * character)
+        : Super(character) {
+        m_position.reset(
+                    new PeriodicPiecewiseLinearChronology< maths::Vec3f >());
+    }
+};
+
+}  // namespace burdenofproof
 #endif  // PERSONA_HPP_

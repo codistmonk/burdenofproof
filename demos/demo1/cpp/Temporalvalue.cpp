@@ -10,60 +10,65 @@ using boost::algorithm::split;
 using boost::algorithm::to_upper_copy;
 using boost::is_any_of;
 using boost::posix_time::to_simple_string;
-using maths::vec3f;
+using maths::Vec3f;
 using std::stof;
 using std::string;
 using std::vector;
 
-template<>
-Time TemporalValue< Time >::parseValue(std::string const & str) {
-    return boost::posix_time::from_iso_string(str);
-}
+namespace burdenofproof {
 
-template<>
-std::string TemporalValue<std::string>::parseValue(std::string const & str) {
-    return str;
-}
+//    template<>
+//    Time TemporalValue< Time >::parseValue(std::string const & str) {
+//        return boost::posix_time::from_iso_string(str);
+//    }
 
-template<>
-Gender TemporalValue<Gender>::parseValue(std::string const & str) {
-    static string const MALE("MALE");
-    string STR = to_upper_copy(str);
-    return (STR == MALE) ? Gender::MALE : Gender::FEMALE;
-}
+//    template<>
+//    std::string TemporalValue<std::string>::parseValue(
+//    std::string const & str) {
+//        return str;
+//    }
 
-template<>
-float TemporalValue<float>::parseValue(std::string const & str) {
-    return std::stof(str);
-}
+//    template<>
+//    Gender TemporalValue<Gender>::parseValue(std::string const & str) {
+//        static string const MALE("MALE");
+//        string STR = to_upper_copy(str);
+//        return (STR == MALE) ? Gender::MALE : Gender::FEMALE;
+//    }
 
-template<>
-vec3f TemporalValue<vec3f>::parseValue(std::string const & str) {
-    vector<string> splitVec(3);
-    split(splitVec, str, is_any_of("|"));
-    vec3f result;
+//    template<>
+//    float TemporalValue<float>::parseValue(std::string const & str) {
+//        return std::stof(str);
+//    }
 
-    for (int i = 0; i < 3; ++i) {
-        result[i] = stof(splitVec[i]);
-    }
+//    template<>
+//    vec3f TemporalValue<vec3f>::parseValue(std::string const & str) {
+//        vector<string> splitVec(3);
+//        split(splitVec, str, is_any_of("|"));
+//        vec3f result;
 
-    return result;
-}
+//        for (int i = 0; i < 3; ++i) {
+//            result[i] = stof(splitVec[i]);
+//        }
 
-template<>
-std::ostream & operator<<(std::ostream & o,
-                          TemporalValue< Gender > const & tp) {
-    o << "ptime : " << to_simple_string(tp.getTime())
-      << " , value = " << burdenofproof::toString(tp.getValue());
+//        return result;
+//    }
 
-    return o;
-}
+//    template<>
+//    std::ostream & operator<<(std::ostream & o,
+//                              TemporalValue< Gender > const & tp) {
+//        o << "ptime : " << to_simple_string(tp.getTime())
+//          << " , value = " << burdenofproof::toString(tp.getValue());
 
-template<>
-std::ostream & operator<<(std::ostream & o,
-                          TemporalValue< float > const & tp) {
-    o << "ptime : " << to_simple_string(tp.getTime())
-      << " , value = " << std::to_string(tp.getValue());
+//        return o;
+//    }
 
-    return o;
-}
+//    template<>
+//    std::ostream & operator<<(std::ostream & o,
+//                              TemporalValue< float > const & tp) {
+//        o << "ptime : " << to_simple_string(tp.getTime())
+//          << " , value = " << std::to_string(tp.getValue());
+
+//        return o;
+//    }
+
+}  // namespace burdenofproof

@@ -13,7 +13,7 @@ using boost::posix_time::milliseconds;
 using boost::filesystem::path;
 using boost::posix_time::from_iso_string;
 using std::string;
-using maths::vec3f;
+using maths::Vec3f;
 
 namespace burdenofproof {
 
@@ -51,7 +51,7 @@ Game::Game(std::string const & scriptPath, int const seed)
 //                path(pathJoin(m_scriptPath, "personas/p1.txt")),
 //                nullptr);
 }
-boost::posix_time::min_date_time t;
+
 void Game::update(const Time_Duration & duration) {
     m_time += duration;
     // TODO(?) update population
