@@ -26,7 +26,7 @@ def readBinaryTarget(path):
 
 	return result
 
-def forEachPrimitiveIn(node, process = lambda stack : None, stack = []):
+def forEachPrimitiveInNode(node, process = lambda stack : None, stack = []):
 	stack.append(None)
 	stack.append(None)
 
@@ -41,13 +41,22 @@ def forEachPrimitiveIn(node, process = lambda stack : None, stack = []):
 	stack.pop()
 	stack.pop()
 
-def forEachVisiblePrimitiveIn(nodePath, process = lambda stack : None, stack = []):
+def forEachVisiblePrimitiveInNodePath(nodePath, process = lambda stack : None, stack = []):
 	stack.append(None)
 
 	for geomNodePath in nodePath.findAllMatches('**/+GeomNode'):
 		if not geomNodePath.isHidden():
 			stack[-1] = geomNodePath
-			forEachPrimitiveIn(geomNodePath.node(), process, stack)
+			forEachPrimitiveInNode(geomNodePath.node(), process, stack)
+
+	stack.pop()
+
+def forEachPrimitiveInNodePath(nodePath, process = lambda stack : None, stack = []):
+	stack.append(None)
+
+	for geomNodePath in nodePath.findAllMatches('**/+GeomNode'):
+		stack[-1] = geomNodePath
+		forEachPrimitiveInNode(geomNodePath.node(), process, stack)
 
 	stack.pop()
 
@@ -102,7 +111,8 @@ class ShowHuman(ShowBase):
 
 		# TODO(codistmonk) consider that there may be multiple vdatas
 		# for general objs, although Makehuman only has one
-		self.dynamicVertices = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'vertex')
+		self.dynamicVertices = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, "vertex")
+		self.dynamicNormals = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, "normal")
 		self.dynamicUvs = GeomVertexRewriter(self.dynamicHumanObjLoader.vdata, 'texcoord')
 		self.setStaticVertices()
 
@@ -115,6 +125,8 @@ class ShowHuman(ShowBase):
 
 		self.hide("*hair")
 		self.center("*head")
+
+		self.applyTargets({"male": 0.9, "female": 0.1, "macrodetails": 1.0, "neutral": 1.0, "young": 1.0})
 
 	def setupKeyboardControl(self):
 		self.accept("escape", sys.exit)
@@ -199,6 +211,32 @@ class ShowHuman(ShowBase):
 
 		self.target = deltas.items()
 		self.applyTarget(1.0)
+		self.updateNormals()
+
+	def getVertex(self, primitive, vertexIndexInPrimitive):
+		self.dynamicVertices.setRow(primitive.getVertex(vertexIndexInPrimitive))
+		return self.dynamicVertices.getData3f()
+
+	def setNormal(self, primitive, vertexIndexInPrimitive, normal):
+		self.dynamicNormals.setRow(primitive.getVertex(vertexIndexInPrimitive))
+		self.dynamicNormals.setData3f(normal)
+
+	def updatePrimitiveNormal(self, primitive):
+		if isinstance(primitive, GeomTriangles):
+			for k in range(0, primitive.getNumVertices(), 3):
+				a = self.getVertex(primitive, k + 0)
+				b = self.getVertex(primitive, k + 1)
+				c = self.getVertex(primitive, k + 2)
+				normal = (b - a).cross(c - a)
+				normal.normalize()
+				self.setNormal(primitive, k + 0, normal)
+				self.setNormal(primitive, k + 1, normal)
+				self.setNormal(primitive, k + 2, normal)
+		else:
+			print "Warning: ignoring", type(primitive)
+
+	def updateNormals(self):
+		forEachPrimitiveInNodePath(self.human, lambda stack : self.updatePrimitiveNormal(stack[-1]))
 
 	def show(self, nodePattern):
 		for nodePath in self.find(nodePattern):
@@ -228,7 +266,7 @@ class ShowHuman(ShowBase):
 		center = Vec3()
 		vertexCount = [0]
 
-		forEachPrimitiveIn(pandaNode, lambda stack : self.sumVertices(stack[-1], center, vertexCount))
+		forEachPrimitiveInNode(pandaNode, lambda stack : self.sumVertices(stack[-1], center, vertexCount))
 
 		vertexCount = vertexCount[0]
 
@@ -270,7 +308,7 @@ class ShowHuman(ShowBase):
 
 		egg.addChild(eggVertices)
 
-		forEachVisiblePrimitiveIn(self.human, lambda stack : self.exportPrimitiveToEgg(stack[-1], eggVertices, texture))
+		forEachVisiblePrimitiveInNodePath(self.human, lambda stack : self.exportPrimitiveToEgg(stack[-1], eggVertices, texture))
 
 		print "Finishing EGG..."
 
@@ -307,7 +345,7 @@ class ShowHuman(ShowBase):
 		vdataColor = GeomVertexWriter(vdata, 'color')
 		triangles = GeomTriangles(Geom.UHDynamic)
 
-		forEachVisiblePrimitiveIn(self.human, lambda stack : self.makeUvTriangle(stack, triangles, vdataVertex, vdataColor))
+		forEachVisiblePrimitiveInNodePath(self.human, lambda stack : self.makeUvTriangle(stack, triangles, vdataVertex, vdataColor))
 
 		triangles.closePrimitive()
 		geometry = Geom(vdata)
