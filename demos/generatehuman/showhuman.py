@@ -117,10 +117,10 @@ class ShowHuman(ShowBase):
         self.setStaticVertices()
 
         self.hide("joint*")
-        self.setColor("*", 246.0 / 255.0, 202 / 255.0, 185 / 255.0)
-        self.setColor("helper-tights", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
-        self.setColor("helper-skirt", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
-        self.setColor("*hair", 52.0 / 255.0, 44.0 / 255.0, 40.0 / 255.0)
+        self.skinColor = Vec3(246.0, 202.0, 185.0) / 255.0
+        self.clothesColor = Vec3(181.0, 178.0, 171.0) / 255.0
+        self.hairColor = Vec3(52.0, 44.0, 40.0) / 255.0
+        self.setColors()
         self.hide("*genital")
         self.hide("*hair")
         self.hide("helper*")
@@ -129,6 +129,12 @@ class ShowHuman(ShowBase):
 
         self.setDefaultValues()
         self.reapplyTargets()
+
+    def setColors(self):
+        self.setColor("*", self.skinColor[0], self.skinColor[1], self.skinColor[2])
+        self.setColor("helper-tights", self.clothesColor[0], self.clothesColor[1], self.clothesColor[2])
+        self.setColor("helper-skirt", self.clothesColor[0], self.clothesColor[1], self.clothesColor[2])
+        self.setColor("*hair", self.hairColor[0], self.hairColor[1], self.hairColor[2])
 
     def reapplyTargets(self):
         self.applyTargets({
@@ -716,11 +722,13 @@ class ShowHuman(ShowBase):
         africanColor   = Vec3(0.207, 0.113, 0.066)
         caucasianColor = Vec3(0.843, 0.639, 0.517)
 
-        diffuse = asianColor * self.getAsian() + \
+        self.skinColor = asianColor * self.getAsian() + \
                   africanColor * self.getAfrican() + \
                   caucasianColor * self.getCaucasian()
 
-        print "diffuse:", diffuse
+        print "skinColor:", self.skinColor
+
+        self.setColors()
 
     def syncRace(self):
         total = self.caucasianVal + self.asianVal + self.africanVal
