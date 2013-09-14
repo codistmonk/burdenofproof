@@ -122,13 +122,25 @@ class ShowHuman(ShowBase):
         self.setColor("helper-skirt", 181.0 / 255.0, 178.0 / 255.0, 171.0 / 255.0)
         self.setColor("*hair", 52.0 / 255.0, 44.0 / 255.0, 40.0 / 255.0)
         self.hide("*genital")
-
         self.hide("*hair")
+        self.hide("helper*")
+
         self.center("*head")
 
-        self.applyTargets({"male": 1.0, "female": 0.0, "macrodetails": 1.0, "universal": 1.0, "young": 1.0})
-
         self.setDefaultValues()
+
+        # self.applyTargets({"male": 1.0, "female": 0.0, "macrodetails": 1.0, "universal": 1.0, "young": 1.0})
+        self.reapplyTargets()
+
+    def reapplyTargets(self):
+        self.applyTargets({
+        	"macrodetails": 1.0, "universal": 1.0,
+        	"male": self.maleVal, "female": self.femaleVal,
+        	"baby": self.babyVal, "child": self.childVal, "young": self.youngVal, "old": self.oldVal,
+        	"minweight": self.minweightVal, "maxweight": self.maxweightVal, "averageweight": self.averageweightVal,
+        	"minmuscle": self.minmuscleVal, "maxmuscle": self.maxmuscleVal, "averagemuscle": self.averagemuscleVal,
+        	"dwarf": self.dwarfVal, "giant": self.giantVal,
+        	"african": self.africanVal, "asian": self.asianVal, "caucasian": self.caucasianVal})
 
     def setupKeyboardControl(self):
         self.accept("escape", sys.exit)
@@ -162,7 +174,7 @@ class ShowHuman(ShowBase):
 
     def setupGUI(self):
         self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command),
-            initialText = "self.applyTargets({'head':1.0, 'round':0.1, 'square':0.9}, 2)",
+            initialText = "self.setGender(1.0)",
             width = 40, numLines = 2, focus = 1)
         self.userEntry.setPos(-1.3, 0.0, -0.9)
 
@@ -225,15 +237,15 @@ class ShowHuman(ShowBase):
 
     def updatePrimitiveNormal(self, primitive):
         if isinstance(primitive, GeomTriangles):
-            for k in range(0, primitive.getNumVertices(), 3):
-                a = self.getVertex(primitive, k + 0)
-                b = self.getVertex(primitive, k + 1)
-                c = self.getVertex(primitive, k + 2)
+            for i in range(0, primitive.getNumVertices(), 3):
+                a = self.getVertex(primitive, i + 0)
+                b = self.getVertex(primitive, i + 1)
+                c = self.getVertex(primitive, i + 2)
                 normal = (b - a).cross(c - a)
                 normal.normalize()
-                self.setNormal(primitive, k + 0, normal)
-                self.setNormal(primitive, k + 1, normal)
-                self.setNormal(primitive, k + 2, normal)
+                self.setNormal(primitive, i + 0, normal)
+                self.setNormal(primitive, i + 1, normal)
+                self.setNormal(primitive, i + 2, normal)
         else:
             print "Warning: ignoring", type(primitive)
 
@@ -445,7 +457,7 @@ class ShowHuman(ShowBase):
             return
         self.gender = gender
         self._setGenderVals()
-        self.callEvent('onChanging', events3d.HumanEvent(self, 'gender'))
+        self.reapplyTargets()
 
     def getGender(self):
         """
@@ -457,6 +469,7 @@ class ShowHuman(ShowBase):
     def _setGenderVals(self):
         self.maleVal = self.gender
         self.femaleVal = 1 - self.gender
+
         print "maleVal:", self.maleVal, "femaleVal:", self.femaleVal
 
     def setAge(self, age):
@@ -476,7 +489,7 @@ class ShowHuman(ShowBase):
             return
         self.age = age
         self._setAgeVals()
-        self.callEvent('onChanging', events3d.HumanEvent(self, 'age'))
+        self.reapplyTargets()
 
     def getAge(self):
         """
@@ -553,7 +566,7 @@ class ShowHuman(ShowBase):
             return
         self.weight = weight
         self._setWeightVals()
-        self.callEvent('onChanging', events3d.HumanEvent(self, 'weight'))
+        self.reapplyTargets()
 
     def getWeight(self):
         return self.weight
@@ -582,7 +595,7 @@ class ShowHuman(ShowBase):
             return
         self.muscle = muscle
         self._setMuscleVals()
-        self.callEvent('onChanging', events3d.HumanEvent(self, 'muscle'))
+        self.reapplyTargets()
 
     def getMuscle(self):
         return self.muscle
@@ -600,7 +613,7 @@ class ShowHuman(ShowBase):
             return
         self.height = height
         self._setHeightVals()
-        self.callEvent('onChanging', events3d.HumanEvent(self, 'height'))
+        self.reapplyTargets()
 
     def getHeight(self):
         return self.height
@@ -632,7 +645,7 @@ class ShowHuman(ShowBase):
             self.asianVal *= new / old
             self.africanVal *= new / old
         self._updateDiffuseColor()
-        self.callEvent('onChanging', events3d.HumanEvent(self, 'caucasian'))
+        self.reapplyTargets()
 
     def getCaucasian(self):
         return self.caucasianVal
@@ -651,7 +664,7 @@ class ShowHuman(ShowBase):
             self.caucasianVal *= new / old
             self.asianVal *= new / old
         self._updateDiffuseColor()
-        self.callEvent('onChanging', events3d.HumanEvent(self, 'african'))
+        self.reapplyTargets()
 
     def getAfrican(self):
         return self.africanVal
@@ -670,12 +683,14 @@ class ShowHuman(ShowBase):
             self.caucasianVal *= new / old
             self.africanVal *= new / old
         self._updateDiffuseColor()
-        self.callEvent('onChanging', events3d.HumanEvent(self, 'asian'))
+        self.reapplyTargets()
 
     def getAsian(self):
         return self.asianVal
 
     def _updateDiffuseColor(self):
+        self.syncRace()
+
     	print "africanVal:", self.africanVal, "asianVal:", self.asianVal, "caucasianVal:", self.caucasianVal
 
         asianColor     = Vec3(0.721, 0.568, 0.431)
@@ -713,11 +728,10 @@ class ShowHuman(ShowBase):
         self._setMuscleVals()
         self._setHeightVals()
 
-        self.caucasianVal = 1.0/3
-        self.asianVal = 1.0/3
-        self.africanVal = 1.0/3
+        self.caucasianVal = 1.0 / 3.0
+        self.asianVal = 1.0 / 3.0
+        self.africanVal = 1.0 / 3.0
 
-        self.syncRace()
         self._updateDiffuseColor()
 
 loadPrcFile("myconfig.prc")
