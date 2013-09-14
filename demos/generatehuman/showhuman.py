@@ -19,7 +19,7 @@ def readBinaryTarget(path):
 
         while bytes:
             vertexIndex, deltaX, deltaY, deltaZ = struct.unpack("<ifff", bytes)
-            result.append((vertexIndex, Vec3(deltaX, deltaY, deltaZ)))
+            result.append((vertexIndex, Vec3(deltaX, -deltaZ, deltaY)))
             bytes = inputFile.read(16)
     finally:
         inputFile.close()
@@ -128,8 +128,6 @@ class ShowHuman(ShowBase):
         self.center("*head")
 
         self.setDefaultValues()
-
-        # self.applyTargets({"male": 1.0, "female": 0.0, "macrodetails": 1.0, "universal": 1.0, "young": 1.0})
         self.reapplyTargets()
 
     def reapplyTargets(self):
@@ -174,7 +172,7 @@ class ShowHuman(ShowBase):
 
     def setupGUI(self):
         self.userEntry = DirectEntry(text = "" , scale = .05, command = lambda command : self.userEntryChanged(command),
-            initialText = "self.setGender(1.0)",
+            initialText = "self.help()",
             width = 40, numLines = 2, focus = 1)
         self.userEntry.setPos(-1.3, 0.0, -0.9)
 
@@ -429,13 +427,33 @@ class ShowHuman(ShowBase):
         print "     Set the color of the NodePath objects matching nodePattern"
         print "     Example: self.setColor(0, 0, 1, \"*cornea*\")"
         print
-        print "self.setCenter(nodePattern)"
+        print "self.center(nodePattern)"
         print "     Center the view on the NodePath object matching nodePattern"
         print "     Example: self.center(\"*head\")"
         print
         print "self.setExportEgg(path)"
         print "     Export the visible geometry to the specified path"
         print "     Example: self.export(\"model\")"
+        print
+        print "self.setGender(amount)"
+        print "     Morph the dynamic model toward female (amount == 0.0) or male (amount == 1.0)"
+        print
+        print "self.setAge(amount)"
+        print "     Morph the dynamic model toward young (amount == 0.0) or old (amount == 1.0)"
+        print
+        print "self.setWeight(amount)"
+        print "     Morph the dynamic model toward thin (amount == 0.0) or fat (amount == 1.0)"
+        print
+        print "self.setMuscle(amount)"
+        print "     Morph the dynamic model toward light (amount == 0.0) or heavy (amount == 1.0)"
+        print
+        print "self.setHeight(amount)"
+        print "     Morph the dynamic model toward dwarf (amount == 0.0) or giant (amount == 1.0)"
+        print
+        print "self.setAfrican(amount)"
+        print "self.setAsian(amount)"
+        print "self.setCaucasian(amount)"
+        print "     Morph the dynamic model away (amount == 0.0) or toward (amount == 1.0) a particular ethnicity"
         print
 
 # The following methods have been copied from MakeHuman's human.py and edited
