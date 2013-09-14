@@ -132,7 +132,7 @@ class ShowHuman(ShowBase):
 
     def reapplyTargets(self):
         self.applyTargets({
-        	"macrodetails": 1.0, "universal": 1.0,
+        	"macrodetails": 1.0, "universal": 1.0, "stature": 1.0,
         	"male": self.maleVal, "female": self.femaleVal,
         	"baby": self.babyVal, "child": self.childVal, "young": self.youngVal, "old": self.oldVal,
         	"minweight": self.minweightVal, "maxweight": self.maxweightVal, "averageweight": self.averageweightVal,
@@ -312,8 +312,9 @@ class ShowHuman(ShowBase):
     def exportEgg(self, path):
         print "Creating EGG..."
 
+        newPath = os.path.join("models", path)
         egg = EggData()
-        name = os.path.basename(path)
+        name = os.path.basename(newPath)
         textureRelativePath = os.path.join("textures", name)
         eggVertices = EggVertexPool("humanVertices")
         texture = EggTexture("humanTexture",  textureRelativePath + "_diffuse.png")
@@ -326,15 +327,15 @@ class ShowHuman(ShowBase):
 
         finishEgg(egg, 180.0)
 
-        print "Writing", path + "..."
+        print "Writing", newPath + "..."
 
-        ensureDirectory(path)
+        ensureDirectory(newPath)
 
-        egg.writeEgg(path + ".egg")
+        egg.writeEgg(newPath + ".egg")
 
-        print "Export EGG", path + ": OK"
+        print "Export EGG", newPath + ": OK"
 
-        self.exportTexture(os.path.join(os.path.dirname(path), textureRelativePath))
+        self.exportTexture(os.path.join(os.path.dirname(newPath), textureRelativePath))
 
     def makeUvTriangle(self, stack, triangles, vdataVertex, vdataColor):
         primitive = stack[-1]
