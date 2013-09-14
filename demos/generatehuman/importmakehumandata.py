@@ -6,6 +6,7 @@ if (len(sys.argv) != 2):
 	quit()
 
 data = sys.argv[1]
+dataMacrodetails = os.path.join(data, "targets", "macrodetails")
 
 def ensureDirectory(path):
 	directory = os.path.dirname(path)
@@ -13,27 +14,20 @@ def ensureDirectory(path):
 	if not os.path.exists(directory):
 		os.makedirs(directory)
 
-def extractTargetDimensionsFromPath(path):
-	dimensions = list(set(re.split("[/\-\.]", path.replace("\\", "/"))) - set(["data", "targets", "targetb"]))
-	dimensions.sort()
-
-	return dimensions
-
 def importMakehumanData(path):
 	if os.path.isdir(path):
 		for sub in os.listdir(path):
 			importMakehumanData(os.path.join(path, sub))
 	else:
-		if path.endswith(".obj") or path.endswith(".png"):
+		if path.endswith("base.obj") or path.endswith(".png"):
 			newPath = os.path.join("data", path[len(data) + 1:])
 
 			print newPath
 
 			ensureDirectory(newPath)
 			shutil.copyfile(path, newPath)
-		elif path.endswith(".target"):
-			dimensions = extractTargetDimensionsFromPath(os.path.join("data", path[len(data) + 1:] + "b"))
-			newPath = os.path.join("data", "targets", "-".join(dimensions) + ".targetb")
+		elif path.startswith(dataMacrodetails) and path.endswith(".target"):
+			newPath = os.path.join("data", path[len(data) + 1:] + "b")
 
 			print newPath
 

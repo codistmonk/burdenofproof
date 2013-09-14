@@ -61,7 +61,7 @@ def forEachPrimitiveInNodePath(nodePath, process = lambda stack : None, stack = 
 	stack.pop()
 
 def extractTargetDimensionsFromPath(path):
-	dimensions = list(set(re.split("[/\-\.]", path.replace("\\", "/"))) - set(["data", "targets", "targetb"]))
+	dimensions = list(set(re.split("[/.-]", re.sub("-([0-9])", "_\g<1>", path.replace("\\", "/")))) - set(["data", "targets", "targetb"]))
 	dimensions.sort()
 
 	return dimensions
@@ -107,7 +107,7 @@ class ShowHuman(ShowBase):
 	def setupModels(self):
 		self.dynamicHumanObjLoader = ObjLoader("human")
 		self.human = self.render.attachNewNode(ObjParser("data/3dobjs/base.obj", [self.dynamicHumanObjLoader]).listeners[0].node)
-		self.setTarget("data/targets/bust-increase-measure")
+		self.setTarget("data/targets/macrodetails/universal-stature-giant")
 
 		# TODO(codistmonk) consider that there may be multiple vdatas
 		# for general objs, although Makehuman only has one
