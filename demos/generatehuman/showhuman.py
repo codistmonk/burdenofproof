@@ -126,7 +126,9 @@ class ShowHuman(ShowBase):
         self.hide("*hair")
         self.center("*head")
 
-        self.applyTargets({"male": 1.0, "female": 0.0, "macrodetails": 1.0, "neutral": 1.0, "young": 1.0})
+        self.applyTargets({"male": 1.0, "female": 0.0, "macrodetails": 1.0, "universal": 1.0, "young": 1.0})
+
+        self.setDefaultValues()
 
     def setupKeyboardControl(self):
         self.accept("escape", sys.exit)
@@ -455,6 +457,7 @@ class ShowHuman(ShowBase):
     def _setGenderVals(self):
         self.maleVal = self.gender
         self.femaleVal = 1 - self.gender
+        print "maleVal:", self.maleVal, "femaleVal:", self.femaleVal
 
     def setAge(self, age):
         """
@@ -531,6 +534,8 @@ class ShowHuman(ShowBase):
             self.oldVal = max(0.0, self.age * 2 - 1)
             self.youngVal = 1 - self.oldVal
 
+        print "babyVal:", self.babyVal, "childVal:", self.childVal, "youngVal:", self.youngVal, "oldVal:", self.oldVal
+
     def setWeight(self, weight):
         """
         Sets the amount of weight of the model. 0 for underweight, 1 for heavy.
@@ -557,6 +562,8 @@ class ShowHuman(ShowBase):
         self.maxweightVal = max(0.0, self.weight * 2 - 1)
         self.minweightVal = max(0.0, 1 - self.weight * 2)
         self.averageweightVal = 1 - (self.maxweightVal + self.minweightVal)
+
+        print "minweightVal:", self.minweightVal, "maxweightVal:", self.maxweightVal, "averageweightVal", self.averageweightVal
 
     def setMuscle(self, muscle):
         """
@@ -585,6 +592,8 @@ class ShowHuman(ShowBase):
         self.minmuscleVal = max(0.0, 1 - self.muscle * 2)
         self.averagemuscleVal = 1 - (self.maxmuscleVal + self.minmuscleVal)
 
+        print "minmuscleVal:", self.minmuscleVal, "maxmuscleVal:", self.maxmuscleVal, "averagemuscleVal", self.averagemuscleVal
+
     def setHeight(self, height):
         height = min(max(height, 0.0), 1.0)
         if self.height == height:
@@ -606,6 +615,8 @@ class ShowHuman(ShowBase):
     def _setHeightVals(self):
         self.dwarfVal = max(0.0, 1 - self.height * 2)
         self.giantVal = max(0.0, self.height * 2 - 1)
+
+        print "dwarfVal:", self.dwarfVal, "giantVal:", self.giantVal
 
     def setCaucasian(self, caucasian, sync=True):
         caucasian = min(max(caucasian, 0.0), 1.0)
@@ -665,24 +676,17 @@ class ShowHuman(ShowBase):
         return self.asianVal
 
     def _updateDiffuseColor(self):
-        if self.material.supportsDiffuse() and self.material.shaderConfig['diffuse']:
-            # If human is diffuse textured, set diffuse factor to 100%
-            self.material.diffuseColor = [1, 1, 1]
-            if self.genitalsObj:
-                self.genitalsObj.material.diffuseColor = [1, 1, 1]
-        else:
-            # Set diffuse color to ethnic mix
-            asianColor     = np.asarray([0.721, 0.568, 0.431], dtype=np.float32)
-            africanColor   = np.asarray([0.207, 0.113, 0.066], dtype=np.float32)
-            caucasianColor = np.asarray([0.843, 0.639, 0.517], dtype=np.float32)
+    	print "africanVal:", self.africanVal, "asianVal:", self.asianVal, "caucasianVal:", self.caucasianVal
 
-            diffuse = self.getAsian()     * asianColor + \
-                      self.getAfrican()   * africanColor + \
-                      self.getCaucasian() * caucasianColor
-            self.material.diffuseColor = diffuse
+        asianColor     = Vec3(0.721, 0.568, 0.431)
+        africanColor   = Vec3(0.207, 0.113, 0.066)
+        caucasianColor = Vec3(0.843, 0.639, 0.517)
 
-            if self.genitalsObj:
-                self.genitalsObj.material.diffuseColor = diffuse
+        diffuse = asianColor * self.getAsian() + \
+                  africanColor * self.getAfrican() + \
+                  caucasianColor * self.getCaucasian()
+
+        print "diffuse:", diffuse
 
     def syncRace(self):
         total = self.caucasianVal + self.asianVal + self.africanVal
@@ -708,12 +712,13 @@ class ShowHuman(ShowBase):
         self._setWeightVals()
         self._setMuscleVals()
         self._setHeightVals()
-        self._setBreastSizeVals()
-        self._setBreastFirmnessVals()
 
         self.caucasianVal = 1.0/3
         self.asianVal = 1.0/3
         self.africanVal = 1.0/3
+
+        self.syncRace()
+        self._updateDiffuseColor()
 
 loadPrcFile("myconfig.prc")
 
