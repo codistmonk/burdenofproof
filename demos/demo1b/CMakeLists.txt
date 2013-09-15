@@ -5,7 +5,9 @@ set(CMAKE_VERBOSE_MAKEFILE OFF CACHE BOOL "Verbose Makefile : ON or OFF" FORCE)
 set(CMAKE_BUILD_TYPE Debug CACHE STRING "Build type : Release or Debug" FORCE)
 
 # Warnings
-add_definitions("-Wall -Wextra -Wpedantic")
+if(NOT CMAKE_SYSTEM_NAME STREQUAL "Windows")
+	add_definitions("-Wall -Wextra -Wpedantic")
+endif()
 
 if(CMAKE_SYSTEM_NAME STREQUAL "Darwin" OR CMAKE_SYSTEM_NAME STREQUAL "Linux")
 	set(CMAKE_CXX_FLAGS "-std=c++11")
