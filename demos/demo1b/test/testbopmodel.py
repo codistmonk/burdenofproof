@@ -7,9 +7,9 @@ from utils import *
 
 def checkEquals(expected, actual):
     if expected != actual:
-        global totalErrorCount
+        global totalFailureCount
 
-        totalErrorCount += 1
+        totalFailureCount += 1
 
         print inspect.stack()[1]
         print "Failure: expected", expected, "but was", actual
@@ -153,29 +153,28 @@ def testCity():
 
 # Tests execution
 
-totalErrorCount = 0
+totalFailureCount = 0
 
 for test in [
-    # initializeTests,
-    # testCityBlueprint,
-    # testPopulation,
-    # testUpdate
     testRoutinePersona,
     testActualPersona,
     testPiecewiseConstantChronology,
     testCity
+    # testPopulation,
+    # testUpdate
 # Insert more test names before this line
 ]:
     try:
         test()
     except Exception:
-        totalErrorCount += 1
+        totalFailureCount += 1
+
         print "Unexpected error:", sys.exc_info()
         print_tb(sys.exc_info()[2])
 
-if 0 == totalErrorCount:
+if 0 == totalFailureCount:
     print "All tests PASS"
 else:
-    print "Some tests FAIL:", totalErrorCount, "failure(s) detected"
+    print "Some tests FAIL:", totalFailureCount, "failure(s) detected"
     
     quit(-1)
