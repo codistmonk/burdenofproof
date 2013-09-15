@@ -18,8 +18,6 @@ def checkEquals(expected, actual):
 
 framerate = 40 # Actual value may not be constant
 millisecondsPerFrame = oneSecond / framerate
-midnight = 0L
-noon = 12L * oneHour
 sixAM = 6L * oneHour
 threeAM = 3L * oneHour
 sevenAM = 7L * oneHour
@@ -163,10 +161,8 @@ def testUpdate():
     # Character 0 is player
     for i in range(1, 21):
         character = population.getCharacter(i)
-        routinePersona = character.getRoutinePersona()
-        actualPersona = character.getActualPersona()
 
-        checkEquals(routinePersona.getPosition(midnight), actualPersona.getPosition(game.getTime()))
+        checkEquals(character.getRoutinePersona().getPosition(midnight), character.getPosition(game.getTime()))
 
     for i in range(12L * oneHour / millisecondsPerFrame):
         game.update(millisecondsPerFrame)
@@ -175,10 +171,8 @@ def testUpdate():
 
     for i in range(1, 21):
         character = population.getCharacter(i)
-        routinePersona = character.getRoutinePersona()
-        actualPersona = character.getActualPersona()
 
-        checkEquals(routinePersona.getPosition(noon), actualPersona.getPosition(game.getTime()))
+        checkEquals(character.getRoutinePersona().getPosition(noon), character.getPosition(game.getTime()))
 
 # Insert more test definitions before this line
 

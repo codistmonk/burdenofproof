@@ -9,6 +9,8 @@ oneDay = 24L * oneHour
 oneWeek = 7L * oneDay
 oneYear = 365L * oneDay
 oneMillenium = 1000L * oneYear
+midnight = 0L
+noon = 12L * oneHour
 
 def isUndefined(x):
     return x is None
@@ -202,12 +204,20 @@ class Game:
     @staticmethod
     def newPopulation(city):
         result = Population()
+        offices = []
 
         for nsIndex in range(city.getBlockCountNS()):
             for weIndex in range(city.getBlockCountWE()):
                 block = city.getBlock(nsIndex, weIndex)
 
                 if CityBlock.HOUSE == block.getType():
-                    result.addCharacter(Character())
+                    character = Character()
+                    character.getRoutinePersona().setPosition(midnight, block.getPosition())
+                    result.addCharacter(character)
+                elif CityBlock.OFFICE_BUILDING == block.getType():
+                    offices.append(block)
+
+        for i in range(result.getCharacterCount()):
+            result.getCharacter(i).getRoutinePersona().setPosition(noon, offices[i % len(offices)].getPosition())
 
         return result
