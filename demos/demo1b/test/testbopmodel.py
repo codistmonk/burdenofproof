@@ -1,12 +1,20 @@
 import sys, os
 from panda3d.core import *
-
-#scriptPath = os.path.dirname(sys.argv[0])
-#sys.path.append(os.path.join(scriptPath, "..", "src", "python"))
-
 from bopmodel import *
 
+def checkEquals(expected, actual):
+	if expected != actual:
+		global totalErrorCount
+
+		totalErrorCount += 1
+
+		print "Failure: expected", expected, "but was", actual
+
+# Tests definitions
+
+framerate = 40 # Actual value may not be constant
 midnight = 0L
+noon = 12L * oneHour
 sixAM = 6L * oneHour
 threeAM = 3L * oneHour
 sevenAM = 7L * oneHour
@@ -32,36 +40,36 @@ def testRoutinePersona():
 	office = Vec3(10.0, 10.0, 0.0)
 	midway = (home + office) / 2.0
 
-	assert None == character.getPosition(midnight)
+	checkEquals(None, character.getPosition(midnight))
 
 	character.getRoutinePersona().setPosition(midnight, home)
 
-	assert home == character.getPosition(midnight)
-	assert home == character.getPosition(noon)
+	checkEquals(home, character.getPosition(midnight))
+	checkEquals(home, character.getPosition(noon))
 
 	character.getRoutinePersona().setPosition(noon, office)
 
-	assert home   == character.getPosition(midnight)
-	assert midway == character.getPosition(sixAM)
-	assert office == character.getPosition(noon)
-	assert midway == character.getPosition(sixPM)
+	checkEquals(home,   character.getPosition(midnight))
+	checkEquals(midway, character.getPosition(sixAM))
+	checkEquals(office, character.getPosition(noon))
+	checkEquals(midway, character.getPosition(sixPM))
 
 	character.getRoutinePersona().setPosition(sixAM,   home)
 	character.getRoutinePersona().setPosition(eightAM, office)
 	character.getRoutinePersona().setPosition(sixPM,   office)
 	character.getRoutinePersona().setPosition(eightPM, home)
 
-	assert home   == character.getPosition(midnight)
-	assert home   == character.getPosition(sixAM)
-	assert midway == character.getPosition(sevenAM)
-	assert office == character.getPosition(eightAM)
-	assert office == character.getPosition(noon)
-	assert office == character.getPosition(sixPM)
-	assert midway == character.getPosition(sevenPM)
-	assert home   == character.getPosition(eightPM)
-	assert home   == character.getPosition(tenPM)
-	assert home   == character.getPosition(oneWeek + midnight)
-	assert office == character.getPosition(oneWeek + noon)
+	checkEquals(home,   character.getPosition(midnight))
+	checkEquals(home,   character.getPosition(sixAM))
+	checkEquals(midway, character.getPosition(sevenAM))
+	checkEquals(office, character.getPosition(eightAM))
+	checkEquals(office, character.getPosition(noon))
+	checkEquals(office, character.getPosition(sixPM))
+	checkEquals(midway, character.getPosition(sevenPM))
+	checkEquals(home,   character.getPosition(eightPM))
+	checkEquals(home,   character.getPosition(tenPM))
+	checkEquals(home,   character.getPosition(oneWeek + midnight))
+	checkEquals(office, character.getPosition(oneWeek + noon))
 
 	print "testRoutinePersona: OK"
 
@@ -113,6 +121,32 @@ def testPiecewiseConstantChronology():
 
 	print "testPiecewiseConstantChronology: OK"
 
-testRoutinePersona()
-testActualPersona()
-testPiecewiseConstantChronology()
+# Insert more test definitions before this line
+
+# Tests execution
+
+totalErrorCount = 0
+
+for test in [
+	# initializeTests,
+	# testCityBlueprint,
+	# testPopulation,
+	# testUpdate
+	testRoutinePersona,
+	testActualPersona,
+	testPiecewiseConstantChronology
+# Insert more test names before this line
+]:
+	try:
+		test()
+	except Exception:
+		totalErrorCount += 1
+		print "Unexpected error:", sys.exc_info()
+		print_tb(sys.exc_info()[2])
+
+if 0 == totalErrorCount:
+	print "All tests PASS"
+else:
+	print "Some tests FAIL:", totalErrorCount, "failure(s) detected"
+	
+	quit(-1)
