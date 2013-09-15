@@ -49,7 +49,7 @@ if sys.platform == 'darwin':
     # NSApplicationSupportDirectory = 14
     # NSUserDomainMask = 1
     # True for expanding the tilde into a fully qualified path
-    applicationDataPath = os.path.join(NSSearchPathForDirectoriesInDomains(14, 1, True)[0], APPNAME)
+    applicationDataPath = os.path.join(NSSearchPathForDirectoriesInDomains(14, 1, True)[0], applicationName)
 elif sys.platform == 'win32':
     applicationDataPath = os.path.join(os.environ['APPDATA'], applicationName)
 else:
