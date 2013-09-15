@@ -79,7 +79,7 @@ class Persona:
         return self.position.getValue(time)
 
     def setPosition(self, time, value):
-        return self.position.setValue(time, value)
+        self.position.setValue(time, value)
 
 class Character:
 
@@ -97,6 +97,20 @@ class Character:
         value = self.getActualPersona().getPosition(time)
         
         return value if not value is None else self.getRoutinePersona().getPosition(time)
+
+class Population:
+
+    def __init__(self):
+        self.characters = []
+
+    def getCharacterCount(self):
+        return len(self.characters)
+
+    def getCharacter(self, index):
+        return self.characters[index]
+
+    def addCharacter(self, character):
+        self.characters.append(character)
 
 class CityBlock:
 
@@ -164,20 +178,6 @@ class City:
             "O": CityBlock.OFFICE_BUILDING,
             "H": CityBlock.HOUSE
         }.get(item,  CityBlock.GROUND)
-
-class Population:
-
-    def __init__(self):
-        self.characters = []
-
-    def getCharacterCount(self):
-        return len(self.characters)
-
-    def getCharacter(self, index):
-        return self.characters[index]
-
-    def addCharacter(self, character):
-        self.characters.append(character)
 
 class Game:
 
