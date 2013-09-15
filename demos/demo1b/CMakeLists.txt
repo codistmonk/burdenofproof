@@ -62,16 +62,18 @@ endif()
 
 # Files to copy
 if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	file(GLOB dlls
+	file(GLOB DLLS
 		${Boost_LIBRARY_DIRS}/*boost_python*${CMAKE_SHARED_LIBRARY_SUFFIX})
-	file(COPY ${dlls} DESTINATION ${CMAKE_BINARY_DIR}/app)
+	file(COPY ${DLLS} DESTINATION ${CMAKE_BINARY_DIR}/app)
 endif()
 
 file(GLOB SCRIPTS src/python/*.py src/python/*.prc test/*.py)
 file(COPY ${SCRIPTS} DESTINATION ${CMAKE_BINARY_DIR}/app)
 
-file(GLOB MODELS models/*)
-file(COPY ${MODELS} DESTINATION ${CMAKE_BINARY_DIR}/app/models)
+file(GLOB DATA data/*)
+file(COPY ${MODELS} DESTINATION ${CMAKE_BINARY_DIR}/app/data)
+
+file(COPY test/testcityblueprint.txt DESTINATION ${CMAKE_BINARY_DIR}/app/data/)
 
 # Copy main target
 get_property(target_location TARGET bop PROPERTY LOCATION)

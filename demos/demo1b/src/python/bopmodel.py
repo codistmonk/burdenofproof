@@ -93,10 +93,45 @@ class Character:
         
         return value if not value is None else self.getRoutinePersona().getPosition(time)
 
+class CityBlock:
+
+    GROUND = "ground"
+
+    ROAD = "road"
+
+    POLICE_BUILDING = "policeBuilding"
+
+    OFFICE_BUILDING = "officeBuilding"
+
+    HOUSE = "house"
+
+    def __init__(self, cityBlockType, position):
+        self.cityBlockType = cityBlockType
+        self.position = position
+
+    def getType(self):
+        return self.cityBlockType
+
+    def getPosition(self):
+        return self.position
+
 class City:
 
-    def __init__(self, blueprintFilePath):
-        pass
+    BLOCK_SIZE = 10.0
+
+    def __init__(self, blueprintPath):
+        blueprint = [line.strip() for line in open(blueprintPath)]
+        self.blockCountNS = len(blueprint)
+        self.blockCountWE = len(max(blueprint, key = len))
+        self.blocks = []
+
+        # TODO(codistmonk) fill blocks
+
+    def getBlockCountNS(self):
+        return self.blockCountNS
+
+    def getBlockCountWE(self):
+        return self.blockCountWE
 
 class Game:
 

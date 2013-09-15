@@ -1,7 +1,8 @@
 import sys, os
 from traceback import *
-from panda3d.core import *
+import bopmodel
 from bopmodel import *
+from panda3d.core import *
 from utils import *
 
 def checkEquals(expected, actual):
@@ -37,7 +38,7 @@ february15th = february + 15L * oneDay
 def testRoutinePersona():
     print "testRoutinePersona..."
 
-    character = Character()
+    character = bopmodel.Character()
     home = Vec3(0.0, 0.0, 0.0)
     office = Vec3(10.0, 10.0, 0.0)
     midway = (home + office) / 2.0
@@ -78,7 +79,7 @@ def testRoutinePersona():
 def testActualPersona():
     print "testActualPersona..."
 
-    character = Character()
+    character = bopmodel.Character()
     home = Vec3(0.0, 0.0, 0.0)
     office = Vec3(10.0, 10.0, 0.0)
     dentist = Vec3(10.0, 20.0, 0.0)
@@ -131,16 +132,16 @@ def testCity():
     checkEquals(9, city.getBlockCountNS())
     checkEquals(7, city.getBlockCountWE())
 
-    checkEquals(CityCell.POLICE_BUILDING, city.getCell(0, 0).getType())
-    checkEquals(Vec3(0.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 0).getPosition())
-    checkEquals(CityCell.ROAD, city.getCell(0, 1).getType())
-    checkEquals(Vec3(1.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 1).getPosition())
-    checkEquals(CityCell.OFFICE_BUILDING, city.getCell(0, 2).getType())
-    checkEquals(Vec3(2.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 0).getPosition())
-    checkEquals(CityCell.HOUSE, city.getCell(0, 4).getType())
-    checkEquals(Vec3(4.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 0).getPosition())
-    checkEquals(CityCell.GROUND, city.getCell(0, 6).getType())
-    checkEquals(Vec3(6.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 0).getPosition())
+    checkEquals(CityBlock.POLICE_BUILDING, city.getBlock(0, 0).getType())
+    checkEquals(Vec3(0.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getBlock(0, 0).getPosition())
+    checkEquals(CityBlock.ROAD, city.getBlock(0, 1).getType())
+    checkEquals(Vec3(1.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getBlock(0, 1).getPosition())
+    checkEquals(CityBlock.OFFICE_BUILDING, city.getBlock(0, 2).getType())
+    checkEquals(Vec3(2.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getBlock(0, 0).getPosition())
+    checkEquals(CityBlock.HOUSE, city.getBlock(0, 4).getType())
+    checkEquals(Vec3(4.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getBlock(0, 0).getPosition())
+    checkEquals(CityBlock.GROUND, city.getBlock(0, 6).getType())
+    checkEquals(Vec3(6.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getBlock(0, 0).getPosition())
 
     print "testCity: OK"
 
