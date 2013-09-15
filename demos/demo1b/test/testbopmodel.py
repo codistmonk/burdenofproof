@@ -12,11 +12,12 @@ def checkEquals(expected, actual):
         totalFailureCount += 1
 
         print inspect.stack()[1]
-        print "Failure: expected", expected, "but was", actual
+        print "FAILURE: expected", expected, "but was", actual
 
 # Tests definitions
 
 framerate = 40 # Actual value may not be constant
+millisecondsPerFrame = oneSecond / framerate
 midnight = 0L
 noon = 12L * oneHour
 sixAM = 6L * oneHour
@@ -198,7 +199,7 @@ for test in [
     except Exception:
         totalFailureCount += 1
 
-        print "Unexpected error:", sys.exc_info()
+        print "FAILURE: Unexpected error:", sys.exc_info()
         print_tb(sys.exc_info()[2])
 
 if 0 == totalFailureCount:

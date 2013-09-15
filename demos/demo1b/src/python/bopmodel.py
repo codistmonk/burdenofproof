@@ -1,6 +1,7 @@
 import os
 from panda3d.core import *
 from bisect import *
+from utils import *
 
 oneSecond = 1000L
 oneHour = 3600L * oneSecond
@@ -181,7 +182,7 @@ class Population:
 
 class Game:
 
-    def __init__(self, blueprintPath = os.path.join("data", "cityblueprint.txt")):
+    def __init__(self, blueprintPath = os.path.join(scriptPath, "data", "cityblueprint.txt")):
         self.time = 0L
         self.city = City(blueprintPath)
         self.population = Game.newPopulation(self.getCity())
@@ -195,6 +196,18 @@ class Game:
     def getPopulation(self):
         return self.population
 
+    def update(self, milliseconds):
+        self.time += milliseconds
+
     @staticmethod
     def newPopulation(city):
-        return Population()
+        result = Population()
+
+        for nsIndex in range(city.getBlockCountNS()):
+            for weIndex in range(city.getBlockCountWE()):
+                block = city.getBlock(nsIndex, weIndex)
+
+                if CityBlock.HOUSE == block.getType():
+                    result.addCharacter(Character())
+
+        return result

@@ -71,7 +71,7 @@ file(GLOB SCRIPTS src/python/*.py src/python/*.prc test/*.py)
 file(COPY ${SCRIPTS} DESTINATION ${CMAKE_BINARY_DIR}/app)
 
 file(GLOB DATA data/*)
-file(COPY ${MODELS} DESTINATION ${CMAKE_BINARY_DIR}/app/data)
+file(COPY ${DATA} DESTINATION ${CMAKE_BINARY_DIR}/app/data)
 
 file(COPY test/testcityblueprint.txt DESTINATION ${CMAKE_BINARY_DIR}/app/data/)
 
