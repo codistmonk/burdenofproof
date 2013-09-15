@@ -129,17 +129,14 @@ class City:
         self.blockCountNS = len(blueprint)
         self.blockCountWE = len(max(blueprint, key = len))
         self.blocks = []
-        citySizeNS = self.getBlockCountNS() * City.BLOCK_SIZE
-        citySizeWE = self.getBlockCountWE() * City.BLOCK_SIZE
+        self.citySizeNS = self.getBlockCountNS() * City.BLOCK_SIZE
+        self.citySizeWE = self.getBlockCountWE() * City.BLOCK_SIZE
 
         for nsIndex, blueprintRow in enumerate(blueprint):
-            blockZ = -(citySizeNS / 2 - (nsIndex + 1) * City.BLOCK_SIZE)
             self.blocks.append([])
 
             for weIndex, blueprintItem in enumerate(blueprintRow):
-                blockX = weIndex * City.BLOCK_SIZE - citySizeWE / 2
-
-                self.blocks[nsIndex].append(CityBlock(City.blockTypeFromBlueprintItem(blueprintItem), Vec3(blockX, 0.0, blockZ)))
+                self.blocks[nsIndex].append(CityBlock(City.blockTypeFromBlueprintItem(blueprintItem), self.blockPosition(nsIndex, weIndex)))
 
     def getBlockCountNS(self):
         return self.blockCountNS
@@ -152,12 +149,12 @@ class City:
             0 <= weIndex and weIndex < self.getBlockCountWE():
             return self.blocks[nsIndex][weIndex]
         else:
-            citySizeNS = self.getBlockCountNS() * City.BLOCK_SIZE
-            citySizeWE = self.getBlockCountWE() * City.BLOCK_SIZE
-            blockZ = -(citySizeNS / 2 - (nsIndex + 1) * City.BLOCK_SIZE)
-            blockX = weIndex * City.BLOCK_SIZE - citySizeWE / 2
+            return CityBlock(CityBlock.GROUND, self.blockPosition(nsIndex, weIndex))
 
-            return CityBlock(CityBlock.GROUND, Vec3(blockX, 0.0, blockZ))
+    def blockPosition(self, nsIndex, weIndex):
+        blockX = weIndex * City.BLOCK_SIZE - self.citySizeWE / 2
+        blockZ = -(self.citySizeNS / 2 - (nsIndex + 1) * City.BLOCK_SIZE)
+        return Vec3(blockX, 0.0, blockZ)
 
     @staticmethod
     def blockTypeFromBlueprintItem(item):
