@@ -93,6 +93,11 @@ class Character:
         
         return value if not value is None else self.getRoutinePersona().getPosition(time)
 
+class City:
+
+    def __init__(self, blueprintFilePath):
+        pass
+
 class Game:
 
     def __init__(self):

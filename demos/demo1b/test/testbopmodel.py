@@ -1,6 +1,8 @@
 import sys, os
+from traceback import *
 from panda3d.core import *
 from bopmodel import *
+from utils import *
 
 def checkEquals(expected, actual):
     if expected != actual:
@@ -126,19 +128,19 @@ def testCity():
 
     city = City(os.path.join(scriptPath, "data", "testcityblueprint.txt"))
 
-    checkEquals(9, blueprint.getBlockCountNS())
-    checkEquals(7, blueprint.getBlockCountWE())
+    checkEquals(9, city.getBlockCountNS())
+    checkEquals(7, city.getBlockCountWE())
 
-    checkEquals(CityCell.POLICE_BUILDING, blueprint.getCell(0, 0).getType())
-    checkEquals(Vec3(0.0, 0.0, -0.0) * City.BLOCK_SIZE, blueprint.getCell(0, 0).getPosition())
-    checkEquals(CityCell.ROAD, blueprint.getCell(0, 1).getType())
-    checkEquals(Vec3(1.0, 0.0, -0.0) * City.BLOCK_SIZE, blueprint.getCell(0, 1).getPosition())
-    checkEquals(CityCell.OFFICE_BUILDING, blueprint.getCell(0, 2).getType())
-    checkEquals(Vec3(2.0, 0.0, -0.0) * City.BLOCK_SIZE, blueprint.getCell(0, 0).getPosition())
-    checkEquals(CityCell.HOUSE, blueprint.getCell(0, 4).getType())
-    checkEquals(Vec3(4.0, 0.0, -0.0) * City.BLOCK_SIZE, blueprint.getCell(0, 0).getPosition())
-    checkEquals(CityCell.GROUND, blueprint.getCell(0, 6).getType())
-    checkEquals(Vec3(6.0, 0.0, -0.0) * City.BLOCK_SIZE, blueprint.getCell(0, 0).getPosition())
+    checkEquals(CityCell.POLICE_BUILDING, city.getCell(0, 0).getType())
+    checkEquals(Vec3(0.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 0).getPosition())
+    checkEquals(CityCell.ROAD, city.getCell(0, 1).getType())
+    checkEquals(Vec3(1.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 1).getPosition())
+    checkEquals(CityCell.OFFICE_BUILDING, city.getCell(0, 2).getType())
+    checkEquals(Vec3(2.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 0).getPosition())
+    checkEquals(CityCell.HOUSE, city.getCell(0, 4).getType())
+    checkEquals(Vec3(4.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 0).getPosition())
+    checkEquals(CityCell.GROUND, city.getCell(0, 6).getType())
+    checkEquals(Vec3(6.0, 0.0, -0.0) * City.BLOCK_SIZE, city.getCell(0, 0).getPosition())
 
     print "testCity: OK"
 
