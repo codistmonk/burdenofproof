@@ -94,14 +94,14 @@ def testActualPersona():
     character.getActualPersona().setPosition(january16th + midnight,      home)
     character.getActualPersona().setPosition(january16th + midnight + 1L, None)
 
-    assert home    == character.getPosition(january14th + midnight)
-    assert office  == character.getPosition(january14th + noon)
-    assert home    == character.getPosition(january15th + midnight)
-    assert dentist == character.getPosition(january15th + noon)
-    assert home    == character.getPosition(january16th + midnight)
-    assert office  == character.getPosition(january16th + noon)
-    assert home    == character.getPosition(february15th + midnight)
-    assert office  == character.getPosition(february15th + noon)
+    checkEquals(home,    character.getPosition(january14th + midnight))
+    checkEquals(office,  character.getPosition(january14th + noon))
+    checkEquals(home,    character.getPosition(january15th + midnight))
+    checkEquals(dentist, character.getPosition(january15th + noon))
+    checkEquals(home,    character.getPosition(january16th + midnight))
+    checkEquals(office,  character.getPosition(january16th + noon))
+    checkEquals(home,    character.getPosition(february15th + midnight))
+    checkEquals(office,  character.getPosition(february15th + noon))
 
     print "testActualPersona: OK"
 
@@ -114,14 +114,14 @@ def testPiecewiseConstantChronology():
     day.setValue(noon,  "afternoon")
     day.setValue(sixPM, "night")
 
-    assert "morning"   == day.getValue(sixAM)
-    assert "morning"   == day.getValue(eightAM)
-    assert "afternoon" == day.getValue(noon)
-    assert "afternoon" == day.getValue(twoPM)
-    assert "night"     == day.getValue(sixPM)
-    assert "night"     == day.getValue(tenPM)
-    assert "night"     == day.getValue(midnight)
-    assert "night"     == day.getValue(threeAM)
+    checkEquals("morning",   day.getValue(sixAM))
+    checkEquals("morning",   day.getValue(eightAM))
+    checkEquals("afternoon", day.getValue(noon))
+    checkEquals("afternoon", day.getValue(twoPM))
+    checkEquals("night",     day.getValue(sixPM))
+    checkEquals("night",     day.getValue(tenPM))
+    checkEquals("night",     day.getValue(midnight))
+    checkEquals("night",     day.getValue(threeAM))
 
     print "testPiecewiseConstantChronology: OK"
 
