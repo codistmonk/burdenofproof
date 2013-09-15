@@ -1,3 +1,4 @@
+import os
 from panda3d.core import *
 from bisect import *
 
@@ -164,7 +165,36 @@ class City:
             "H": CityBlock.HOUSE
         }.get(item,  CityBlock.GROUND)
 
-class Game:
+class Population:
 
     def __init__(self):
-        pass
+        self.characters = []
+
+    def getCharacterCount(self):
+        return len(self.characters)
+
+    def getCharacter(self, index):
+        return self.characters[index]
+
+    def addCharacter(self, character):
+        self.characters.append(character)
+
+class Game:
+
+    def __init__(self, blueprintPath = os.path.join("data", "cityblueprint.txt")):
+        self.time = 0L
+        self.city = City(blueprintPath)
+        self.population = Game.newPopulation(self.getCity())
+
+    def getTime(self):
+        return self.time
+
+    def getCity(self):
+        return self.city
+
+    def getPopulation(self):
+        return self.population
+
+    @staticmethod
+    def newPopulation(city):
+        return Population()

@@ -35,6 +35,7 @@ january14th = january + 14L * oneDay
 january15th = january + 15L * oneDay
 january16th = january + 16L * oneDay
 february15th = february + 15L * oneDay
+blueprintPath = os.path.join(scriptPath, "data", "testcityblueprint.txt")
 
 def testRoutinePersona():
     print "testRoutinePersona..."
@@ -128,7 +129,7 @@ def testPiecewiseConstantChronology():
 def testCity():
     print "testCity..."
 
-    city = City(os.path.join(scriptPath, "data", "testcityblueprint.txt"))
+    city = City(blueprintPath)
 
     checkEquals(9, city.getBlockCountNS())
     checkEquals(7, city.getBlockCountWE())
@@ -149,6 +150,35 @@ def testCity():
 
     print "testCity: OK"
 
+def testUpdate():
+    print "testUpdate..."
+
+    game = Game(blueprintPath)
+
+    checkEquals(midnight, game.getTime())
+
+    population = game.getPopulation()
+
+    # Character 0 is player
+    for i in range(1, 21):
+        character = population.getCharacter(i)
+        routinePersona = character.getRoutinePersona()
+        actualPersona = character.getActualPersona()
+
+        checkEquals(routinePersona.getPosition(midnight), actualPersona.getPosition(game.getTime()))
+
+    for i in range(12L * oneHour / millisecondsPerFrame):
+        game.update(millisecondsPerFrame)
+
+    checkEquals(noon, game.getTime())
+
+    for i in range(1, 21):
+        character = population.getCharacter(i)
+        routinePersona = character.getRoutinePersona()
+        actualPersona = character.getActualPersona()
+
+        checkEquals(routinePersona.getPosition(noon), actualPersona.getPosition(game.getTime()))
+
 # Insert more test definitions before this line
 
 # Tests execution
@@ -159,9 +189,8 @@ for test in [
     testRoutinePersona,
     testActualPersona,
     testPiecewiseConstantChronology,
-    testCity
-    # testPopulation,
-    # testUpdate
+    testCity,
+    testUpdate
 # Insert more test names before this line
 ]:
     try:
