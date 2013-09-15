@@ -1,3 +1,4 @@
+from panda3d.core import *
 from bisect import *
 
 oneSecond = 1000L
@@ -124,14 +125,44 @@ class City:
         self.blockCountNS = len(blueprint)
         self.blockCountWE = len(max(blueprint, key = len))
         self.blocks = []
+        citySizeNS = self.getBlockCountNS() * City.BLOCK_SIZE
+        citySizeWE = self.getBlockCountWE() * City.BLOCK_SIZE
 
-        # TODO(codistmonk) fill blocks
+        for nsIndex, blueprintRow in enumerate(blueprint):
+            blockZ = -(citySizeNS / 2 - (nsIndex + 1) * City.BLOCK_SIZE)
+            self.blocks.append([])
+
+            for weIndex, blueprintItem in enumerate(blueprintRow):
+                blockX = weIndex * City.BLOCK_SIZE - citySizeWE / 2
+
+                self.blocks[nsIndex].append(CityBlock(City.blockTypeFromBlueprintItem(blueprintItem), Vec3(blockX, 0.0, blockZ)))
 
     def getBlockCountNS(self):
         return self.blockCountNS
 
     def getBlockCountWE(self):
         return self.blockCountWE
+
+    def getBlock(self, nsIndex, weIndex):
+        if 0 <= nsIndex and nsIndex < self.getBlockCountNS() and\
+            0 <= weIndex and weIndex < self.getBlockCountWE():
+            return self.blocks[nsIndex][weIndex]
+        else:
+            citySizeNS = self.getBlockCountNS() * City.BLOCK_SIZE
+            citySizeWE = self.getBlockCountWE() * City.BLOCK_SIZE
+            blockZ = -(citySizeNS / 2 - (nsIndex + 1) * City.BLOCK_SIZE)
+            blockX = weIndex * City.BLOCK_SIZE - citySizeWE / 2
+
+            return CityBlock(CityBlock.GROUND, Vec3(blockX, 0.0, blockZ))
+
+    @staticmethod
+    def blockTypeFromBlueprintItem(item):
+        return {
+            "S": CityBlock.ROAD,
+            "P": CityBlock.POLICE_BUILDING,
+            "O": CityBlock.OFFICE_BUILDING,
+            "H": CityBlock.HOUSE
+        }.get(item,  CityBlock.GROUND)
 
 class Game:
 
