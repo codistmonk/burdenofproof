@@ -49,6 +49,13 @@ def finishEgg(eggData):
     eggData.removeUnusedVertices(True)
 
 
+def ensureDirectory(path):
+    directory = os.path.dirname(path)
+
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+
 applicationName = "burdenofproof"
 scriptPath = os.path.dirname(sys.argv[0]).replace("\\", "/")
 

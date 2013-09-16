@@ -4,6 +4,12 @@ from math import *
 from panda3d.core import *
 from panda3d.egg import *
 from utils import *
+from bopmodel import *
+
+
+modelsPath = os.path.join(scriptPath, "data", "models")
+texturesPath = os.path.join(modelsPath, "textures")
+blockSize = City.BLOCK_SIZE
 
 
 def retrieveTexture(textureName, textureFolderName,
@@ -84,7 +90,7 @@ def generateTexturedQuad(name, size, textureName, useTextureNormal=False,
         group.addTranslate3d(translation)
 
     finishEgg(egg)
-    egg.writeEgg("models/" + name + ".egg")
+    egg.writeEgg(os.path.join(modelsPath, name + ".egg"))
 
 
 def newFlat(result, eggVertices, uvs, quarterTurns=0):
@@ -116,7 +122,7 @@ def generateOutline(name, size, uvs, quarterTurns=0):
     outlineGroup.addRotx(-90.0)
     outlineGroup.addUniformScale(size)
     outlineGroup.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
-    outlineEgg.writeEgg("models/" + name + "_outline.egg")
+    outlineEgg.writeEgg(os.path.join(modelsPath, name + "_outline.egg"))
 
 
 def generateBuildingPad(size):
@@ -146,7 +152,7 @@ def generateBuildingPad(size):
     group.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
 
     finishEgg(egg)
-    egg.writeEgg("models/" + name + ".egg")
+    egg.writeEgg(os.path.join(modelsPath, name + ".egg"))
 
     generateOutline(name, size, [
         0.1, 0.1,
@@ -267,7 +273,7 @@ def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
         group.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
 
         finishEgg(egg)
-        egg.writeEgg("models/" + name + ".egg")
+        egg.writeEgg(os.path.join(modelsPath, name + ".egg"))
 
         generateOutline(name, size, curbUvs[1], quarterTurns)
 
@@ -387,10 +393,10 @@ def generateCurvedRoadMarkings(size, smoothness=5):
         group.addTranslate3d(Vec3D(0.0, 0.001, 0.0))
 
         finishEgg(egg)
-        egg.writeEgg("models/" + name + ".egg")
+        egg.writeEgg(os.path.join(modelsPath, name + ".egg"))
 
 
-blockSize = 10.0
+ensureDirectory(texturesPath)
 generateTexturedQuad("ground", blockSize, "grass", True, blockSize)
 generateTexturedQuad("road", blockSize, "asphalt", True, blockSize)
 generateTexturedQuad(

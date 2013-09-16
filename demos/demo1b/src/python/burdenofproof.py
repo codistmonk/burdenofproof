@@ -5,6 +5,7 @@ from direct.task import Task
 from bop import *
 from bopmodel import *
 from motioncontroller import *
+import generatecityparts
 
 
 Hello()
