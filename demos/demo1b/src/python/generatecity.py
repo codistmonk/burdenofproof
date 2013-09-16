@@ -1,17 +1,22 @@
-import sys, os
+import sys
+import os
 from math import *
 from panda3d.core import *
 from panda3d.egg import *
 from utils import *
 
+
 def isBuilding(blueprintItem):
     return blueprintItem == 'P' or blueprintItem == 'O' or blueprintItem == 'H'
+
 
 def isRoad(blueprintItem):
     return blueprintItem == 'S'
 
+
 def isGround(blueprintItem):
     return not isBuilding(blueprintItem) and not isRoad(blueprintItem)
+
 
 def getItem(blueprint, nsIndex, weIndex):
     if nsIndex < 0 or len(blueprint) <= nsIndex:
@@ -24,11 +29,14 @@ def getItem(blueprint, nsIndex, weIndex):
 
     return blueprintRow[weIndex]
 
-def addExternalReference(nodeName, fileName, block, outlineBlock = None):
+
+def addExternalReference(nodeName, fileName, block, outlineBlock=None):
     block.addChild(EggExternalReference(nodeName, fileName))
 
     if not outlineBlock is None:
-        outlineBlock.addChild(EggExternalReference(nodeName, fileName + "_outline"))
+        outlineBlock.addChild(EggExternalReference(
+            nodeName, fileName + "_outline"))
+
 
 blueprintPath = "models/cityblueprint.txt"
 
@@ -38,7 +46,7 @@ print blueprint
 
 blockSize = 10.0
 citySizeNS = len(blueprint) * blockSize
-citySizeWE = len(max(blueprint, key = len)) * blockSize
+citySizeWE = len(max(blueprint, key=len)) * blockSize
 
 print "citySize:", citySizeNS, citySizeWE
 
@@ -57,7 +65,8 @@ for nsIndex, blueprintRow in enumerate(blueprint):
 
         if isBuilding(blueprintItem):
             addExternalReference("building", "building", block)
-            addExternalReference("buildingPad", "buildingpad", block, outlineBlock)
+            addExternalReference("buildingPad", "buildingpad",
+                                 block, outlineBlock)
         elif isRoad(blueprintItem):
             addExternalReference("road", "road", block)
         else:
@@ -73,54 +82,80 @@ for nsIndex, blueprintRow in enumerate(blueprint):
             sItem = getItem(blueprint, nsIndex + 1, weIndex)
             seItem = getItem(blueprint, nsIndex + 1, weIndex + 1)
 
-            if isRoad(nItem) and isRoad(blueprintItem) and isRoad(eItem) and not isRoad(wItem) and not isRoad(sItem):
+            if isRoad(nItem) and isRoad(blueprintItem) and isRoad(eItem) and\
+               not isRoad(wItem) and not isRoad(sItem):
                 addExternalReference("marking", "swmarking", block)
-            if isRoad(wItem) and isRoad(blueprintItem) and isRoad(nItem) and not isRoad(sItem) and not isRoad(eItem):
+            if isRoad(wItem) and isRoad(blueprintItem) and isRoad(nItem) and\
+               not isRoad(sItem) and not isRoad(eItem):
                 addExternalReference("marking", "semarking", block)
-            if isRoad(sItem) and isRoad(blueprintItem) and isRoad(wItem) and not isRoad(eItem) and not isRoad(nItem):
+            if isRoad(sItem) and isRoad(blueprintItem) and isRoad(wItem) and\
+               not isRoad(eItem) and not isRoad(nItem):
                 addExternalReference("marking", "nemarking", block)
-            if isRoad(eItem) and isRoad(blueprintItem) and isRoad(sItem) and not isRoad(nItem) and not isRoad(wItem):
+            if isRoad(eItem) and isRoad(blueprintItem) and isRoad(sItem) and\
+               not isRoad(nItem) and not isRoad(wItem):
                 addExternalReference("marking", "nwmarking", block)
 
-            if isRoad(wItem) and isRoad(blueprintItem) and isRoad(eItem) and (not isRoad(nItem) or not isRoad(sItem)):
+            if isRoad(wItem) and isRoad(blueprintItem) and isRoad(eItem) and\
+               (not isRoad(nItem) or not isRoad(sItem)):
                 addExternalReference("marking", "wemarking", block)
-            if isRoad(nItem) and isRoad(blueprintItem) and isRoad(sItem) and (not isRoad(wItem) or not isRoad(eItem)):
+            if isRoad(nItem) and isRoad(blueprintItem) and isRoad(sItem) and\
+               (not isRoad(wItem) or not isRoad(eItem)):
                 addExternalReference("marking", "nsmarking", block)
 
             if wItem != blueprintItem and nItem != blueprintItem:
-                addExternalReference("sidewalk", "nwexteriorsidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "nwexteriorsidewalk",
+                                     block, outlineBlock)
             if eItem != blueprintItem and nItem != blueprintItem:
-                addExternalReference("sidewalk", "neexteriorsidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "neexteriorsidewalk",
+                                     block, outlineBlock)
             if wItem != blueprintItem and sItem != blueprintItem:
-                addExternalReference("sidewalk", "swexteriorsidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "swexteriorsidewalk",
+                                     block, outlineBlock)
             if eItem != blueprintItem and sItem != blueprintItem:
-                addExternalReference("sidewalk", "seexteriorsidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "seexteriorsidewalk",
+                                     block, outlineBlock)
 
-            if wItem == blueprintItem and nItem == blueprintItem and nwItem != blueprintItem:
-                addExternalReference("sidewalk", "nwinteriorsidewalk", block, outlineBlock)
-            if eItem == blueprintItem and nItem == blueprintItem and neItem != blueprintItem:
-                addExternalReference("sidewalk", "neinteriorsidewalk", block, outlineBlock)
-            if wItem == blueprintItem and sItem == blueprintItem and swItem != blueprintItem:
-                addExternalReference("sidewalk", "swinteriorsidewalk", block, outlineBlock)
-            if eItem == blueprintItem and sItem == blueprintItem and seItem != blueprintItem:
-                addExternalReference("sidewalk", "seinteriorsidewalk", block, outlineBlock)
+            if wItem == blueprintItem and nItem == blueprintItem and\
+               nwItem != blueprintItem:
+                addExternalReference("sidewalk", "nwinteriorsidewalk",
+                                     block, outlineBlock)
+            if eItem == blueprintItem and nItem == blueprintItem and\
+               neItem != blueprintItem:
+                addExternalReference("sidewalk", "neinteriorsidewalk",
+                                     block, outlineBlock)
+            if wItem == blueprintItem and sItem == blueprintItem and\
+               swItem != blueprintItem:
+                addExternalReference("sidewalk", "swinteriorsidewalk",
+                                     block, outlineBlock)
+            if eItem == blueprintItem and sItem == blueprintItem and\
+               seItem != blueprintItem:
+                addExternalReference("sidewalk", "seinteriorsidewalk",
+                                     block, outlineBlock)
 
             if wItem != blueprintItem and nItem == blueprintItem:
-                addExternalReference("sidewalk", "nwhalf1sidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "nwhalf1sidewalk",
+                                     block, outlineBlock)
             if eItem != blueprintItem and nItem == blueprintItem:
-                addExternalReference("sidewalk", "nehalf2sidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "nehalf2sidewalk",
+                                     block, outlineBlock)
             if wItem != blueprintItem and sItem == blueprintItem:
-                addExternalReference("sidewalk", "swhalf2sidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "swhalf2sidewalk",
+                                     block, outlineBlock)
             if eItem != blueprintItem and sItem == blueprintItem:
-                addExternalReference("sidewalk", "sehalf1sidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "sehalf1sidewalk",
+                                     block, outlineBlock)
             if wItem == blueprintItem and nItem != blueprintItem:
-                addExternalReference("sidewalk", "nwhalf2sidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "nwhalf2sidewalk",
+                                     block, outlineBlock)
             if eItem == blueprintItem and nItem != blueprintItem:
-                addExternalReference("sidewalk", "nehalf1sidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "nehalf1sidewalk",
+                                     block, outlineBlock)
             if wItem == blueprintItem and sItem != blueprintItem:
-                addExternalReference("sidewalk", "swhalf1sidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "swhalf1sidewalk",
+                                     block, outlineBlock)
             if eItem == blueprintItem and sItem != blueprintItem:
-                addExternalReference("sidewalk", "sehalf2sidewalk", block, outlineBlock)
+                addExternalReference("sidewalk", "sehalf2sidewalk",
+                                     block, outlineBlock)
 
 city.writeEgg("models/city.egg")
 cityOuline.writeEgg("models/city_outline.egg")
