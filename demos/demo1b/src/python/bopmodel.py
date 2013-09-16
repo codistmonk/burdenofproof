@@ -5,7 +5,8 @@ from utils import *
 
 
 oneSecond = 1000L
-oneHour = 3600L * oneSecond
+oneMinute = 60L * oneSecond
+oneHour = 60L * oneMinute
 oneDay = 24L * oneHour
 oneWeek = 7L * oneDay
 oneYear = 365L * oneDay

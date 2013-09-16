@@ -1,6 +1,7 @@
 from direct.actor.Actor import Actor
 from direct.filter.CommonFilters import CommonFilters
 from direct.showbase.ShowBase import ShowBase
+from direct.task import Task
 from bop import *
 from bopmodel import *
 from motioncontroller import *
@@ -53,6 +54,19 @@ class BurdenOfProof(ShowBase):
                 population.getCharacter(i).getPosition(self.game.getTime()))
             self.pandaActor.instanceTo(instance)
             self.characterInstances.append(instance)
+
+        self.taskMgr.add(self.update, "updateTask")
+
+    def update(self, task):
+        self.game.update(oneMinute)  # TODO(?) compute actual milliseconds
+
+        population = self.game.getPopulation()
+
+        for i in range(1, population.getCharacterCount()):
+            self.characterInstances[i - 1].setPos(
+                population.getCharacter(i).getPosition(self.game.getTime()))
+
+        return Task.cont
 
 loadPrcFile("myconfig.prc")
 

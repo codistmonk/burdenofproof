@@ -33,8 +33,6 @@ class MotionController:
         self.mouseButton[button] = value
 
     def controlCamera(self, task):
-        # if (self.phoneState.state == "Center"):
-        #     return Task.cont
         if not self.isActive():
             return Task.cont
 
