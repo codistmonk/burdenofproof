@@ -3,6 +3,7 @@ from direct.task import Task
 
 from utils import *
 
+
 class OrbitalCameraController:
 
     def __init__(self, scene):
@@ -48,7 +49,8 @@ class OrbitalCameraController:
                 self.scene.camera.setHpr(heading, pitch, 0)
 
         direction = self.scene.camera.getMat().getRow3(1)
-        self.scene.camera.setPos(self.target - direction * self.distanceFromTarget)
+        self.scene.camera.setPos(
+            self.target - direction * self.distanceFromTarget)
 
         return Task.cont
 

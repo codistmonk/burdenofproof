@@ -1,9 +1,12 @@
-import sys, os, inspect
+import sys
+import os
+import inspect
 from traceback import *
 import bopmodel
 from bopmodel import *
 from panda3d.core import *
 from utils import *
+
 
 def checkEquals(expected, actual):
     if expected != actual:
@@ -16,7 +19,7 @@ def checkEquals(expected, actual):
 
 # Tests definitions
 
-framerate = 40 # Actual value may not be constant
+framerate = 40  # Actual value may not be constant
 millisecondsPerFrame = oneSecond / framerate
 sixAM = 6L * oneHour
 threeAM = 3L * oneHour
@@ -35,6 +38,7 @@ january15th = january + 15L * oneDay
 january16th = january + 16L * oneDay
 february15th = february + 15L * oneDay
 blueprintPath = os.path.join(scriptPath, "data", "testcityblueprint.txt")
+
 
 def testRoutinePersona():
     print "testRoutinePersona..."
@@ -77,6 +81,7 @@ def testRoutinePersona():
 
     print "testRoutinePersona: OK"
 
+
 def testActualPersona():
     print "testActualPersona..."
 
@@ -88,11 +93,16 @@ def testActualPersona():
     character.getRoutinePersona().setPosition(midnight, home)
     character.getRoutinePersona().setPosition(noon, office)
 
-    character.getActualPersona().setPosition(january15th + midnight - 1L, None)
-    character.getActualPersona().setPosition(january15th + midnight,      home)
-    character.getActualPersona().setPosition(january15th + noon,          dentist)
-    character.getActualPersona().setPosition(january16th + midnight,      home)
-    character.getActualPersona().setPosition(january16th + midnight + 1L, None)
+    character.getActualPersona().setPosition(
+        january15th + midnight - 1L, None)
+    character.getActualPersona().setPosition(
+        january15th + midnight,      home)
+    character.getActualPersona().setPosition(
+        january15th + noon,          dentist)
+    character.getActualPersona().setPosition(
+        january16th + midnight,      home)
+    character.getActualPersona().setPosition(
+        january16th + midnight + 1L, None)
 
     checkEquals(home,    character.getPosition(january14th + midnight))
     checkEquals(office,  character.getPosition(january14th + noon))
@@ -104,6 +114,7 @@ def testActualPersona():
     checkEquals(office,  character.getPosition(february15th + noon))
 
     print "testActualPersona: OK"
+
 
 def testPiecewiseConstantChronology():
     print "testPiecewiseConstantChronology..."
@@ -125,6 +136,7 @@ def testPiecewiseConstantChronology():
 
     print "testPiecewiseConstantChronology: OK"
 
+
 def testCity():
     print "testCity..."
 
@@ -134,20 +146,27 @@ def testCity():
     checkEquals(7, city.getBlockCountWE())
 
     checkEquals(CityBlock.POLICE_BUILDING, city.getBlock(0, 0).getType())
-    checkEquals(Vec3(-3.5, 0.0, -3.5) * City.BLOCK_SIZE, city.getBlock(0, 0).getPosition())
+    checkEquals(Vec3(-3.5, 0.0, -3.5) * City.BLOCK_SIZE,
+                city.getBlock(0, 0).getPosition())
     checkEquals(CityBlock.ROAD, city.getBlock(0, 1).getType())
-    checkEquals(Vec3(-2.5, 0.0, -3.5) * City.BLOCK_SIZE, city.getBlock(0, 1).getPosition())
+    checkEquals(Vec3(-2.5, 0.0, -3.5) * City.BLOCK_SIZE,
+                city.getBlock(0, 1).getPosition())
     checkEquals(CityBlock.OFFICE_BUILDING, city.getBlock(0, 2).getType())
-    checkEquals(Vec3(-1.5, 0.0, -3.5) * City.BLOCK_SIZE, city.getBlock(0, 2).getPosition())
+    checkEquals(Vec3(-1.5, 0.0, -3.5) * City.BLOCK_SIZE,
+                city.getBlock(0, 2).getPosition())
     checkEquals(CityBlock.HOUSE, city.getBlock(0, 4).getType())
-    checkEquals(Vec3(0.5, 0.0, -3.5) * City.BLOCK_SIZE, city.getBlock(0, 4).getPosition())
+    checkEquals(Vec3(0.5, 0.0, -3.5) * City.BLOCK_SIZE,
+                city.getBlock(0, 4).getPosition())
     checkEquals(CityBlock.GROUND, city.getBlock(0, 6).getType())
-    checkEquals(Vec3(2.5, 0.0, -3.5) * City.BLOCK_SIZE, city.getBlock(0, 6).getPosition())
+    checkEquals(Vec3(2.5, 0.0, -3.5) * City.BLOCK_SIZE,
+                city.getBlock(0, 6).getPosition())
 
     checkEquals(CityBlock.GROUND, city.getBlock(-1, -1).getType())
-    checkEquals(Vec3(-4.5, 0.0, -4.5) * City.BLOCK_SIZE, city.getBlock(-1, -1).getPosition())
+    checkEquals(Vec3(-4.5, 0.0, -4.5) * City.BLOCK_SIZE,
+                city.getBlock(-1, -1).getPosition())
 
     print "testCity: OK"
+
 
 def testUpdate():
     print "testUpdate..."
@@ -162,7 +181,8 @@ def testUpdate():
     for i in range(1, 21):
         character = population.getCharacter(i)
 
-        checkEquals(character.getRoutinePersona().getPosition(midnight), character.getPosition(game.getTime()))
+        checkEquals(character.getRoutinePersona().getPosition(midnight),
+                    character.getPosition(game.getTime()))
 
     for i in range(12L * oneHour / millisecondsPerFrame):
         game.update(millisecondsPerFrame)
@@ -172,7 +192,8 @@ def testUpdate():
     for i in range(1, 21):
         character = population.getCharacter(i)
 
-        checkEquals(character.getRoutinePersona().getPosition(noon), character.getPosition(game.getTime()))
+        checkEquals(character.getRoutinePersona().getPosition(noon),
+                    character.getPosition(game.getTime()))
 
 # Insert more test definitions before this line
 
@@ -186,7 +207,7 @@ for test in [
     testPiecewiseConstantChronology,
     testCity,
     testUpdate
-# Insert more test names before this line
+    # Insert more test names before this line
 ]:
     try:
         test()
@@ -200,5 +221,5 @@ if 0 == totalFailureCount:
     print "All tests PASS"
 else:
     print "Some tests FAIL:", totalFailureCount, "failure(s) detected"
-    
+
     quit(-1)
