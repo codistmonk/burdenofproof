@@ -4,158 +4,144 @@ from math import *
 from panda3d.core import *
 from panda3d.egg import *
 from utils import *
+from bopmodel import *
 
 
-def isBuilding(blueprintItem):
-    return blueprintItem == 'P' or blueprintItem == 'O' or blueprintItem == 'H'
+def isRoad(blockType):
+    return CityBlock.ROAD == blockType
 
 
-def isRoad(blueprintItem):
-    return blueprintItem == 'S'
+def isGround(blockType):
+    return CityBlock.GROUND == blockType
 
 
-def isGround(blueprintItem):
-    return not isBuilding(blueprintItem) and not isRoad(blueprintItem)
+def isBuilding(blockType):
+    return not isRoad(blockType) and not isGround(blockType)
 
 
-def getItem(blueprint, nsIndex, weIndex):
-    if nsIndex < 0 or len(blueprint) <= nsIndex:
-        return "_"
+def addExternalReference(nodeName, fileName, blockGroup,
+                         outlineBlockGroup=None):
+    blockGroup.addChild(EggExternalReference(nodeName, fileName))
 
-    blueprintRow = blueprint[nsIndex]
-
-    if weIndex < 0 or len(blueprintRow) <= weIndex:
-        return "_"
-
-    return blueprintRow[weIndex]
-
-
-def addExternalReference(nodeName, fileName, block, outlineBlock=None):
-    block.addChild(EggExternalReference(nodeName, fileName))
-
-    if not outlineBlock is None:
-        outlineBlock.addChild(EggExternalReference(
+    if not outlineBlockGroup is None:
+        outlineBlockGroup.addChild(EggExternalReference(
             nodeName, fileName + "_outline"))
 
 
-blueprintPath = "models/cityblueprint.txt"
+def vec3d(v):
+    return Vec3D(v.getX(), v.getY(), v.getZ())
 
-blueprint = [line.strip() for line in open(blueprintPath)]
 
-print blueprint
+blueprintPath = os.path.join(scriptPath, "data", "cityblueprint.txt")
+modelsPath = os.path.join(scriptPath, "data", "models")
+city = City(blueprintPath)
+cityEgg = EggData()
+cityOulineEgg = EggData()
 
-blockSize = 10.0
-citySizeNS = len(blueprint) * blockSize
-citySizeWE = len(max(blueprint, key=len)) * blockSize
+for nsIndex in range(city.getBlockCountNS()):
+    for weIndex in range(city.getBlockCountWE()):
+        block = city.getBlock(nsIndex, weIndex)
+        blockType = block.getType()
+        blockPosition = vec3d(block.getPosition())
+        blockGroup = newGroup(cityEgg)
+        outlineBlockGroup = newGroup(cityOulineEgg)
+        blockGroup.addTranslate3d(blockPosition)
+        outlineBlockGroup.addTranslate3d(blockPosition)
 
-print "citySize:", citySizeNS, citySizeWE
-
-city = EggData()
-cityOuline = EggData()
-
-for nsIndex, blueprintRow in enumerate(blueprint):
-    blockZ = -(citySizeNS / 2 - (nsIndex + 1) * blockSize)
-
-    for weIndex, blueprintItem in enumerate(blueprintRow):
-        blockX = weIndex * blockSize - citySizeWE / 2
-        block = newGroup(city)
-        outlineBlock = newGroup(cityOuline)
-        block.addTranslate3d(Vec3D(blockX, 0.0, blockZ))
-        outlineBlock.addTranslate3d(Vec3D(blockX, 0.0, blockZ))
-
-        if isBuilding(blueprintItem):
-            addExternalReference("building", "building", block)
+        if isBuilding(blockType):
+            addExternalReference("building", "building", blockGroup)
             addExternalReference("buildingPad", "buildingpad",
-                                 block, outlineBlock)
-        elif isRoad(blueprintItem):
-            addExternalReference("road", "road", block)
+                                 blockGroup, outlineBlockGroup)
+        elif isRoad(blockType):
+            addExternalReference("road", "road", blockGroup)
         else:
-            addExternalReference("ground", "ground", block)
+            addExternalReference("ground", "ground", blockGroup)
 
-        if not isBuilding(blueprintItem):
-            nwItem = getItem(blueprint, nsIndex - 1, weIndex - 1)
-            nItem = getItem(blueprint, nsIndex - 1, weIndex)
-            neItem = getItem(blueprint, nsIndex - 1, weIndex + 1)
-            wItem = getItem(blueprint, nsIndex, weIndex - 1)
-            eItem = getItem(blueprint, nsIndex, weIndex + 1)
-            swItem = getItem(blueprint, nsIndex + 1, weIndex - 1)
-            sItem = getItem(blueprint, nsIndex + 1, weIndex)
-            seItem = getItem(blueprint, nsIndex + 1, weIndex + 1)
+        if not isBuilding(blockType):
+            nwBlock = city.getBlock(nsIndex - 1, weIndex - 1).getType()
+            nBlock = city.getBlock(nsIndex - 1, weIndex).getType()
+            neBlock = city.getBlock(nsIndex - 1, weIndex + 1).getType()
+            wBlock = city.getBlock(nsIndex, weIndex - 1).getType()
+            eBlock = city.getBlock(nsIndex, weIndex + 1).getType()
+            swBlock = city.getBlock(nsIndex + 1, weIndex - 1).getType()
+            sBlock = city.getBlock(nsIndex + 1, weIndex).getType()
+            seBlock = city.getBlock(nsIndex + 1, weIndex + 1).getType()
 
-            if isRoad(nItem) and isRoad(blueprintItem) and isRoad(eItem) and\
-               not isRoad(wItem) and not isRoad(sItem):
-                addExternalReference("marking", "swmarking", block)
-            if isRoad(wItem) and isRoad(blueprintItem) and isRoad(nItem) and\
-               not isRoad(sItem) and not isRoad(eItem):
-                addExternalReference("marking", "semarking", block)
-            if isRoad(sItem) and isRoad(blueprintItem) and isRoad(wItem) and\
-               not isRoad(eItem) and not isRoad(nItem):
-                addExternalReference("marking", "nemarking", block)
-            if isRoad(eItem) and isRoad(blueprintItem) and isRoad(sItem) and\
-               not isRoad(nItem) and not isRoad(wItem):
-                addExternalReference("marking", "nwmarking", block)
+            if isRoad(nBlock) and isRoad(blockType) and isRoad(eBlock) and\
+               not isRoad(wBlock) and not isRoad(sBlock):
+                addExternalReference("marking", "swmarking", blockGroup)
+            if isRoad(wBlock) and isRoad(blockType) and isRoad(nBlock) and\
+               not isRoad(sBlock) and not isRoad(eBlock):
+                addExternalReference("marking", "semarking", blockGroup)
+            if isRoad(sBlock) and isRoad(blockType) and isRoad(wBlock) and\
+               not isRoad(eBlock) and not isRoad(nBlock):
+                addExternalReference("marking", "nemarking", blockGroup)
+            if isRoad(eBlock) and isRoad(blockType) and isRoad(sBlock) and\
+               not isRoad(nBlock) and not isRoad(wBlock):
+                addExternalReference("marking", "nwmarking", blockGroup)
 
-            if isRoad(wItem) and isRoad(blueprintItem) and isRoad(eItem) and\
-               (not isRoad(nItem) or not isRoad(sItem)):
-                addExternalReference("marking", "wemarking", block)
-            if isRoad(nItem) and isRoad(blueprintItem) and isRoad(sItem) and\
-               (not isRoad(wItem) or not isRoad(eItem)):
-                addExternalReference("marking", "nsmarking", block)
+            if isRoad(wBlock) and isRoad(blockType) and isRoad(eBlock) and\
+               (not isRoad(nBlock) or not isRoad(sBlock)):
+                addExternalReference("marking", "wemarking", blockGroup)
+            if isRoad(nBlock) and isRoad(blockType) and isRoad(sBlock) and\
+               (not isRoad(wBlock) or not isRoad(eBlock)):
+                addExternalReference("marking", "nsmarking", blockGroup)
 
-            if wItem != blueprintItem and nItem != blueprintItem:
+            if wBlock != blockType and nBlock != blockType:
                 addExternalReference("sidewalk", "nwexteriorsidewalk",
-                                     block, outlineBlock)
-            if eItem != blueprintItem and nItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if eBlock != blockType and nBlock != blockType:
                 addExternalReference("sidewalk", "neexteriorsidewalk",
-                                     block, outlineBlock)
-            if wItem != blueprintItem and sItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if wBlock != blockType and sBlock != blockType:
                 addExternalReference("sidewalk", "swexteriorsidewalk",
-                                     block, outlineBlock)
-            if eItem != blueprintItem and sItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if eBlock != blockType and sBlock != blockType:
                 addExternalReference("sidewalk", "seexteriorsidewalk",
-                                     block, outlineBlock)
+                                     blockGroup, outlineBlockGroup)
 
-            if wItem == blueprintItem and nItem == blueprintItem and\
-               nwItem != blueprintItem:
+            if wBlock == blockType and nBlock == blockType and\
+               nwBlock != blockType:
                 addExternalReference("sidewalk", "nwinteriorsidewalk",
-                                     block, outlineBlock)
-            if eItem == blueprintItem and nItem == blueprintItem and\
-               neItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if eBlock == blockType and nBlock == blockType and\
+               neBlock != blockType:
                 addExternalReference("sidewalk", "neinteriorsidewalk",
-                                     block, outlineBlock)
-            if wItem == blueprintItem and sItem == blueprintItem and\
-               swItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if wBlock == blockType and sBlock == blockType and\
+               swBlock != blockType:
                 addExternalReference("sidewalk", "swinteriorsidewalk",
-                                     block, outlineBlock)
-            if eItem == blueprintItem and sItem == blueprintItem and\
-               seItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if eBlock == blockType and sBlock == blockType and\
+               seBlock != blockType:
                 addExternalReference("sidewalk", "seinteriorsidewalk",
-                                     block, outlineBlock)
+                                     blockGroup, outlineBlockGroup)
 
-            if wItem != blueprintItem and nItem == blueprintItem:
+            if wBlock != blockType and nBlock == blockType:
                 addExternalReference("sidewalk", "nwhalf1sidewalk",
-                                     block, outlineBlock)
-            if eItem != blueprintItem and nItem == blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if eBlock != blockType and nBlock == blockType:
                 addExternalReference("sidewalk", "nehalf2sidewalk",
-                                     block, outlineBlock)
-            if wItem != blueprintItem and sItem == blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if wBlock != blockType and sBlock == blockType:
                 addExternalReference("sidewalk", "swhalf2sidewalk",
-                                     block, outlineBlock)
-            if eItem != blueprintItem and sItem == blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if eBlock != blockType and sBlock == blockType:
                 addExternalReference("sidewalk", "sehalf1sidewalk",
-                                     block, outlineBlock)
-            if wItem == blueprintItem and nItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if wBlock == blockType and nBlock != blockType:
                 addExternalReference("sidewalk", "nwhalf2sidewalk",
-                                     block, outlineBlock)
-            if eItem == blueprintItem and nItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if eBlock == blockType and nBlock != blockType:
                 addExternalReference("sidewalk", "nehalf1sidewalk",
-                                     block, outlineBlock)
-            if wItem == blueprintItem and sItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if wBlock == blockType and sBlock != blockType:
                 addExternalReference("sidewalk", "swhalf1sidewalk",
-                                     block, outlineBlock)
-            if eItem == blueprintItem and sItem != blueprintItem:
+                                     blockGroup, outlineBlockGroup)
+            if eBlock == blockType and sBlock != blockType:
                 addExternalReference("sidewalk", "sehalf2sidewalk",
-                                     block, outlineBlock)
+                                     blockGroup, outlineBlockGroup)
 
-city.writeEgg("models/city.egg")
-cityOuline.writeEgg("models/city_outline.egg")
+ensureDirectory(modelsPath)
+cityEgg.writeEgg(os.path.join(modelsPath, "city.egg"))
+cityOulineEgg.writeEgg(os.path.join(modelsPath, "city_outline.egg"))

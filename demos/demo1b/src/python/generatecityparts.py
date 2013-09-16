@@ -60,13 +60,13 @@ def generateTexturedQuad(name, size, textureName, useTextureNormal=False,
     polygon = EggPolygon()
 
     x, y = xyFromUv(0, 0, quarterTurns)
-    polygon.addVertex(addEggVertex(vertices, x * size, 0, - y * size, 0, 0))
+    polygon.addVertex(addEggVertex(vertices, x * size, y * size, 0, 0, 0))
     x, y = xyFromUv(1, 0, quarterTurns)
-    polygon.addVertex(addEggVertex(vertices, x * size, 0, - y * size, 1, 0))
+    polygon.addVertex(addEggVertex(vertices, x * size, y * size, 0, 1, 0))
     x, y = xyFromUv(1, 1, quarterTurns)
-    polygon.addVertex(addEggVertex(vertices, x * size, 0, - y * size, 1, 1))
+    polygon.addVertex(addEggVertex(vertices, x * size, y * size, 0, 1, 1))
     x, y = xyFromUv(0, 1, quarterTurns)
-    polygon.addVertex(addEggVertex(vertices, x * size, 0, - y * size, 0, 1))
+    polygon.addVertex(addEggVertex(vertices, x * size, y * size, 0, 0, 1))
 
     polygon.addTexture(retrieveTexture(
         name, textureName, EggTexture.ETUnspecified, textureScale))
@@ -119,9 +119,7 @@ def generateOutline(name, size, uvs, quarterTurns=0):
     line = newFlat(EggLine(), outlineVertices, uvs, quarterTurns)
     line.setColor(Vec4(0.0, 0.0, 0.0, 1.0))
     outlineGroup.addChild(line)
-    outlineGroup.addRotx(-90.0)
     outlineGroup.addUniformScale(size)
-    outlineGroup.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
     outlineEgg.writeEgg(os.path.join(modelsPath, name + "_outline.egg"))
 
 
@@ -147,9 +145,8 @@ def generateBuildingPad(size):
             name, textureName, EggTexture.ETNormal, textureScale))
         group.addChild(polygon)
 
-    group.addRotx(-90.0)
     group.addUniformScale(size)
-    group.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
+    group.addTranslate3d(Vec3D(0.0, 0.0, 0.1))
 
     finishEgg(egg)
     egg.writeEgg(os.path.join(modelsPath, name + ".egg"))
@@ -268,9 +265,8 @@ def generateSidewalks(sidewalkType, size, walkUvs, curbUvs):
                 textureScale, textureFormat="jpg"))
             group.addChild(polygon)
 
-        group.addRotx(-90.0)
         group.addUniformScale(size)
-        group.addTranslate3d(Vec3D(0.0, 0.1, 0.0))
+        group.addTranslate3d(Vec3D(0.0, 0.0, 0.1))
 
         finishEgg(egg)
         egg.writeEgg(os.path.join(modelsPath, name + ".egg"))
@@ -388,9 +384,8 @@ def generateCurvedRoadMarkings(size, smoothness=5):
                 centerY + 0.5 * sin(deg2Rad(angle)),
                 0.0))
 
-        group.addRotx(-90.0)
         group.addUniformScale(size)
-        group.addTranslate3d(Vec3D(0.0, 0.001, 0.0))
+        group.addTranslate3d(Vec3D(0.0, 0.0, 0.001))
 
         finishEgg(egg)
         egg.writeEgg(os.path.join(modelsPath, name + ".egg"))
@@ -401,7 +396,7 @@ generateTexturedQuad("ground", blockSize, "grass", True, blockSize)
 generateTexturedQuad("road", blockSize, "asphalt", True, blockSize)
 generateTexturedQuad(
     "building", blockSize - 2.0, "blue",
-    translation=Vec3D(blockSize / 10.0, 0.0, -blockSize / 10.0))
+    translation=Vec3D(blockSize / 10.0, blockSize / 10.0, 0.0))
 generateBuildingPad(blockSize)
 generateExteriorSidewalks(blockSize)
 generateInteriorSidewalks(blockSize)
@@ -409,10 +404,10 @@ generateHalf1Sidewalks(blockSize)
 generateHalf2Sidewalks(blockSize)
 generateTexturedQuad(
     "wemarking", blockSize, "marking",
-    scale=Vec3D(1.0, 1.0, 1.0 / 40.0), textureScale=5.0,
-    translation=Vec3D(0.0, 0.001, -(0.5 - 1.0 / 40.0 / 2.0) * blockSize))
+    scale=Vec3D(1.0, 1.0 / 40.0, 1.0), textureScale=5.0,
+    translation=Vec3D(0.0, (0.5 - 1.0 / 40.0 / 2.0) * blockSize, 0.001))
 generateTexturedQuad(
     "nsmarking", blockSize, "marking",
     quarterTurns=1, scale=Vec3D(1.0 / 40.0, 1.0, 1.0), textureScale=5.0,
-    translation=Vec3D((0.5 - 1.0 / 40.0 / 2.0) * blockSize, 0.001, 0.0))
+    translation=Vec3D((0.5 - 1.0 / 40.0 / 2.0) * blockSize, 0.0, 0.001))
 generateCurvedRoadMarkings(blockSize)

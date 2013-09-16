@@ -6,6 +6,7 @@ from bop import *
 from bopmodel import *
 from motioncontroller import *
 import generatecityparts
+import generatecity
 
 
 Hello()
