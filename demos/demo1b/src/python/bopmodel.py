@@ -3,6 +3,7 @@ from panda3d.core import *
 from bisect import *
 from utils import *
 
+
 oneSecond = 1000L
 oneHour = 3600L * oneSecond
 oneDay = 24L * oneHour
@@ -12,14 +13,17 @@ oneMillenium = 1000L * oneYear
 midnight = 0L
 noon = 12L * oneHour
 
+
 def isUndefined(x):
     return x is None
+
 
 def lerp(t1, v1, t2, v2, t):
     if isUndefined(v1) or isUndefined(v2):
         return None
 
     return v1 + (v2 - v1) * (t - t1) / (t2 - t1)
+
 
 class Chronology:
 
@@ -43,6 +47,7 @@ class Chronology:
     def getValue(self, time):
         return None
 
+
 class PiecewiseConstantChronology(Chronology):
 
     def __init__(self, period):
@@ -52,6 +57,7 @@ class PiecewiseConstantChronology(Chronology):
         i = bisect(self.times, time % self.getPeriod())
 
         return self.values[i - 1]
+
 
 class PiecewiseLinearChronology(Chronology):
 
@@ -66,9 +72,12 @@ class PiecewiseLinearChronology(Chronology):
         i = bisect(self.times, t)
 
         if i == len(self.times):
-            return lerp(self.times[i - 1], self.values[i - 1], self.times[0] + self.getPeriod(), self.values[0], t)
+            return lerp(self.times[i - 1], self.values[i - 1],
+                        self.times[0] + self.getPeriod(), self.values[0], t)
 
-        return lerp(self.times[i - 1], self.values[i - 1], self.times[i], self.values[i], t)
+        return lerp(self.times[i - 1], self.values[i - 1],
+                    self.times[i], self.values[i], t)
+
 
 class Persona:
 
@@ -80,6 +89,7 @@ class Persona:
 
     def setPosition(self, time, value):
         self.position.setValue(time, value)
+
 
 class Character:
 
@@ -95,8 +105,10 @@ class Character:
 
     def getPosition(self, time):
         value = self.getActualPersona().getPosition(time)
-        
-        return value if not value is None else self.getRoutinePersona().getPosition(time)
+
+        return value if not value is None\
+            else self.getRoutinePersona().getPosition(time)
+
 
 class Population:
 
@@ -111,6 +123,7 @@ class Population:
 
     def addCharacter(self, character):
         self.characters.append(character)
+
 
 class CityBlock:
 
@@ -134,6 +147,7 @@ class CityBlock:
     def getPosition(self):
         return self.position
 
+
 class City:
 
     BLOCK_SIZE = 10.0
@@ -141,7 +155,7 @@ class City:
     def __init__(self, blueprintPath):
         blueprint = [line.strip() for line in open(blueprintPath)]
         self.blockCountNS = len(blueprint)
-        self.blockCountWE = len(max(blueprint, key = len))
+        self.blockCountWE = len(max(blueprint, key=len))
         self.blocks = []
         self.citySizeNS = self.getBlockCountNS() * City.BLOCK_SIZE
         self.citySizeWE = self.getBlockCountWE() * City.BLOCK_SIZE
@@ -150,7 +164,9 @@ class City:
             self.blocks.append([])
 
             for weIndex, blueprintItem in enumerate(blueprintRow):
-                self.blocks[nsIndex].append(CityBlock(City.blockTypeFromBlueprintItem(blueprintItem), self.blockPosition(nsIndex, weIndex)))
+                self.blocks[nsIndex].append(
+                    CityBlock(City.blockTypeFromBlueprintItem(blueprintItem),
+                              self.blockPosition(nsIndex, weIndex)))
 
     def getBlockCountNS(self):
         return self.blockCountNS
@@ -160,10 +176,11 @@ class City:
 
     def getBlock(self, nsIndex, weIndex):
         if 0 <= nsIndex and nsIndex < self.getBlockCountNS() and\
-            0 <= weIndex and weIndex < self.getBlockCountWE():
+                0 <= weIndex and weIndex < self.getBlockCountWE():
             return self.blocks[nsIndex][weIndex]
         else:
-            return CityBlock(CityBlock.GROUND, self.blockPosition(nsIndex, weIndex))
+            return CityBlock(CityBlock.GROUND,
+                             self.blockPosition(nsIndex, weIndex))
 
     def blockPosition(self, nsIndex, weIndex):
         blockX = weIndex * City.BLOCK_SIZE - self.citySizeWE / 2
@@ -179,9 +196,11 @@ class City:
             "H": CityBlock.HOUSE
         }.get(item,  CityBlock.GROUND)
 
+
 class Game:
 
-    def __init__(self, blueprintPath = os.path.join(scriptPath, "data", "cityblueprint.txt")):
+    def __init__(self, blueprintPath=os.path.join(
+            scriptPath, "data", "cityblueprint.txt")):
         self.time = 0L
         self.city = City(blueprintPath)
         self.population = Game.newPopulation(self.getCity())
@@ -209,12 +228,14 @@ class Game:
 
                 if CityBlock.HOUSE == block.getType():
                     character = Character()
-                    character.getRoutinePersona().setPosition(midnight, block.getPosition())
+                    character.getRoutinePersona().setPosition(
+                        midnight, block.getPosition())
                     result.addCharacter(character)
                 elif CityBlock.OFFICE_BUILDING == block.getType():
                     offices.append(block)
 
         for i in range(result.getCharacterCount()):
-            result.getCharacter(i).getRoutinePersona().setPosition(noon, offices[i % len(offices)].getPosition())
+            result.getCharacter(i).getRoutinePersona().setPosition(
+                noon, offices[i % len(offices)].getPosition())
 
         return result
