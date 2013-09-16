@@ -81,12 +81,16 @@ add_custom_command(TARGET bop POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E make_directory ${PROJECT_BINARY_DIR}/app
 	COMMAND ${CMAKE_COMMAND} -E copy ${target_location} ${PROJECT_BINARY_DIR}/app/)
 
-# Target cpplint
+# Target cpplint (C++ code checker)
 add_custom_target(cpplint ALL)
 file(GLOB SRC_ALL src/cpp/*)
 foreach (f ${SRC_ALL})
 	add_custom_command(TARGET cpplint COMMAND ${PYTHON_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/lib/cpplint/cpplint.py --root=demos/demo1b/src/cpp ${f})
 endforeach()
+
+# Target pep8 (Python code checker)
+add_custom_target(pep8 ALL DEPENDS bop)
+add_custom_command(TARGET pep8 COMMAND ${PYTHON_COMMAND} ${CMAKE_CURRENT_LIST_DIR}/lib/pep8/pep8.py ${CMAKE_BINARY_DIR}/app/)
 
 # Target tests
 add_custom_target(tests ALL DEPENDS bop)
