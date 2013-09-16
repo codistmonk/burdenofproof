@@ -157,8 +157,8 @@ class City:
         self.blockCountNS = len(blueprint)
         self.blockCountWE = len(max(blueprint, key=len))
         self.blocks = []
-        self.citySizeNS = self.getBlockCountNS() * City.BLOCK_SIZE
-        self.citySizeWE = self.getBlockCountWE() * City.BLOCK_SIZE
+        self.sizeNS = self.getBlockCountNS() * City.BLOCK_SIZE
+        self.sizeWE = self.getBlockCountWE() * City.BLOCK_SIZE
 
         for nsIndex, blueprintRow in enumerate(blueprint):
             self.blocks.append([])
@@ -174,6 +174,12 @@ class City:
     def getBlockCountWE(self):
         return self.blockCountWE
 
+    def getSizeNS(self):
+        return self.sizeNS
+
+    def getSizeWE(self):
+        return self.sizeWE
+
     def getBlock(self, nsIndex, weIndex):
         if 0 <= nsIndex and nsIndex < self.getBlockCountNS() and\
                 0 <= weIndex and weIndex < self.getBlockCountWE():
@@ -183,9 +189,10 @@ class City:
                              self.blockPosition(nsIndex, weIndex))
 
     def blockPosition(self, nsIndex, weIndex):
-        blockX = weIndex * City.BLOCK_SIZE - self.citySizeWE / 2
-        blockZ = -(self.citySizeNS / 2 - (nsIndex + 1) * City.BLOCK_SIZE)
-        return Vec3(blockX, 0.0, blockZ)
+        blockX = weIndex * City.BLOCK_SIZE - self.sizeWE / 2
+        blockY = (self.sizeNS / 2 - (nsIndex + 1) * City.BLOCK_SIZE)
+
+        return City.vec3(blockX, blockY)
 
     @staticmethod
     def blockTypeFromBlueprintItem(item):
@@ -195,6 +202,10 @@ class City:
             "O": CityBlock.OFFICE_BUILDING,
             "H": CityBlock.HOUSE
         }.get(item,  CityBlock.GROUND)
+
+    @staticmethod
+    def vec3(blockX, blockY):
+        return Vec3(blockX, blockY, 0.0)
 
 
 class Game:

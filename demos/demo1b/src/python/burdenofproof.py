@@ -34,16 +34,25 @@ class BurdenOfProof(ShowBase):
             self.filters.setBloom()
 
     def setupModels(self):
-        # Load and transform the panda actor.
+        city = self.game.getCity()
+
+        self.maxX = city.getSizeWE() / 2.0
+        self.maxY = city.getSizeNS() / 2.0
+
         self.pandaActor = Actor("models/panda-model",
                                 {"walk": "models/panda-walk4"})
         self.pandaActor.setScale(0.005, 0.005, 0.005)
-        self.pandaActor.reparentTo(self.render)
-        # Loop its animation.
         self.pandaActor.loop("walk")
 
-        self.maxX = 10.0  # TODO(codistmonk) use city size
-        self.maxY = 10.0  # TODO(codistmonk) use city size
+        population = self.game.getPopulation()
+        self.characterInstances = []
+
+        for i in range(1, population.getCharacterCount()):
+            instance = self.render.attachNewNode("characterInstance")
+            instance.setPos(
+                population.getCharacter(i).getPosition(self.game.getTime()))
+            self.pandaActor.instanceTo(instance)
+            self.characterInstances.append(instance)
 
 loadPrcFile("myconfig.prc")
 

@@ -146,23 +146,23 @@ def testCity():
     checkEquals(7, city.getBlockCountWE())
 
     checkEquals(CityBlock.POLICE_BUILDING, city.getBlock(0, 0).getType())
-    checkEquals(Vec3(-3.5, 0.0, -3.5) * City.BLOCK_SIZE,
+    checkEquals(City.vec3(-3.5, 3.5) * City.BLOCK_SIZE,
                 city.getBlock(0, 0).getPosition())
     checkEquals(CityBlock.ROAD, city.getBlock(0, 1).getType())
-    checkEquals(Vec3(-2.5, 0.0, -3.5) * City.BLOCK_SIZE,
+    checkEquals(City.vec3(-2.5, 3.5) * City.BLOCK_SIZE,
                 city.getBlock(0, 1).getPosition())
     checkEquals(CityBlock.OFFICE_BUILDING, city.getBlock(0, 2).getType())
-    checkEquals(Vec3(-1.5, 0.0, -3.5) * City.BLOCK_SIZE,
+    checkEquals(City.vec3(-1.5, 3.5) * City.BLOCK_SIZE,
                 city.getBlock(0, 2).getPosition())
     checkEquals(CityBlock.HOUSE, city.getBlock(0, 4).getType())
-    checkEquals(Vec3(0.5, 0.0, -3.5) * City.BLOCK_SIZE,
+    checkEquals(City.vec3(0.5, 3.5) * City.BLOCK_SIZE,
                 city.getBlock(0, 4).getPosition())
     checkEquals(CityBlock.GROUND, city.getBlock(0, 6).getType())
-    checkEquals(Vec3(2.5, 0.0, -3.5) * City.BLOCK_SIZE,
+    checkEquals(City.vec3(2.5, 3.5) * City.BLOCK_SIZE,
                 city.getBlock(0, 6).getPosition())
 
     checkEquals(CityBlock.GROUND, city.getBlock(-1, -1).getType())
-    checkEquals(Vec3(-4.5, 0.0, -4.5) * City.BLOCK_SIZE,
+    checkEquals(City.vec3(-4.5, 4.5) * City.BLOCK_SIZE,
                 city.getBlock(-1, -1).getPosition())
 
     print "testCity: OK"
