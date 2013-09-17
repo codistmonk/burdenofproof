@@ -37,10 +37,9 @@ class BurdenOfProof(ShowBase):
             self.filters.setBloom()
 
     def setupModels(self):
-        city = self.game.getCity()
-
-        self.maxX = city.getSizeWE() / 2.0
-        self.maxY = city.getSizeNS() / 2.0
+        self.cityModel = self.loader.loadModel("data/models/city")
+        self.cityModel.reparentTo(self.render)
+        self.cityModel.setP(-90.0)
 
         self.pandaActor = Actor("models/panda-model",
                                 {"walk": "models/panda-walk4"})

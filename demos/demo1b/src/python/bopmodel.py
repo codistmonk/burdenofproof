@@ -208,6 +208,10 @@ class City:
     def vec3(blockX, blockY):
         return Vec3(blockX, blockY, 0.0)
 
+    @staticmethod
+    def blockCenter(blockPosition):
+        return blockPosition + Vec3(0.5, 0.5, 0.0) * City.BLOCK_SIZE
+
 
 class Game:
 
@@ -241,13 +245,15 @@ class Game:
                 if CityBlock.HOUSE == block.getType():
                     character = Character()
                     character.getRoutinePersona().setPosition(
-                        midnight, block.getPosition())
+                        midnight,
+                        City.blockCenter(block.getPosition()))
                     result.addCharacter(character)
                 elif CityBlock.OFFICE_BUILDING == block.getType():
                     offices.append(block)
 
         for i in range(result.getCharacterCount()):
             result.getCharacter(i).getRoutinePersona().setPosition(
-                noon, offices[i % len(offices)].getPosition())
+                noon,
+                City.blockCenter(offices[i % len(offices)].getPosition()))
 
         return result

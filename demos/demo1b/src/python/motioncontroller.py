@@ -7,6 +7,9 @@ class MotionController:
     def __init__(self, application):
         self.application = application
         self.active = True
+        city = application.game.getCity()
+        self.maxX = city.getSizeWE() / 2.0
+        self.maxY = city.getSizeNS() / 2.0
 
         self.setupMouseControl()
 
@@ -61,10 +64,8 @@ class MotionController:
             self.application.camera.setPos(
                 self.application.camera.getPos() + direction * elapsed*30)
 
-        clampX(self.application.camera,
-               -self.application.maxX, self.application.maxX)
-        clampY(self.application.camera,
-               -self.application.maxY, self.application.maxY)
+        clampX(self.application.camera, -self.maxX, self.maxX)
+        clampY(self.application.camera, -self.maxY, self.maxY)
         self.application.camera.setZ(2)
 
         self.last = task.time
