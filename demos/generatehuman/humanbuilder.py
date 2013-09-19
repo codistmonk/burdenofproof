@@ -318,9 +318,6 @@ class HumanBuilder():
     def exportTexture(self, path):
         graphicState = base.win.getGsg()
 
-        print graphicState
-        print graphicState.getSupportsBasicShaders(), graphicState.getSupportsGlsl()
-
         if not graphicState.getSupportsBasicShaders() or\
                 not graphicState.getSupportsDepthTexture() or\
                 not graphicState.getSupportsGlsl():

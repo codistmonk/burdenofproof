@@ -7,7 +7,7 @@ from direct.task import Task
 from direct.gui.DirectGui import *
 
 from orbitalcameracontroller import *
-from generatehuman import *
+from humanbuilder import *
 
 class ShowHuman(ShowBase):
 
