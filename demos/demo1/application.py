@@ -16,7 +16,11 @@ class Application(ShowBase):
 	def __init__(self):
 		ShowBase.__init__(self)
 
-		self.useAdvancedVisualEffects = ConfigVariableBool("use-advanced-visual-effects", True)
+		self.useAdvancedVisualEffects =\
+			ConfigVariableBool("use-advanced-visual-effects", True) and\
+			base.win.getGsg().getSupportsBasicShaders() and\
+			base.win.getGsg().getSupportsGlsl() and\
+			base.win.getGsg().getSupportsDepthTexture()
 
 		self.game = Game(scriptPath)
 
@@ -63,7 +67,7 @@ class Application(ShowBase):
 		self.sunLight.lookAt(0, 0, 0)
 		self.render.setLight(self.sunLight)
 #		self.sunLight.node().showFrustum()
-		if (self.useAdvancedVisualEffects and base.win.getGsg().getSupportsBasicShaders() != 0 and base.win.getGsg().getSupportsDepthTexture() != 0):
+		if self.useAdvancedVisualEffects:
 			self.sunLight.node().setShadowCaster(True, 256, 256)
 			self.render.setShaderAuto()
 
